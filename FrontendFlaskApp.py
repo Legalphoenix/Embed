@@ -69,8 +69,9 @@ def uploaded_file(filename):
     file_path = safe_join(app.config['UPLOAD_FOLDER'], filename)  # Use correct case for UPLOAD_FOLDER
     if os.path.isfile(file_path):
         return send_file(file_path, as_attachment=True)
-    else: 
-        return jsonify(error="File not found"), 404  
+    else:
+        return jsonify(error="File not found"), 404
 
+#test
 if __name__ == '__main__':
     app.run(debug=True)
