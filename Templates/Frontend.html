@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload and Search</title>
+    <style>
+        .drop-area {
+          border: 2px dashed #ccc;
+          padding: 20px;
+          width: 300px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .drag-over {
+          border-color: #000;
+        }
+        #results {
+          margin-top: 20px;
+          text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="drop-area" id="drop-area">
+        Drag and drop a file here or click to select a file
+        <input type="file" id="fileElem" multiple style="display:none" onchange="handleFiles(this.files)">
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="text" id="searchQuery" placeholder="Enter your query here">
+        <button onclick="submitSearch()">Search</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        let dropArea = document.getElementById('drop-area');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropArea.classList.add('drag-over');
+        }
+
+        function unhighlight(e) {
+            dropArea.classList.remove('drag-over');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            ([...files]).forEach(uploadFile);
+        }
+
+        function uploadFile(file) {
+            let url = '/upload';
+            let formData = new FormData();
+
+            formData.append('file', file);
+
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Optionally, update the UI here to confirm the file upload
+            })
+            .catch(() => {
+                console.error('Error:');
+            });
+        }
+
+        function submitSearch() {
+            let query = document.getElementById('searchQuery').value;
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'query=' + encodeURIComponent(query)
+            })
+            .then(response => response.json())
+            .then(data => {
+                let resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = ''; // Clear previous results
+                if(data.error) {
+                    resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                } else {
+                    resultsDiv.innerHTML = `<h2>Original Text:</h2><p>${data.original_text}</p><a href="/files/${encodeURIComponent(data.file_name)}" target="_blank">${data.file_name}</a>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('results').innerHTML = '<p>Error: Could not retrieve search results.</p>';
+            });
+        }
+    </script>
+</body>
+</html>

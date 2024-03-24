@@ -1,0 +1,1 @@
+{"status": "success", "message": "File uploaded successfully", "data": {"fileName": "test_document.txt", "fileSize": "2048", "fileType": "text/plain", "storedAt": "/uploads/test_document.txt"}}
