@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>File Upload and Search</title>
     <style>
         .drop-area {
-            border: 2px dashed #ccc;
-            padding: 20px;
-            width: 300px;
-            margin: 0 auto;
-            text-align: center;
+          border: 2px dashed #ccc;
+          padding: 20px;
+          width: 300px;
+          margin: 0 auto;
+          text-align: center;
         }
-
         .drag-over {
-            border-color: #000;
+          border-color: #000;
         }
-
         #results {
-            margin-top: 20px;
-            text-align: center;
+          margin-top: 20px;
+          text-align: center;
         }
     </style>
 </head>
-
 <body>
     <div class="drop-area" id="drop-area">
         Drag and drop a file here or click to select a file
@@ -88,14 +84,14 @@
                 method: 'POST',
                 body: formData
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // Optionally, update the UI here to confirm the file upload
-                })
-                .catch(() => {
-                    console.error('Error:');
-                });
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Optionally, update the UI here to confirm the file upload
+            })
+            .catch(() => {
+                console.error('Error:');
+            });
         }
 
         function submitSearch() {
@@ -107,21 +103,20 @@
                 },
                 body: 'query=' + encodeURIComponent(query)
             })
-                .then(response => response.json())
-                .then(data => {
-                    let resultsDiv = document.getElementById('results');
-                    resultsDiv.innerHTML = ''; // Clear previous results
-                    if (data.error) {
-                        resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
-                    } else {
-                        resultsDiv.innerHTML = `<h2>Original Text:</h2><p>${data.original_text}</p><a href="/files/${encodeURIComponent(data.file_name)}" target="_blank">${data.file_name}</a>`;
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('results').innerHTML = '<p>Error: Could not retrieve search results.</p>';
-                });
+            .then(response => response.json())
+            .then(data => {
+                let resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = ''; // Clear previous results
+                if(data.error) {
+                    resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                } else {
+                    resultsDiv.innerHTML = `<h2>Original Text:</h2><p>${data.original_text}</p><a href="/files/${encodeURIComponent(data.file_name)}" target="_blank">${data.file_name}</a>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('results').innerHTML = '<p>Error: Could not retrieve search results.</p>';
+            });
         }
     </script>
 </body>
-
 </html>
