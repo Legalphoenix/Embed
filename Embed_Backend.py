@@ -1,3 +1,4 @@
+#embded_backend.py
 import csv
 import numpy as np
 import openai
@@ -19,7 +20,7 @@ logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='
 # Define a schema for JSON validation based on expected structure and content
 def get_json_schema():
     return Schema({
-        'text': And(Use(str), lambda s: 0 < len(s) <= 1000)  # Validate 'text' is a string and within the character limit
+        'text': Use(str)  # Remove the length condition for now
     })
 
 def validate_json(data):
@@ -40,6 +41,12 @@ def get_embedding(text, model="text-embedding-3-small"):
             input=text,
         )
         return response['data'][0]['embedding']
+    except openai.error.InvalidRequestError as e:
+        if "tokens" in str(e):
+            logging.error(f'Text exceeds the maximum token limit: {e}')
+        else:
+            logging.error(f'An unexpected error occurred with OpenAI API: {e}')
+        return None
     except Exception as e:
         logging.error(f'An unexpected error occurred: {e}')
         return None
@@ -49,13 +56,13 @@ def json_to_embedding(file_path):
     try:
         with open(file_path, 'r') as json_file:
             data = json.load(json_file)
-            
+
             if not validate_json(data):
                 return None  # Logging is handled in the validate_json function
-            
+
             # Using the get_embedding function to get the embedding
             return get_embedding(data['text'], "text-embedding-3-small")
-            
+
     except FileNotFoundError:
         logging.error('File not found.')
         return None
@@ -66,12 +73,12 @@ def json_to_embedding(file_path):
         logging.error(f'An unexpected error occurred: {e}')
         return None
 
-# Function to save embedding with associated file name
 def save_embedding(file_name, embedding, file_path):
-    with open('embeddings.csv', 'a', newline='') as f:
+    with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
-        # Convert the numpy array to a list for csv writer
+        # Convert the numpy array to a list for the csv writer
         csv_writer.writerow([file_name, file_path] + list(embedding))
+
 
 # Function to search for the most similar embedding
 def search_embeddings(query_embedding):
