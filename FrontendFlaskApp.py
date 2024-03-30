@@ -4,6 +4,8 @@ from werkzeug.utils import secure_filename, safe_join
 import os
 import logging
 import textract
+import io
+import pandas as pd
 from Embed_Backend import get_embedding, save_embedding, search_embeddings, validate_json
 import json
 
@@ -14,6 +16,14 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'Uploads'  # Ensure this directory exists within your project structure
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'pptx', 'odt', 'json'}
 
+#the following code is used to extract text from xlsx file
+def extract_text_from_xlsx(file_stream):
+    workbook = load_workbook(file_stream)
+    sheet = workbook.active
+    text = "\n".join([str(cell.value) if cell.value is not None else ""
+                      for row in sheet.iter_rows() for cell in row])
+    return text
+
 #the following code is used to render the Frontend.html file
 @app.route('/')
 def home():
@@ -22,10 +32,9 @@ def home():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-#the following code is used to upload the file
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    logging.info(f"Received files: {request.files}")  # Log the files received
+    logging.info(f"Received files: {request.files}")
     if 'file' not in request.files:
         logging.error("No file part in the request")
         return jsonify(error="No file part"), 400
@@ -35,18 +44,33 @@ def upload_file():
         logging.error("No selected file")
         return jsonify(error="No selected file"), 400
 
-    if not allowed_file(file.filename):
-        logging.error(f"Invalid file type: {file.filename}")
+    filename = secure_filename(file.filename)
+    file_extension = filename.rsplit('.', 1)[1].lower()
+    if not allowed_file(filename):
+        logging.error(f"Invalid file type: {filename}")
         return jsonify(error="Invalid file type"), 400
 
-    filename = secure_filename(file.filename)
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
     logging.info(f"File {filename} saved to {file_path}")
 
-    text = textract.process(file_path).decode('utf-8')
+    if file_extension in ['xlsx', 'xls']:
+        # Read Excel file into DataFrame
+        try:
+            df = pd.read_excel(file_path)
+            text = df.to_json(orient='records')
+        except Exception as e:
+            logging.error(f"Error processing Excel file: {e}")
+            return jsonify(error="Failed to process Excel file"), 500
+    else:
+        # Use textract for other file types
+        try:
+            text = textract.process(file_path).decode('utf-8')
+        except Exception as e:
+            logging.error(f"Failed to extract text: {e}")
+            return jsonify(error="Failed to extract text"), 500
+
     data = {'text': text}
-    # Here we ensure the extracted text meets our JSON structure expectations
     if not validate_json(data):
         logging.error("Data structure from extracted text does not meet expectations")
         return jsonify(error="Invalid data structure"), 400
