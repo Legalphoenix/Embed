@@ -8,13 +8,36 @@ import io
 import pandas as pd
 from Embed_Backend import get_embedding, save_embedding, search_embeddings, validate_json
 import json
+from bs4 import BeautifulSoup
+import lxml.html as lh
+from lxml import etree
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'Uploads'  # Ensure this directory exists within your project structure
-app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'pptx', 'odt', 'json'}
+app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3'}
+
+def html_to_structured_text(html_content):
+    """Convert HTML content to structured text."""
+    soup = BeautifulSoup(html_content, 'lxml')
+    structured_texts = []
+
+    for tag in soup.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'ol']):
+        text = f"{tag.name}: {tag.get_text(separator=' ', strip=True)}"
+        structured_texts.append(text)
+
+    return '\n'.join(structured_texts)
+
+def xml_to_structured_text(xml_bytes):
+    try:
+        root = etree.fromstring(xml_bytes)
+        # Temporarily return a simple JSON for testing
+        return json.dumps({"tag": root.tag})
+    except etree.XMLSyntaxError as e:
+        logging.error(f"XML parsing error: {e}")
+        return None
 
 #the following code is used to render the Frontend.html file
 @app.route('/')
@@ -54,8 +77,25 @@ def upload_file():
         except Exception as e:
             logging.error(f"Error processing Excel file: {e}")
             return jsonify(error="Failed to process Excel file"), 500
+    elif file_extension == 'html':
+        try:
+            html_content = file.read().decode('utf-8')
+            text = html_to_structured_text(html_content)
+        except Exception as e:
+            logging.error(f"Failed to process HTML file: {e}")
+            return jsonify(error="Failed to process HTML file"), 500
+    elif file_extension == 'xml':
+        try:
+            file.seek(0)  # Ensure we're reading from the beginning of the file
+            xml_bytes = file.read()  # Read the file content as bytes
+            text = xml_to_structured_text(xml_bytes)  # Process the XML bytes
+            if text is None:  # Check if the conversion was successful
+                raise ValueError("Failed to convert XML to JSON")
+        except Exception as e:
+            logging.error(f"Failed to process XML file: {e}")
+            return jsonify(error="Failed to process XML file"), 500
     else:
-        # Use textract for other file types
+            # Use textract for other file types
         try:
             text = textract.process(file_path).decode('utf-8')
         except Exception as e:
