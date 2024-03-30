@@ -16,14 +16,6 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'Uploads'  # Ensure this directory exists within your project structure
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'pptx', 'odt', 'json'}
 
-#the following code is used to extract text from xlsx file
-def extract_text_from_xlsx(file_stream):
-    workbook = load_workbook(file_stream)
-    sheet = workbook.active
-    text = "\n".join([str(cell.value) if cell.value is not None else ""
-                      for row in sheet.iter_rows() for cell in row])
-    return text
-
 #the following code is used to render the Frontend.html file
 @app.route('/')
 def home():
