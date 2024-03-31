@@ -1,16 +1,12 @@
-#flaskap
 from flask import Flask, request, jsonify, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename, safe_join
+from tika import parser
 import os
 import logging
-import textract
-import io
-import pandas as pd
-from Embed_Backend import get_embedding, save_embedding, search_embeddings, validate_json
 import json
-from bs4 import BeautifulSoup
-import lxml.html as lh
-from lxml import etree
+from Embed_Backend import get_embedding, save_embedding, search_embeddings, validate_json
+
+
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -18,26 +14,6 @@ logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'Uploads'  # Ensure this directory exists within your project structure
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3'}
-
-def html_to_structured_text(html_content):
-    """Convert HTML content to structured text."""
-    soup = BeautifulSoup(html_content, 'lxml')
-    structured_texts = []
-
-    for tag in soup.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'ol']):
-        text = f"{tag.name}: {tag.get_text(separator=' ', strip=True)}"
-        structured_texts.append(text)
-
-    return '\n'.join(structured_texts)
-
-def xml_to_structured_text(xml_bytes):
-    try:
-        root = etree.fromstring(xml_bytes)
-        # Temporarily return a simple JSON for testing
-        return json.dumps({"tag": root.tag})
-    except etree.XMLSyntaxError as e:
-        logging.error(f"XML parsing error: {e}")
-        return None
 
 #the following code is used to render the Frontend.html file
 @app.route('/')
@@ -60,7 +36,6 @@ def upload_file():
         return jsonify(error="No selected file"), 400
 
     filename = secure_filename(file.filename)
-    file_extension = filename.rsplit('.', 1)[1].lower()
     if not allowed_file(filename):
         logging.error(f"Invalid file type: {filename}")
         return jsonify(error="Invalid file type"), 400
@@ -69,40 +44,20 @@ def upload_file():
     file.save(file_path)
     logging.info(f"File {filename} saved to {file_path}")
 
-    if file_extension in ['xlsx', 'xls']:
-        # Read Excel file into DataFrame
-        try:
-            df = pd.read_excel(file_path)
-            text = df.to_json(orient='records')
-        except Exception as e:
-            logging.error(f"Error processing Excel file: {e}")
-            return jsonify(error="Failed to process Excel file"), 500
-    elif file_extension == 'html':
-        try:
-            html_content = file.read().decode('utf-8')
-            text = html_to_structured_text(html_content)
-        except Exception as e:
-            logging.error(f"Failed to process HTML file: {e}")
-            return jsonify(error="Failed to process HTML file"), 500
-    elif file_extension == 'xml':
-        try:
-            file.seek(0)  # Ensure we're reading from the beginning of the file
-            xml_bytes = file.read()  # Read the file content as bytes
-            text = xml_to_structured_text(xml_bytes)  # Process the XML bytes
-            if text is None:  # Check if the conversion was successful
-                raise ValueError("Failed to convert XML to JSON")
-        except Exception as e:
-            logging.error(f"Failed to process XML file: {e}")
-            return jsonify(error="Failed to process XML file"), 500
-    else:
-            # Use textract for other file types
-        try:
-            text = textract.process(file_path).decode('utf-8')
-        except Exception as e:
-            logging.error(f"Failed to extract text: {e}")
-            return jsonify(error="Failed to extract text"), 500
+    # Use Apache Tika for content and metadata extraction
+    parsed = parser.from_file(file_path)
+    text = parsed["content"]  # The extracted text content
+    metadata = parsed["metadata"]  # The extracted metadata
 
-    data = {'text': text}
+    # Example of processing and saving metadata (adjust according to your schema)
+    # For simplicity, converting all metadata values to strings
+    metadata_processed = {key: str(value) for key, value in metadata.items()}
+
+    if not text:
+        logging.error(f"No text extracted from {filename}")
+        return jsonify(error="Failed to extract text"), 500
+
+    data = {'text': text.strip()}  # Ensure text is not None or only whitespace
     if not validate_json(data):
         logging.error("Data structure from extracted text does not meet expectations")
         return jsonify(error="Invalid data structure"), 400
@@ -113,11 +68,14 @@ def upload_file():
         return jsonify(error="An error occurred during embedding"), 500
 
     save_embedding(filename, embedding, file_path)
+    json_data = {'text': text.strip(), 'metadata': metadata_processed}  # Include metadata if needed
     json_filename = os.path.splitext(filename)[0] + '.json'
-    with open(os.path.join(app.config['UPLOAD_FOLDER'], json_filename), 'w', encoding='utf-8') as f:
-        json.dump(data, f)
+    with open(os.path.join(app.config['UPLOAD_FOLDER'], json_filename), 'w', encoding='utf-8') as json_file:
+        json.dump(json_data, json_file)
+    # Save metadata alongside embeddings or in a separate process
+    # Consider how to integrate metadata into your search and cataloging system
 
-    return jsonify(success=True)
+    return jsonify(success=True, metadata=metadata_processed)
 
 #the following code is used to search the file
 @app.route('/search', methods=['POST'])
