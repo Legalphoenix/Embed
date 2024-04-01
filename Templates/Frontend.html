@@ -26,13 +26,17 @@
 
 <body>
     <div class="drop-area" id="drop-area">
-        Drag and drop a file here or click to select a file
+        Drag and drop a file here
         <input type="file" id="fileElem" multiple style="display:none" onchange="handleFiles(this.files)">
     </div>
 
     <div style="text-align: center; margin-top: 20px;">
-        <input type="text" id="searchQuery" placeholder="Enter your query here">
         <button onclick="submitSearch()">Search</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <textarea id="searchQuery" placeholder="Enter your query here" rows="1"
+            style="width: 330px; min-height: 100px; overflow: hidden; resize: none;"></textarea>
     </div>
 
     <div id="results"></div>
@@ -152,6 +156,20 @@
                 submitSearch(); // Trigger the search function
             }
         });
+        // Autosize the search input field
+        //function autosize() {
+        // var el = this;
+        // setTimeout(function () {
+        //     el.style.cssText = 'height:auto; padding:0; width:330px;'; // Set a fixed width here
+        //      el.style.cssText += 'height:' + (el.scrollHeight) + 'px';
+        //   }, 0);
+        //  }
+
+        let searchQueryTextarea = document.getElementById('searchQuery');
+        searchQueryTextarea.addEventListener('input', autosize);
+
+
+
     </script>
 
 </body>
