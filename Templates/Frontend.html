@@ -90,11 +90,19 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    // Optionally, update the UI here to confirm the file upload
+                    let resultsDiv = document.getElementById('results');
+                    if (data.error) {
+                        resultsDiv.innerHTML = `<p>${data.error}</p>`;
+                    } else if (data.success) {
+                        // Now directly using file_name from the response
+                        resultsDiv.innerHTML = `<p>Upload successful! File: ${data.file_name}</p>`;
+                    } else {
+                        resultsDiv.innerHTML = `<p>Error: An unexpected error occurred.</p>`;
+                    }
                 })
                 .catch(() => {
                     console.error('Error:');
+                    document.getElementById('results').innerHTML = '<p>Error with upload. Please try again.</p>';
                 });
         }
 
@@ -121,7 +129,16 @@
                     document.getElementById('results').innerHTML = '<p>Error: Could not retrieve search results.</p>';
                 });
         }
+
+        // Add an event listener for the 'Enter' key on the search input field
+        document.getElementById('searchQuery').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent the default action to stop form submission
+                submitSearch(); // Trigger the search function
+            }
+        });
     </script>
+
 </body>
 
 </html>

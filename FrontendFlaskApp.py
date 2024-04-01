@@ -1,3 +1,4 @@
+#Flaskapp
 from flask import Flask, request, jsonify, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename, safe_join
 from tika import parser
@@ -38,7 +39,8 @@ def upload_file():
     filename = secure_filename(file.filename)
     if not allowed_file(filename):
         logging.error(f"Invalid file type: {filename}")
-        return jsonify(error="Invalid file type"), 400
+        allowed_exts = ", ".join(app.config['ALLOWED_EXTENSIONS'])
+        return jsonify(error=f"The file type you uploaded is not supported. The following file types are supported: {allowed_exts}"), 400
 
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
@@ -63,19 +65,27 @@ def upload_file():
         return jsonify(error="Invalid data structure"), 400
 
     embedding = get_embedding(data['text'])
+    # Initialize metadata_processed outside of the if-else scope to make it accessible later
+    metadata_processed = {key: str(value) for key, value in parsed["metadata"].items()}
+
+    # After attempting to generate an embedding
     if embedding is None:
         logging.error("An error occurred during embedding")
-        return jsonify(error="An error occurred during embedding"), 500
+        # If embedding fails, provide a corresponding message
+        return jsonify(success=False, message="Error with upload. Please check your internet connection and try again."), 500
+    else:
+        # If embedding is successful, proceed to save the embedding
+        save_embedding(filename, embedding, file_path)
 
-    save_embedding(filename, embedding, file_path)
-    json_data = {'text': text.strip(), 'metadata': metadata_processed}  # Include metadata if needed
-    json_filename = os.path.splitext(filename)[0] + '.json'
-    with open(os.path.join(app.config['UPLOAD_FOLDER'], json_filename), 'w', encoding='utf-8') as json_file:
-        json.dump(json_data, json_file)
-    # Save metadata alongside embeddings or in a separate process
-    # Consider how to integrate metadata into your search and cataloging system
+        # Prepare JSON data including text and metadata
+        json_data = {'text': text.strip(), 'metadata': metadata_processed}  # Include metadata if needed
+        json_filename = os.path.splitext(filename)[0] + '.json'
+        with open(os.path.join(app.config['UPLOAD_FOLDER'], json_filename), 'w', encoding='utf-8') as json_file:
+            json.dump(json_data, json_file, ensure_ascii=False, indent=4)
 
-    return jsonify(success=True, metadata=metadata_processed)
+        # After saving embedding and JSON, return success response
+        return jsonify(success=True, message="Upload and embedding successful", file_name=filename)
+
 
 #the following code is used to search the file
 @app.route('/search', methods=['POST'])
