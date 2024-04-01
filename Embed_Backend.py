@@ -79,20 +79,26 @@ def save_embedding(file_name, embedding, file_path):
         # Convert the numpy array to a list for the csv writer
         csv_writer.writerow([file_name, file_path] + list(embedding))
 
+def cosine_similarity(vec_a, vec_b):
+    """Calculate the cosine similarity between two vectors."""
+    cos_sim = np.dot(vec_a, vec_b) / (np.linalg.norm(vec_a) * np.linalg.norm(vec_b))
+    return cos_sim
+
 
 # Function to search for the most similar embedding
-def search_embeddings(query_embedding):
-    best_match = None
-    best_match_path = None
-    smallest_distance = float('inf')
-    with open('embeddings.csv', 'r') as f:
+def search_embeddings(query_embedding, top_n=5):
+    matches = []
+    with open('embeddings.csv', 'r', encoding='utf-8') as f:
         csv_reader = csv.reader(f)
         for row in csv_reader:
             file_name, file_path, *embedding_values = row
             embedding = np.array(embedding_values, dtype=float)
-            distance = np.linalg.norm(query_embedding - embedding)
-            if distance < smallest_distance:
-                smallest_distance = distance
-                best_match = file_name
-                best_match_path = file_path
-    return best_match, best_match_path
+            similarity = cosine_similarity(query_embedding, embedding)
+            matches.append((file_name, file_path, similarity))
+
+    # Sort matches by their similarity, descending
+    sorted_matches = sorted(matches, key=lambda x: x[2], reverse=True)
+
+    # Return the top_n matches, excluding the similarity score if not needed
+    top_matches = sorted_matches[:top_n]
+    return [(match[0], match[2]) for match in top_matches]  # Return filename and similarity score

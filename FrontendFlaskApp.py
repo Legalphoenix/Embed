@@ -95,20 +95,30 @@ def search():
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
 
-    result_filename, _ = search_embeddings(query_embedding)
-    if not result_filename:
+    # This function now returns the top five matches and their similarities
+    results = search_embeddings(query_embedding, top_n=5)
+    if not results:
         return jsonify(error="No matching documents found"), 404
-    #the following code is used to read the json file
-    json_filename = os.path.splitext(result_filename)[0] + '.json'
-    json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], json_filename)
-    try:
-        with open(json_file_path, 'r', encoding='utf-8') as json_file:
-            data = json.load(json_file)
-            original_text = data['text']
-    except IOError:
-        return jsonify(error="Failed to read the result file"), 500
 
-    return jsonify(original_text=original_text, file_name=result_filename)
+    summaries = []
+    for result_filename, similarity in results:
+        # Read the JSON file for the text
+        json_filename = os.path.splitext(result_filename)[0] + '.json'
+        json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], json_filename)
+        try:
+            with open(json_file_path, 'r', encoding='utf-8') as json_file:
+                data = json.load(json_file)
+                # Generate a preview of the first 100 words
+                preview_text = ' '.join(data['text'].split()[:100])
+                # Convert similarity to percentage for the match score
+                match_score = similarity * 100  # Similarity is already a value between 0 and 1
+                summaries.append({'file_name': result_filename, 'preview_text': preview_text, 'match_score': match_score})
+        except IOError:
+            continue  # Skip this file if there's an issue reading it
+
+    return jsonify(results=summaries)
+
+
 
 #the following code is used to download the file
 @app.route('/files/<filename>')
