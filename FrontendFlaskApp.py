@@ -52,7 +52,7 @@ def upload_file():
     metadata = parsed["metadata"]
 
     # New chunking logic
-    CHUNK_SIZE = 31800  # Maximum characters per chunk
+    CHUNK_SIZE = 30000  # Maximum characters per chunk
     text_chunks = [text[i:i+CHUNK_SIZE] for i in range(0, len(text), CHUNK_SIZE)]
 
     for i, chunk in enumerate(text_chunks):
