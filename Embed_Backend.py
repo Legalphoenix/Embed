@@ -73,11 +73,10 @@ def json_to_embedding(file_path):
         logging.error(f'An unexpected error occurred: {e}')
         return None
 
-def save_embedding(file_name, embedding, file_path):
+def save_embedding(original_file_name, chunk_file_name, embedding):
     with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
-        # Convert the numpy array to a list for the csv writer
-        csv_writer.writerow([file_name, file_path] + list(embedding))
+        csv_writer.writerow([original_file_name, chunk_file_name] + list(embedding))
 
 def cosine_similarity(vec_a, vec_b):
     """Calculate the cosine similarity between two vectors."""
@@ -91,10 +90,17 @@ def search_embeddings(query_embedding, top_n=5):
     with open('embeddings.csv', 'r', encoding='utf-8') as f:
         csv_reader = csv.reader(f)
         for row in csv_reader:
-            file_name, file_path, *embedding_values = row
+            original_filename, chunk_filename, *embedding_values = row
             embedding = np.array(embedding_values, dtype=float)
             similarity = cosine_similarity(query_embedding, embedding)
-            matches.append((file_name, file_path, similarity))
+            matches.append((original_filename, chunk_filename, similarity))
+
+    # Sort matches by their similarity, descending
+    sorted_matches = sorted(matches, key=lambda x: x[2], reverse=True)
+
+    # Return the top_n matches, now including the chunk filename
+    top_matches = sorted_matches[:top_n]
+    return top_matches  # Each item will have (original_filename, chunk_filename, similarity)
 
     # Sort matches by their similarity, descending
     sorted_matches = sorted(matches, key=lambda x: x[2], reverse=True)

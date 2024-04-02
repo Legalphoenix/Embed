@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'Uploads'  # Ensure this directory exists within your project structure
-app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3'}
+app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3', 'rtf'}
 
 #the following code is used to render the Frontend.html file
 @app.route('/')
@@ -42,49 +42,37 @@ def upload_file():
         allowed_exts = ", ".join(app.config['ALLOWED_EXTENSIONS'])
         return jsonify(error=f"The file type you uploaded is not supported. The following file types are supported: {allowed_exts}"), 400
 
+
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
     logging.info(f"File {filename} saved to {file_path}")
 
-    # Use Apache Tika for content and metadata extraction
     parsed = parser.from_file(file_path)
-    text = parsed["content"]  # The extracted text content
-    metadata = parsed["metadata"]  # The extracted metadata
+    text = parsed["content"] if parsed["content"] else ""
+    metadata = parsed["metadata"]
 
-    # Example of processing and saving metadata (adjust according to your schema)
-    # For simplicity, converting all metadata values to strings
-    metadata_processed = {key: str(value) for key, value in metadata.items()}
+    # New chunking logic
+    CHUNK_SIZE = 31800  # Maximum characters per chunk
+    text_chunks = [text[i:i+CHUNK_SIZE] for i in range(0, len(text), CHUNK_SIZE)]
 
-    if not text:
-        logging.error(f"No text extracted from {filename}")
-        return jsonify(error="Failed to extract text"), 500
+    for i, chunk in enumerate(text_chunks):
+        chunk_filename = f"{os.path.splitext(filename)[0]}_part_{i+1}.json"
+        chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
 
-    data = {'text': text.strip()}  # Ensure text is not None or only whitespace
-    if not validate_json(data):
-        logging.error("Data structure from extracted text does not meet expectations")
-        return jsonify(error="Invalid data structure"), 400
+        embedding = get_embedding(chunk)
+        if embedding is None:
+            logging.error(f"Failed to generate embedding for chunk {i+1} of {filename}")
+            continue  # Skip this chunk
 
-    embedding = get_embedding(data['text'])
-    # Initialize metadata_processed outside of the if-else scope to make it accessible later
-    metadata_processed = {key: str(value) for key, value in parsed["metadata"].items()}
+        # Save the embedding along with the original document filename and chunk filename
+        save_embedding(filename, chunk_filename, embedding)
 
-    # After attempting to generate an embedding
-    if embedding is None:
-        logging.error("An error occurred during embedding")
-        # If embedding fails, provide a corresponding message
-        return jsonify(success=False, message="Error with upload. Please check your internet connection and try again."), 500
-    else:
-        # If embedding is successful, proceed to save the embedding
-        save_embedding(filename, embedding, file_path)
+        # Create and save JSON for the chunk
+        chunk_data = {'text': chunk.strip(), 'metadata': metadata}
+        with open(chunk_path, 'w', encoding='utf-8') as json_file:
+            json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
 
-        # Prepare JSON data including text and metadata
-        json_data = {'text': text.strip(), 'metadata': metadata_processed}  # Include metadata if needed
-        json_filename = os.path.splitext(filename)[0] + '.json'
-        with open(os.path.join(app.config['UPLOAD_FOLDER'], json_filename), 'w', encoding='utf-8') as json_file:
-            json.dump(json_data, json_file, ensure_ascii=False, indent=4)
-
-        # After saving embedding and JSON, return success response
-        return jsonify(success=True, message="Upload and embedding successful", file_name=filename)
+    return jsonify(success=True, message="Document processed and embeddings generated", file_name=filename)
 
 
 #the following code is used to search the file
@@ -95,26 +83,26 @@ def search():
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
 
-    # This function now returns the top five matches and their similarities
     results = search_embeddings(query_embedding, top_n=5)
     if not results:
         return jsonify(error="No matching documents found"), 404
 
     summaries = []
-    for result_filename, similarity in results:
-        # Read the JSON file for the text
-        json_filename = os.path.splitext(result_filename)[0] + '.json'
-        json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], json_filename)
+    for original_filename, chunk_filename, similarity in results:
+        json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
         try:
             with open(json_file_path, 'r', encoding='utf-8') as json_file:
                 data = json.load(json_file)
-                # Generate a preview of the first 100 words
                 preview_text = ' '.join(data['text'].split()[:100])
-                # Convert similarity to percentage for the match score
-                match_score = similarity * 100  # Similarity is already a value between 0 and 1
-                summaries.append({'file_name': result_filename, 'preview_text': preview_text, 'match_score': match_score})
         except IOError:
-            continue  # Skip this file if there's an issue reading it
+            preview_text = "Preview not available"
+
+        match_score = similarity * 100
+        summaries.append({
+            'file_name': original_filename,
+            'preview_text': preview_text,
+            'match_score': match_score
+        })
 
     return jsonify(results=summaries)
 
