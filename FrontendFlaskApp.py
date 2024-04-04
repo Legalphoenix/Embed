@@ -5,7 +5,7 @@ from tika import parser
 import os
 import logging
 import json
-from Embed_Backend import get_embedding, save_embedding, search_embeddings, validate_json
+from Embed_Backend import get_embedding, save_embedding, search_embeddings, rerank_results, generate_hypothetical_document, validate_json
 
 
 
@@ -79,7 +79,14 @@ def upload_file():
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form['query']
-    query_embedding = get_embedding(query)
+
+    # Generate a hypothetical document based on the query for embedding
+    hypothetical_doc = generate_hypothetical_document(query)
+    if not hypothetical_doc:
+        return jsonify(error="Error generating hypothetical document"), 400
+    # Obtain the embedding for the hypothetical document
+    logging.info(f"hyp doc: {hypothetical_doc}")
+    query_embedding = get_embedding(hypothetical_doc)
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
 
@@ -93,7 +100,7 @@ def search():
         try:
             with open(json_file_path, 'r', encoding='utf-8') as json_file:
                 data = json.load(json_file)
-                preview_text = ' '.join(data['text'].split()[:384])
+                preview_text = ' '.join(data['text'].split()[:384])  # Extracted from the actual document
         except IOError:
             preview_text = "Preview not available"
 
@@ -104,9 +111,9 @@ def search():
             'match_score': match_score
         })
 
-    return jsonify(results=summaries)
-
-
+    # Re-rank based on the relevance of the preview text to the query
+    reranked_summaries = rerank_results(summaries, query)
+    return jsonify(results=reranked_summaries)
 
 #the following code is used to download the file
 @app.route('/files/<filename>')
