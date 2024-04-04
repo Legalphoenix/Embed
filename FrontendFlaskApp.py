@@ -52,7 +52,7 @@ def upload_file():
     metadata = parsed["metadata"]
 
     # New chunking logic
-    CHUNK_SIZE = 30000  # Maximum characters per chunk
+    CHUNK_SIZE = 2000  # Maximum characters per chunk
     text_chunks = [text[i:i+CHUNK_SIZE] for i in range(0, len(text), CHUNK_SIZE)]
 
     for i, chunk in enumerate(text_chunks):
@@ -93,7 +93,7 @@ def search():
         try:
             with open(json_file_path, 'r', encoding='utf-8') as json_file:
                 data = json.load(json_file)
-                preview_text = ' '.join(data['text'].split()[:100])
+                preview_text = ' '.join(data['text'].split()[:384])
         except IOError:
             preview_text = "Preview not available"
 
