@@ -1,20 +1,20 @@
-#flaskap
+#Flaskapp
 from flask import Flask, request, jsonify, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename, safe_join
+from tika import parser
 import os
 import logging
-import textract
-import io
-import pandas as pd
-from Embed_Backend import get_embedding, save_embedding, search_embeddings, validate_json
 import json
+from Embed_Backend import get_embedding, save_embedding, search_embeddings, rerank_results, generate_hypothetical_document, validate_json
+
+
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'Uploads'  # Ensure this directory exists within your project structure
-app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'pptx', 'odt', 'json'}
+app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3', 'rtf'}
 
 #the following code is used to render the Frontend.html file
 @app.route('/')
@@ -37,70 +37,83 @@ def upload_file():
         return jsonify(error="No selected file"), 400
 
     filename = secure_filename(file.filename)
-    file_extension = filename.rsplit('.', 1)[1].lower()
     if not allowed_file(filename):
         logging.error(f"Invalid file type: {filename}")
-        return jsonify(error="Invalid file type"), 400
+        allowed_exts = ", ".join(app.config['ALLOWED_EXTENSIONS'])
+        return jsonify(error=f"The file type you uploaded is not supported. The following file types are supported: {allowed_exts}"), 400
+
 
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
     logging.info(f"File {filename} saved to {file_path}")
 
-    if file_extension in ['xlsx', 'xls']:
-        # Read Excel file into DataFrame
-        try:
-            df = pd.read_excel(file_path)
-            text = df.to_json(orient='records')
-        except Exception as e:
-            logging.error(f"Error processing Excel file: {e}")
-            return jsonify(error="Failed to process Excel file"), 500
-    else:
-        # Use textract for other file types
-        try:
-            text = textract.process(file_path).decode('utf-8')
-        except Exception as e:
-            logging.error(f"Failed to extract text: {e}")
-            return jsonify(error="Failed to extract text"), 500
+    parsed = parser.from_file(file_path)
+    text = parsed["content"] if parsed["content"] else ""
+    metadata = parsed["metadata"]
 
-    data = {'text': text}
-    if not validate_json(data):
-        logging.error("Data structure from extracted text does not meet expectations")
-        return jsonify(error="Invalid data structure"), 400
+    # New chunking logic
+    CHUNK_SIZE = 2000  # Maximum characters per chunk
+    text_chunks = [text[i:i+CHUNK_SIZE] for i in range(0, len(text), CHUNK_SIZE)]
 
-    embedding = get_embedding(data['text'])
-    if embedding is None:
-        logging.error("An error occurred during embedding")
-        return jsonify(error="An error occurred during embedding"), 500
+    for i, chunk in enumerate(text_chunks):
+        chunk_filename = f"{os.path.splitext(filename)[0]}_part_{i+1}.json"
+        chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
 
-    save_embedding(filename, embedding, file_path)
-    json_filename = os.path.splitext(filename)[0] + '.json'
-    with open(os.path.join(app.config['UPLOAD_FOLDER'], json_filename), 'w', encoding='utf-8') as f:
-        json.dump(data, f)
+        embedding = get_embedding(chunk)
+        if embedding is None:
+            logging.error(f"Failed to generate embedding for chunk {i+1} of {filename}")
+            continue  # Skip this chunk
 
-    return jsonify(success=True)
+        # Save the embedding along with the original document filename and chunk filename
+        save_embedding(filename, chunk_filename, embedding)
+
+        # Create and save JSON for the chunk
+        chunk_data = {'text': chunk.strip(), 'metadata': metadata}
+        with open(chunk_path, 'w', encoding='utf-8') as json_file:
+            json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
+
+    return jsonify(success=True, message="Document processed and embeddings generated", file_name=filename)
+
 
 #the following code is used to search the file
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form['query']
-    query_embedding = get_embedding(query)
+
+    # Generate a hypothetical document based on the query for embedding
+    hypothetical_doc = generate_hypothetical_document(query)
+    if not hypothetical_doc:
+        return jsonify(error="Error generating hypothetical document"), 400
+    # Obtain the embedding for the hypothetical document
+    logging.info(f"hyp doc: {hypothetical_doc}")
+    query_embedding = get_embedding(hypothetical_doc)
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
 
-    result_filename, _ = search_embeddings(query_embedding)
-    if not result_filename:
+    results = search_embeddings(query_embedding, top_n=5)
+    if not results:
         return jsonify(error="No matching documents found"), 404
-    #the following code is used to read the json file
-    json_filename = os.path.splitext(result_filename)[0] + '.json'
-    json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], json_filename)
-    try:
-        with open(json_file_path, 'r', encoding='utf-8') as json_file:
-            data = json.load(json_file)
-            original_text = data['text']
-    except IOError:
-        return jsonify(error="Failed to read the result file"), 500
 
-    return jsonify(original_text=original_text, file_name=result_filename)
+    summaries = []
+    for original_filename, chunk_filename, similarity in results:
+        json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
+        try:
+            with open(json_file_path, 'r', encoding='utf-8') as json_file:
+                data = json.load(json_file)
+                preview_text = ' '.join(data['text'].split()[:384])  # Extracted from the actual document
+        except IOError:
+            preview_text = "Preview not available"
+
+        match_score = similarity * 100
+        summaries.append({
+            'file_name': original_filename,
+            'preview_text': preview_text,
+            'match_score': match_score
+        })
+
+    # Re-rank based on the relevance of the preview text to the query
+    reranked_summaries = rerank_results(summaries, query)
+    return jsonify(results=reranked_summaries)
 
 #the following code is used to download the file
 @app.route('/files/<filename>')
