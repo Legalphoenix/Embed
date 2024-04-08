@@ -4,3 +4,4 @@ env/
 API.env
 *.log
 Uploads/
+embeddings.csv
