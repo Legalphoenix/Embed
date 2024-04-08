@@ -26,13 +26,17 @@
 
 <body>
     <div class="drop-area" id="drop-area">
-        Drag and drop a file here or click to select a file
+        Drag and drop a file here
         <input type="file" id="fileElem" multiple style="display:none" onchange="handleFiles(this.files)">
     </div>
 
     <div style="text-align: center; margin-top: 20px;">
-        <input type="text" id="searchQuery" placeholder="Enter your query here">
         <button onclick="submitSearch()">Search</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <textarea id="searchQuery" placeholder="Enter your query here" rows="1"
+            style="width: 330px; min-height: 100px; overflow: hidden; resize: none;"></textarea>
     </div>
 
     <div id="results"></div>
@@ -90,11 +94,19 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    // Optionally, update the UI here to confirm the file upload
+                    let resultsDiv = document.getElementById('results');
+                    if (data.error) {
+                        resultsDiv.innerHTML = `<p>${data.error}</p>`;
+                    } else if (data.success) {
+                        // Now directly using file_name from the response
+                        resultsDiv.innerHTML = `<p>Upload successful! File: ${data.file_name}</p>`;
+                    } else {
+                        resultsDiv.innerHTML = `<p>Error: An unexpected error occurred.</p>`;
+                    }
                 })
                 .catch(() => {
                     console.error('Error:');
+                    document.getElementById('results').innerHTML = '<p>Error with upload. Please try again.</p>';
                 });
         }
 
@@ -111,17 +123,55 @@
                 .then(data => {
                     let resultsDiv = document.getElementById('results');
                     resultsDiv.innerHTML = ''; // Clear previous results
+
                     if (data.error) {
                         resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
                     } else {
-                        resultsDiv.innerHTML = `<h2>Original Text:</h2><p>${data.original_text}</p><a href="/files/${encodeURIComponent(data.file_name)}" target="_blank">${data.file_name}</a>`;
+                        // Handling multiple results
+                        if (data.results && data.results.length > 0) {
+                            let content = '<h2>Search Results:</h2>';
+                            data.results.forEach((result, index) => {
+                                content += `<div class="result">
+                                            <p><b>Result #${index + 1}</b> (Match Score: ${result.match_score.toFixed(2)}%)</p>
+                                            <p>${result.preview_text}</p>
+                                            <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+                                        </div><hr>`;
+                            });
+                            resultsDiv.innerHTML = content;
+                        } else {
+                            resultsDiv.innerHTML = '<p>No results found.</p>';
+                        }
                     }
                 })
                 .catch(error => {
+                    console.error('Error:', error);
                     document.getElementById('results').innerHTML = '<p>Error: Could not retrieve search results.</p>';
                 });
         }
+
+        // Add an event listener for the 'Enter' key on the search input field
+        document.getElementById('searchQuery').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent the default action to stop form submission
+                submitSearch(); // Trigger the search function
+            }
+        });
+        // Autosize the search input field
+        //function autosize() {
+        // var el = this;
+        // setTimeout(function () {
+        //     el.style.cssText = 'height:auto; padding:0; width:330px;'; // Set a fixed width here
+        //      el.style.cssText += 'height:' + (el.scrollHeight) + 'px';
+        //   }, 0);
+        //  }
+
+        let searchQueryTextarea = document.getElementById('searchQuery');
+        searchQueryTextarea.addEventListener('input', autosize);
+
+
+
     </script>
+
 </body>
 
 </html>
