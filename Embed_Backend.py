@@ -8,6 +8,8 @@ import os
 from dotenv import load_dotenv
 from schema import Schema, And, Use, SchemaError
 openai.api_key_path = './API.env'
+import json
+import anthropic
 
 
 # Load environment variables
@@ -102,7 +104,8 @@ def search_embeddings(query_embedding, top_n=5):
     top_matches = sorted_matches[:top_n]
     return top_matches  # Each item will have (original_filename, chunk_filename, similarity)
 
-def generate_hypothetical_document(query):
+#refine the users query
+def generate_better_query(query):
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-1106",  # Ensure this model identifier is correct
@@ -129,11 +132,11 @@ def generate_hypothetical_document(query):
 
         return generated_document
     except Exception as e:
-        logging.error(f"Error generating hypothetical document: {e}")
+        logging.error(f"Error generating better query: {e}")
         return None
 
 
-
+#re-rank the results
 def rerank_results(summaries, query):
     """
     Re-rank search results using GPT-3.5 Turbo Instruct based on the relevance of the preview text.
@@ -170,3 +173,75 @@ def rerank_results(summaries, query):
     except Exception as e:
         logging.error(f"Error re-ranking results with GPT-3.5 Turbo Instruct: {e}")
         return summaries  # Return original summaries in case of an error
+
+
+
+#Support the upload function so that Claude can do the chunking and we can maintain formatting
+
+# Define functions for encoding and decoding formatting
+def encode_formatting(text):
+    # Replace new lines and tabs with special tokens
+    return text.replace('\n', '<NEWLINE>').replace('\t', '<TAB>')
+
+def decode_formatting(text):
+    # Convert special tokens back to their original characters
+    return text.replace('<NEWLINE>', '\n').replace('<TAB>', '\t')
+
+def load_api_key(env_path='./Claude.env'):
+    with open(env_path, 'r') as file:
+        return file.read().strip()
+
+import anthropic
+import logging
+
+def send_to_claude_and_get_chunks(numbered_sentences):
+    api_key = load_api_key()
+    client = anthropic.Anthropic(api_key=api_key)
+
+    # Prepare the content by encoding formatting and joining sentences.
+    sentences_content = '\n'.join([f'{num}) {sentence}' for num, sentence in numbered_sentences.items()])
+    messages = [{"role": "user", "content": sentences_content}]
+
+    logging.info(f"Sending to Claude: {messages}")
+
+    # Create a message to Claude.
+    message = client.messages.create(
+        model="claude-3-haiku-20240307",
+        max_tokens=1000,
+        temperature=0,
+        system="<role>You are a legal chunking program. I am embedding a court case. Please do nothing except follow the exact instructions. </role> <instructions> You should segment the court case that has been provided into chunks of about 1000 tokens or about 8000 characters. You will segment case into legally relevant chunks. Imagine how a lawyer might group the passages together for an embedding database. Aim to group semantic ideas together into a single chunk where possible. This doesn’t mean keeping every idea to one chunk. It means to attempt not to split one meaning over two chunks. In order to minimize the amount of text in your output, we will do the following: 1. The user will provide the case formatted such that each and each sentence or group of sentences from the case are numbered top to bottom. 2. When you chunk the case as above, you will provide your segmentated chunks in the following format chunked by responding only in the exact format in the provided example. </instructions> <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 etc. No matter what, follow this exact format. </example>",
+        messages=messages
+    )
+
+    logging.info(f"Claude's raw response: {message}")
+    logging.info(f"Claude's content: {message.content}")
+
+
+    # Attempt to extract text again with additional checks
+    try:
+        # Example of accessing 'text' if 'TextBlock' is a custom object with attributes
+        content_texts = [item.text for item in message.content]
+        combined_text = "\n".join(content_texts)
+    except Exception as e:
+        logging.error(f"Error processing Claude's response: {e}")
+        combined_text = ""
+
+    logging.info(f"Combined text for chunk processing: {combined_text}")
+
+    # Assuming combined_text is now correctly populated, continue to process for chunks
+    chunks = {}
+    if combined_text:
+        for line in combined_text.split('\n'):
+            if line.startswith('Chunk'):
+                chunk_number, sentence_numbers = line.split(': ')
+                chunk_sentences = [int(num) for num in sentence_numbers.split(',')]
+                chunks[int(chunk_number.split(' ')[1])] = chunk_sentences
+        logging.info(f"Extracted chunks: {chunks}")
+    else:
+        logging.error("Combined text is empty, cannot extract chunks.")
+
+    # Return the dictionary containing chunks information
+    return chunks
+
+
+
