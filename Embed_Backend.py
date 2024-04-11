@@ -123,7 +123,7 @@ def generate_better_query(query):
                                "Remember, please respond without any additional explanations or text."
                 }
             ],
-            temperature=0.7,
+            temperature=0,
             max_tokens=1024,
             stop=None,
         )
@@ -136,43 +136,56 @@ def generate_better_query(query):
         return None
 
 
-#re-rank the results
 def rerank_results(summaries, query):
     """
-    Re-rank search results using GPT-3.5 Turbo Instruct based on the relevance of the preview text.
+    Re-rank search results using GPT-3.5 Turbo ChatCompletion based on the relevance of the preview text,
+    now using a temperature of 0 for more deterministic outputs.
     """
-    prompt = ("I have listed below 5 summaries derived from a search based on a specific query. "
-              "Each summary is identified by a number (1 to 5). Your task is to carefully review each summary "
-              "and then rank them purely based on their relevance to the original search query, from the most "
-              "relevant to the least relevant.\n\n"
-              "Please respond with only the numbers in the new order of relevance. Your response should be a "
-              "simple, comma-separated list of numbers, indicating this new order from most to least relevant. "
-              "For instance, if you find the third summary to be the most relevant, followed by the first, "
-              "second, fifth, and finally the fourth, you should respond with: '3, 1, 2, 5, 4'.\n\n"
-              "Remember, I need just the list of numbers in the correct order, without any additional explanations or text.\n")
+    prompt_text = ("I have listed below 5 summaries derived from a search based on a specific query. "
+                   "Each summary is identified by a number (1 to 5). Your task is to carefully review each summary "
+                   "and then rank them purely based on their relevance to the original search query, from the most "
+                   "relevant to the least relevant.\n\n"
+                   "Please respond with only the numbers in the new order of relevance. Your response should be a "
+                   "simple, comma-separated list of numbers, indicating this new order from most to least relevant. "
+                   "For instance, if you find the third summary to be the most relevant, followed by the first, "
+                   "second, fifth, and finally the fourth, you should respond with: '3, 1, 2, 5, 4'.\n\n"
+                   "Remember, I need just the list of numbers in the correct order, without any additional explanations or text.\n")
 
     for index, summary in enumerate(summaries, start=1):
-        prompt += f"{index}. {summary['preview_text']}\n"
+        prompt_text += f"{index}. {summary['preview_text']}\n"
+
+    messages = [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant."
+        },
+        {
+            "role": "user",
+            "content": prompt_text
+        }
+    ]
 
     try:
-        response = openai.Completion.create(
-            model="gpt-3.5-turbo-instruct",
-            prompt=prompt,
-            temperature=0,
-            max_tokens=100,
-            stop=None,
-            n=1
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo-1106",  # Adjust model as necessary
+            messages=messages,
+            temperature=0,  # Set to 0 for deterministic output
+            max_tokens=1024,
+            stop=None
         )
-        logging.info(f"GPT-3.5 Turbo response: {response.choices[0].text}")
-        # Example of how to parse a simple ordered list response: "1, 3, 2, 4, 5"
-        new_order = response.choices[0].text.strip().split(', ')
+        generated_response = response.choices[0]['message']['content'].strip()
+        logging.info(f"GPT-3.5 generated document for reranking: {generated_response}")
+
+        # Assuming the response format is "1, 3, 2, 4, 5"
+        new_order = generated_response.split(', ')
         # Apply the new order to summaries
         ordered_summaries = [summaries[int(idx) - 1] for idx in new_order]
 
         return ordered_summaries
     except Exception as e:
-        logging.error(f"Error re-ranking results with GPT-3.5 Turbo Instruct: {e}")
+        logging.error(f"Error re-ranking results with GPT-3.5 Turbo ChatCompletion: {e}")
         return summaries  # Return original summaries in case of an error
+
 
 
 
@@ -200,7 +213,7 @@ def send_to_claude_and_get_chunks(numbered_sentences):
 
     # Prepare the content by encoding formatting and joining sentences.
     sentences_content = '\n'.join([f'{num}) {sentence}' for num, sentence in numbered_sentences.items()])
-    messages = [{"role": "user", "content": sentences_content}]
+    messages = [{"role": "user", "content": '<documents> ' + sentences_content + ' </documents>' + ' <instructions> Check the final sentence number first to ensure you do not go past that number when generating your chunks.  </instructions>  '}]
 
     logging.info(f"Sending to Claude: {messages}")
 
@@ -209,7 +222,7 @@ def send_to_claude_and_get_chunks(numbered_sentences):
         model="claude-3-haiku-20240307",
         max_tokens=1000,
         temperature=0,
-        system="<role>You are a legal chunking program. I am embedding a court case. Please do nothing except follow the exact instructions. </role> <instructions> You should segment the court case that has been provided into chunks of about 1000 tokens or about 8000 characters. You will break up the case into legally relevant chunks. Imagine how a lawyer might group the passages together for an embedding database. Aim to group semantic ideas together into a single chunk where possible. This doesn’t mean keeping every idea to one chunk. It means to attempt not to split one meaning over two chunks. In order to minimize the amount of text in your output, we will do the following: 1. The user will provide the case formatted such that each and each sentence or group of sentences from the case are numbered top to bottom. 2. When you chunk the case as above, you will provide your segmentated chunks in the following format chunked by responding only in the exact format in the provided example. </instructions> <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...  No matter what, follow this exact format. </example>",
+        system="<role>You are a legal embedding chunking program. I am embedding a court case. Please read the document below carefully and do nothing except follow the exact instructions. </role> <instructions> You should segment the court case that has been provided into chunks of about 1000 tokens or about 8000 characters. You will break up the case into legally relevant chunks. Imagine how a lawyer might group the passages together for an embedding database. Aim to group semantic ideas together into a single chunk where possible. This doesn’t mean keeping every idea to one chunk. It means to attempt not to split one meaning over two chunks. In order to minimize the amount of text in your output, we will do the following: 1. The user will provide the case formatted such that each sentence or group of sentences from the case are numbered top to bottom. 2. When you chunk the case as above, you will provide your segmentated chunks in the following format, and order, chunked by responding only in the exact format in the provided example. </instructions> <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...  No matter what, follow this exact format. </example>",
         messages=messages
     )
 
