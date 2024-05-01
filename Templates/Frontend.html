@@ -35,6 +35,16 @@
     </div>
 
     <div style="text-align: center; margin-top: 20px;">
+        <select id="docType">
+            <option value="0">All Categories</option>
+            <option value="1">Legislation</option>
+            <option value="2">Guidelines</option>
+            <option value="3">Court Cases</option>
+            <option value="4">Contracts</option>
+        </select>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
         <textarea id="searchQuery" placeholder="Enter your query here" rows="1"
             style="width: 330px; min-height: 100px; overflow: hidden; resize: none;"></textarea>
     </div>
@@ -112,12 +122,14 @@
 
         function submitSearch() {
             let query = document.getElementById('searchQuery').value;
+            let docType = document.getElementById('docType').value;  // Get the selected document type value
+
             fetch('/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: 'query=' + encodeURIComponent(query)
+                body: 'query=' + encodeURIComponent(query) + '&doc_type=' + encodeURIComponent(docType)
             })
                 .then(response => response.json())
                 .then(data => {
@@ -132,10 +144,10 @@
                             let content = '<h2>Search Results:</h2>';
                             data.results.forEach((result, index) => {
                                 content += `<div class="result">
-                                            <p><b>Result #${index + 1}</b> (Match Score: ${result.match_score.toFixed(2)}%)</p>
-                                            <p>${result.preview_text}</p>
-                                            <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-                                        </div><hr>`;
+                                <p><b>Result #${index + 1}</b> (Match Score: ${result.match_score.toFixed(2)}%)</p>
+                                <p>${result.preview_text}</p>
+                                <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+                            </div><hr>`;
                             });
                             resultsDiv.innerHTML = content;
                         } else {
@@ -148,6 +160,7 @@
                     document.getElementById('results').innerHTML = '<p>Error: Could not retrieve search results.</p>';
                 });
         }
+
 
         // Add an event listener for the 'Enter' key on the search input field
         document.getElementById('searchQuery').addEventListener('keypress', function (event) {

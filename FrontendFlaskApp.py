@@ -48,7 +48,7 @@ def upload_file():
     metadata = parsed["metadata"]
 
     # Classification step here
-    document_type = classify_document(text)  # Call the classification function
+    document_type, document_type_name = classify_document(text)  # Receive both ID and name
     if document_type is None:
         return jsonify(error="Failed to classify document."), 400
 
@@ -62,42 +62,53 @@ def upload_file():
 
     for chunk_id, sentence_nums in chunks.items():
         chunk_text = " ".join(decode_formatting(numbered_sentences[num]) for num in sentence_nums)
+        # Append the document type descriptor for embedding
+        document_type_descriptor = f"\n<Document Type: {document_type_name}> </Document Type>"
+        chunk_text_with_type = chunk_text + document_type_descriptor
+
         chunk_filename = f"{os.path.splitext(filename)[0]}_chunk_{chunk_id}.json"
         chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
+        # Log the text being sent for embedding
+        logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type}")
+
 
         logging.info(f"Generating embedding for chunk {chunk_id} of {filename}")
-        embedding = get_embedding(chunk_text)
+        embedding = get_embedding(chunk_text_with_type)  # Use modified text for embedding
         if embedding is None:
             logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
             continue  # Skip this chunk if embedding generation fails
 
         # Save the embedding along with the original document filename, chunk filename, and document type
-        save_embedding(filename, chunk_filename, embedding, document_type)  # Updated save function to include document type
+        save_embedding(filename, chunk_filename, embedding, document_type, document_type_name)
 
-        # Create and save JSON for the chunk
-        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type': document_type}
+
+        # Create and save JSON for the chunk with only the original chunk text
+        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type_id': document_type, 'document_type_name': document_type_name}
         with open(chunk_path, 'w', encoding='utf-8') as json_file:
             json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
 
     return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type, file_name=filename)
 
 
-#the following code is used to search the file
+
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form['query']
+    doc_type = int(request.form['doc_type'])  # Expecting 0, 1, 2, or 3
 
-    # Generate a better query based on the query for embedding
+    # Generate a better query based on the original query for embedding
     better_query = generate_better_query(query)
     if not better_query:
         return jsonify(error="Error generating better query"), 400
-    # Obtain the embedding for the better query
     logging.info(f"better query: {better_query}")
+
+    # Obtain the embedding for the better query
     query_embedding = get_embedding(better_query)
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
 
-    results = search_embeddings(query_embedding, top_n=5)
+    # Search for the most similar embeddings
+    results = search_embeddings(query_embedding, doc_type, top_n=5)
     if not results:
         return jsonify(error="No matching documents found"), 404
 
@@ -121,6 +132,7 @@ def search():
     # Re-rank based on the relevance of the preview text to the query
     reranked_summaries = rerank_results(summaries, query)
     return jsonify(results=reranked_summaries)
+
 
 #the following code is used to download the file
 @app.route('/files/<filename>')
