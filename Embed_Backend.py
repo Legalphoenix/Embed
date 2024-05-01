@@ -54,31 +54,35 @@ def get_embedding(text, model="text-embedding-3-small"):
         return None
 
 
-def json_to_embedding(file_path):
+def json_to_embedding_and_classify(file_path):
     try:
         with open(file_path, 'r') as json_file:
             data = json.load(json_file)
 
             if not validate_json(data):
-                return None  # Logging is handled in the validate_json function
+                return None
 
-            # Using the get_embedding function to get the embedding
-            return get_embedding(data['text'], "text-embedding-3-small")
+            document_type = classify_document(data['text'])
+            if document_type is None:
+                logging.error("Failed to classify document.")
+                return None
 
-    except FileNotFoundError:
-        logging.error('File not found.')
-        return None
-    except json.JSONDecodeError:
-        logging.error('Invalid JSON content.')
-        return None
+            embedding = get_embedding(data['text'])
+            if embedding is None:
+                logging.error("Failed to get embedding.")
+                return None
+
+            return document_type, embedding
     except Exception as e:
         logging.error(f'An unexpected error occurred: {e}')
         return None
 
-def save_embedding(original_file_name, chunk_file_name, embedding):
+
+def save_embedding(original_file_name, chunk_file_name, embedding, document_type):
     with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
-        csv_writer.writerow([original_file_name, chunk_file_name] + list(embedding))
+        csv_writer.writerow([original_file_name, chunk_file_name, document_type] + list(embedding))
+
 
 def cosine_similarity(vec_a, vec_b):
     """Calculate the cosine similarity between two vectors."""
@@ -116,11 +120,11 @@ def generate_better_query(query):
                 },
                 {
                     "role": "user",
-                    "content": f"A user is attempting to search an embedding space of legal court cases with this query: \"{query}\". "
-                               "Your role is to boost its semantic meaning to increase the likelihood of a match in an embedding space. "
-                               "For example, if the query is: 'is it lawful to detain a person who has applied for refugee status who otherwise cannot be removed from the country?' "
-                               "You should respond with: 'Can a person who has applied for refugee status and cannot be removed from the country be lawfully detained by the government pending their asylum decision?' "
-                               "Remember, please respond without any additional explanations or text."
+                    "content": f"A user is attempting to search an embedding space with this query: \"{query}\". Fix any spelling errors but otherwise replicate the exact query in your response "
+                               #"Your role is to boost its semantic meaning to increase the likelihood of a match in an embedding space. "
+                               #"For example, if the query is: 'is it lawful to detain a person who has applied for refugee status who otherwise cannot be removed from the country?' "
+                               #"You should respond with: 'Can a person who has applied for refugee status and cannot be removed from the country be lawfully detained by the government pending their asylum decision?' "
+                               #"Remember, please respond without any additional explanations or text."
                 }
             ],
             temperature=0,
@@ -204,12 +208,11 @@ def load_api_key(env_path='./Claude.env'):
     with open(env_path, 'r') as file:
         return file.read().strip()
 
-import anthropic
-import logging
+api_key = load_api_key()
+client = anthropic.Anthropic(api_key=api_key)
 
+#Chunking function
 def send_to_claude_and_get_chunks(numbered_sentences):
-    api_key = load_api_key()
-    client = anthropic.Anthropic(api_key=api_key)
 
     # Prepare the content by encoding formatting and joining sentences.
     sentences_content = '\n'.join([f'{num}) {sentence}' for num, sentence in numbered_sentences.items()])
@@ -255,6 +258,41 @@ def send_to_claude_and_get_chunks(numbered_sentences):
 
     # Return the dictionary containing chunks information
     return chunks
+
+def classify_document(text):
+    encoded_text = encode_formatting(text[:2000])
+    messages = [
+        {
+            "role": "user",
+            "content": f"<documents> {encoded_text} </documents> <instructions> Classify this document as 1 (Legislation), 2 (Guidelines), or 3 (Court Cases). </instructions>"
+        }
+    ]
+
+    logging.info(f"Sending to Claude for classification: {messages}")
+
+    try:
+        message = client.messages.create(
+            model="claude-3-haiku-20240307",
+            messages=messages,
+            max_tokens=5,
+            temperature=0,
+            system="<role> You are a legal document classifier. Read the document below carefully and classify it according to the given categories. Respond only with a number and nothing else. </role>"
+        )
+        logging.info(f"API Response: {message}")
+
+        # Attempt to extract text from each item in message.content using the known attribute access
+        content_texts = [item.text for item in message.content if hasattr(item, 'text')]
+        if content_texts:
+            response_text = content_texts[0].strip()
+            document_type = int(response_text)
+            logging.info(f"Document classified as type: {document_type}")
+            return document_type
+        else:
+            logging.error("Unexpected response structure or missing 'text' attribute in message content")
+            return None
+    except Exception as e:
+        logging.error(f"Error in classification: {e}")
+        return None
 
 
 
