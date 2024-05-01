@@ -1,11 +1,11 @@
-#Flaskapp
+#FrontendFlaskapp.py
 from flask import Flask, request, jsonify, render_template, send_file
 from werkzeug.utils import secure_filename, safe_join
 from tika import parser
 import os
 import logging
 import json
-from Embed_Backend import get_embedding, save_embedding, search_embeddings, rerank_results, generate_better_query, decode_formatting, encode_formatting, send_to_claude_and_get_chunks
+from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_better_query, decode_formatting, encode_formatting, send_to_claude_and_get_chunks
 import nltk
 from nltk.tokenize import sent_tokenize
 if not os.path.exists(nltk.data.find('tokenizers/punkt')):
@@ -47,12 +47,16 @@ def upload_file():
     text = parsed["content"] if parsed["content"] else ""
     metadata = parsed["metadata"]
 
+    # Classification step here
+    document_type = classify_document(text)  # Call the classification function
+    if document_type is None:
+        return jsonify(error="Failed to classify document."), 400
+
     # Encode formatting in the entire document text
     encoded_text = encode_formatting(text)
 
     sentences = sent_tokenize(encoded_text)
     numbered_sentences = {i+1: sentence for i, sentence in enumerate(sentences)}
-
 
     chunks = send_to_claude_and_get_chunks(numbered_sentences)
 
@@ -62,23 +66,21 @@ def upload_file():
         chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
 
         logging.info(f"Generating embedding for chunk {chunk_id} of {filename}")
-         # Generate embedding for the chunk
         embedding = get_embedding(chunk_text)
         if embedding is None:
             logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
             continue  # Skip this chunk if embedding generation fails
 
-        # Save the embedding along with the original document filename and chunk filename
-        save_embedding(filename, chunk_filename, embedding)
-
-
+        # Save the embedding along with the original document filename, chunk filename, and document type
+        save_embedding(filename, chunk_filename, embedding, document_type)  # Updated save function to include document type
 
         # Create and save JSON for the chunk
-        chunk_data = {'text': chunk_text, 'metadata': metadata}
+        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type': document_type}
         with open(chunk_path, 'w', encoding='utf-8') as json_file:
             json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
 
-    return jsonify(success=True, message="Document processed into chunks and saved", file_name=filename)
+    return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type, file_name=filename)
+
 
 #the following code is used to search the file
 @app.route('/search', methods=['POST'])
