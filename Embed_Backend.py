@@ -78,10 +78,11 @@ def json_to_embedding_and_classify(file_path):
         return None
 
 
-def save_embedding(original_file_name, chunk_file_name, embedding, document_type):
+def save_embedding(original_file_name, chunk_file_name, embedding, document_type_id, document_type_name):
     with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
-        csv_writer.writerow([original_file_name, chunk_file_name, document_type] + list(embedding))
+        csv_writer.writerow([original_file_name, chunk_file_name, document_type_id, document_type_name] + list(embedding))
+
 
 
 def cosine_similarity(vec_a, vec_b):
@@ -90,23 +91,25 @@ def cosine_similarity(vec_a, vec_b):
     return cos_sim
 
 
-# Function to search for the most similar embedding
-def search_embeddings(query_embedding, top_n=5):
+# Function to search for the most similar embedding, filtered by document type
+def search_embeddings(query_embedding, doc_type, top_n=5):
     matches = []
     with open('embeddings.csv', 'r', encoding='utf-8') as f:
         csv_reader = csv.reader(f)
         for row in csv_reader:
-            original_filename, chunk_filename, *embedding_values = row
-            embedding = np.array(embedding_values, dtype=float)
-            similarity = cosine_similarity(query_embedding, embedding)
-            matches.append((original_filename, chunk_filename, similarity))
-
+            # Adjusted to account for the additional document_type_name column
+            original_filename, chunk_filename, document_type_id, document_type_name, *embedding_values = row
+            # Filter results based on the document type
+            if doc_type == 0 or int(document_type_id) == doc_type:
+                embedding = np.array(embedding_values, dtype=float)
+                similarity = cosine_similarity(query_embedding, embedding)
+                matches.append((original_filename, chunk_filename, similarity))
     # Sort matches by their similarity, descending
     sorted_matches = sorted(matches, key=lambda x: x[2], reverse=True)
-
     # Return the top_n matches, now including the chunk filename
     top_matches = sorted_matches[:top_n]
     return top_matches  # Each item will have (original_filename, chunk_filename, similarity)
+
 
 #refine the users query
 def generate_better_query(query):
@@ -259,12 +262,20 @@ def send_to_claude_and_get_chunks(numbered_sentences):
     # Return the dictionary containing chunks information
     return chunks
 
+#Use Claud to classify the document using integers, and map them to the category so that other functions can use them.
 def classify_document(text):
     encoded_text = encode_formatting(text[:2000])
+    document_type_map = {
+        1: "Legislation",
+        2: "Legal Guidelines",
+        3: "Court Case",
+        4: "Contracts"
+    }
+
     messages = [
         {
             "role": "user",
-            "content": f"<documents> {encoded_text} </documents> <instructions> Classify this document as 1 (Legislation), 2 (Guidelines), or 3 (Court Cases). </instructions>"
+            "content": f"<documents> {encoded_text} </documents> <instructions> Classify this document as 1 (Legislation), 2 (Guidelines), 3 (Court Cases), or 4 (Contracts). </instructions>"
         }
     ]
 
@@ -280,19 +291,21 @@ def classify_document(text):
         )
         logging.info(f"API Response: {message}")
 
-        # Attempt to extract text from each item in message.content using the known attribute access
+        # Extract the document type ID from the response
         content_texts = [item.text for item in message.content if hasattr(item, 'text')]
         if content_texts:
             response_text = content_texts[0].strip()
-            document_type = int(response_text)
-            logging.info(f"Document classified as type: {document_type}")
-            return document_type
+            document_type_id = int(response_text)
+            document_type_name = document_type_map.get(document_type_id, "Unknown")
+            logging.info(f"Document classified as type: {document_type_id}, {document_type_name}")
+            return document_type_id, document_type_name
         else:
             logging.error("Unexpected response structure or missing 'text' attribute in message content")
-            return None
+            return None, None
     except Exception as e:
         logging.error(f"Error in classification: {e}")
-        return None
+        return None, None
+
 
 
 
