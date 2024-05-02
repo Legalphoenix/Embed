@@ -118,7 +118,7 @@ def search():
         try:
             with open(json_file_path, 'r', encoding='utf-8') as json_file:
                 data = json.load(json_file)
-                preview_text = ' '.join(data['text'].split()[:384])  # Extracted from the actual document
+                preview_text = ' '.join(data['text'].split()[:2000])  # Extracted from the actual document. (if you want to keep some formatting) preview_text = data['text'][:10000]
         except IOError:
             preview_text = "Preview not available"
 
