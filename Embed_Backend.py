@@ -53,31 +53,6 @@ def get_embedding(text, model="text-embedding-3-small"):
         logging.error(f'An unexpected error occurred: {e}')
         return None
 
-
-def json_to_embedding_and_classify(file_path):
-    try:
-        with open(file_path, 'r') as json_file:
-            data = json.load(json_file)
-
-            if not validate_json(data):
-                return None
-
-            document_type = classify_document(data['text'])
-            if document_type is None:
-                logging.error("Failed to classify document.")
-                return None
-
-            embedding = get_embedding(data['text'])
-            if embedding is None:
-                logging.error("Failed to get embedding.")
-                return None
-
-            return document_type, embedding
-    except Exception as e:
-        logging.error(f'An unexpected error occurred: {e}')
-        return None
-
-
 def save_embedding(original_file_name, chunk_file_name, embedding, document_type_id, document_type_name):
     with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
