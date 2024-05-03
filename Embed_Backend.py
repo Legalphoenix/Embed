@@ -141,11 +141,12 @@ def rerank_results(summaries, query):
     """
     Re-rank search results using Voyage AI reranker.
     """
+    #for i, summary in enumerate(summaries):
+     #   logging.info(f"Summary {i + 1} for reranking: {summary}")
     # Extract preview texts for reranking
-    documents = [summary['preview_text'] for summary in summaries]
-    logging.info(f"Starting rerank with query: {query} and {len(documents)} documents.")
-    # Create a Voyage AI client (make sure you have your API key configured)
-    #vo = voyageai.Client()
+    documents = [f"{summary['file_name']}: {summary['preview_text']}" for summary in summaries]
+    #logging.info(f"Sending the following previews for reranking: {documents}")
+    #logging.info(f"Starting rerank with query: {query} and {len(documents)} documents.")
 
     # Call the rerank method from the Voyage AI library
     try:
@@ -153,6 +154,8 @@ def rerank_results(summaries, query):
         # Collect reranked results according to the new relevance scores
         ordered_summaries = [summaries[r.index] for r in sorted(reranking.results, key=lambda x: -x.relevance_score)]
         logging.info(f"Reranking successful. Reordered indices: {[r.index for r in reranking.results]}")
+        relevance_scores = [round(r.relevance_score * 100, 2) for r in reranking.results]
+        logging.info(f"Relevance scores (as percentages): {relevance_scores}")
         return ordered_summaries
     except Exception as e:
         logging.error(f"Error re-ranking results with Voyage AI: {e}")

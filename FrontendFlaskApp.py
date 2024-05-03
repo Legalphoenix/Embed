@@ -119,13 +119,14 @@ def search():
             with open(json_file_path, 'r', encoding='utf-8') as json_file:
                 data = json.load(json_file)
                 preview_text = ' '.join(data['text'].split()[:2000])  # Extracted from the actual document. (if you want to keep some formatting) preview_text = data['text'][:10000]
+                preview_text_with_type = f"{preview_text}\n<Document Type: {data['document_type_name']}> </Document Type>"
         except IOError:
             preview_text = "Preview not available"
 
         match_score = similarity * 100
         summaries.append({
             'file_name': original_filename,
-            'preview_text': preview_text,
+            'preview_text': preview_text_with_type,
             'match_score': match_score
         })
 
