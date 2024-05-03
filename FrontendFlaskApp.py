@@ -73,7 +73,7 @@ def upload_file():
 
 
         logging.info(f"Generating embedding for chunk {chunk_id} of {filename}")
-        embedding = get_embedding(chunk_text_with_type)  # Use modified text for embedding
+        embedding = get_embedding(chunk_text_with_type, input_type='document')  # Use modified text for embedding
         if embedding is None:
             logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
             continue  # Skip this chunk if embedding generation fails
@@ -103,7 +103,7 @@ def search():
     logging.info(f"better query: {better_query}")
 
     # Obtain the embedding for the better query
-    query_embedding = get_embedding(better_query)
+    query_embedding = get_embedding(better_query, input_type='query')
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
 
