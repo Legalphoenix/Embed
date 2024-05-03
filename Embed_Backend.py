@@ -7,11 +7,20 @@ import logging
 import os
 from dotenv import load_dotenv
 from schema import Schema, And, Use, SchemaError
-openai.api_key_path = './API.env'
 import json
 import anthropic
 import voyageai
-vo = voyageai.Client(api_key="pa-HDqADASg6DbYlfiZhbtf2n5HCek1CpiouLod9AGALzA")
+
+#API Key handling
+openai.api_key_path = './API.env'
+voyageai.api_key_path = './Voyage.env'
+vo = voyageai.Client()
+def load_api_key(env_path='./Claude.env'):
+    with open(env_path, 'r') as file:
+        return file.read().strip()
+
+api_key = load_api_key()
+client = anthropic.Anthropic(api_key=api_key)
 
 # Load environment variables
 load_dotenv()
@@ -35,14 +44,16 @@ def validate_json(data):
         logging.error(f'JSON validation error: {e}')
         return False
 
-# Implement the get_embedding function
-def get_embedding(text):
+#Fetches the embedding for the given text, specifying if it's a query or a document.
+def get_embedding(text, input_type=None):
     text = text.replace("\n", " ")  # Ensure no newlines interfere with the API call
-    documents_embeddings = vo.embed(text, model="voyage-law-2", input_type="document").embeddings
+    # Specify input_type if provided, otherwise default to None
+    documents_embeddings = vo.embed(text, model="voyage-law-2", input_type=input_type).embeddings
     # Flatten the embeddings list if it's a list of lists
     if documents_embeddings and isinstance(documents_embeddings[0], list):
         return [item for sublist in documents_embeddings for item in sublist]
     return documents_embeddings  # Return as is if it's already flat
+
 
 
     #try:
@@ -128,55 +139,24 @@ def generate_better_query(query):
 
 def rerank_results(summaries, query):
     """
-    Re-rank search results using GPT-3.5 Turbo ChatCompletion based on the relevance of the preview text,
-    now using a temperature of 0 for more deterministic outputs.
+    Re-rank search results using Voyage AI reranker.
     """
-    prompt_text = ("I have listed below 5 summaries derived from a search based on a specific query. "
-                   "Each summary is identified by a number (1 to 5). Your task is to carefully review each summary "
-                   "and then rank them purely based on their relevance to the original search query, from the most "
-                   "relevant to the least relevant.\n\n"
-                   "Please respond with only the numbers in the new order of relevance. Your response should be a "
-                   "simple, comma-separated list of numbers, indicating this new order from most to least relevant. "
-                   "For instance, if you find the third summary to be the most relevant, followed by the first, "
-                   "second, fifth, and finally the fourth, you should respond with: '3, 1, 2, 5, 4'.\n\n"
-                   "Remember, I need just the list of numbers in the correct order, without any additional explanations or text.\n")
+    # Extract preview texts for reranking
+    documents = [summary['preview_text'] for summary in summaries]
+    logging.info(f"Starting rerank with query: {query} and {len(documents)} documents.")
+    # Create a Voyage AI client (make sure you have your API key configured)
+    #vo = voyageai.Client()
 
-    for index, summary in enumerate(summaries, start=1):
-        prompt_text += f"{index}. {summary['preview_text']}\n"
-
-    messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant."
-        },
-        {
-            "role": "user",
-            "content": prompt_text
-        }
-    ]
-
+    # Call the rerank method from the Voyage AI library
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-1106",  # Adjust model as necessary
-            messages=messages,
-            temperature=0,  # Set to 0 for deterministic output
-            max_tokens=1024,
-            stop=None
-        )
-        generated_response = response.choices[0]['message']['content'].strip()
-        logging.info(f"GPT-3.5 generated document for reranking: {generated_response}")
-
-        # Assuming the response format is "1, 3, 2, 4, 5"
-        new_order = generated_response.split(', ')
-        # Apply the new order to summaries
-        ordered_summaries = [summaries[int(idx) - 1] for idx in new_order]
-
+        reranking = vo.rerank(query, documents, model="rerank-lite-1")
+        # Collect reranked results according to the new relevance scores
+        ordered_summaries = [summaries[r.index] for r in sorted(reranking.results, key=lambda x: -x.relevance_score)]
+        logging.info(f"Reranking successful. Reordered indices: {[r.index for r in reranking.results]}")
         return ordered_summaries
     except Exception as e:
-        logging.error(f"Error re-ranking results with GPT-3.5 Turbo ChatCompletion: {e}")
+        logging.error(f"Error re-ranking results with Voyage AI: {e}")
         return summaries  # Return original summaries in case of an error
-
-
 
 
 #Support the upload function so that Claude can do the chunking and we can maintain formatting
@@ -189,13 +169,6 @@ def encode_formatting(text):
 def decode_formatting(text):
     # Convert special tokens back to their original characters
     return text.replace('<NEWLINE>', '\n').replace('<TAB>', '\t')
-
-def load_api_key(env_path='./Claude.env'):
-    with open(env_path, 'r') as file:
-        return file.read().strip()
-
-api_key = load_api_key()
-client = anthropic.Anthropic(api_key=api_key)
 
 #Chunking function
 def send_to_claude_and_get_chunks(numbered_sentences):
