@@ -10,7 +10,8 @@ from schema import Schema, And, Use, SchemaError
 openai.api_key_path = './API.env'
 import json
 import anthropic
-
+import voyageai
+vo = voyageai.Client(api_key="pa-HDqADASg6DbYlfiZhbtf2n5HCek1CpiouLod9AGALzA")
 
 # Load environment variables
 load_dotenv()
@@ -35,23 +36,30 @@ def validate_json(data):
         return False
 
 # Implement the get_embedding function
-def get_embedding(text, model="text-embedding-3-small"):
+def get_embedding(text):
     text = text.replace("\n", " ")  # Ensure no newlines interfere with the API call
-    try:
-        response = openai.Embedding.create(
-            model=model,
-            input=text,
-        )
-        return response['data'][0]['embedding']
-    except openai.error.InvalidRequestError as e:
-        if "tokens" in str(e):
-            logging.error(f'Text exceeds the maximum token limit: {e}')
-        else:
-            logging.error(f'An unexpected error occurred with OpenAI API: {e}')
-        return None
-    except Exception as e:
-        logging.error(f'An unexpected error occurred: {e}')
-        return None
+    documents_embeddings = vo.embed(text, model="voyage-law-2", input_type="document").embeddings
+    # Flatten the embeddings list if it's a list of lists
+    if documents_embeddings and isinstance(documents_embeddings[0], list):
+        return [item for sublist in documents_embeddings for item in sublist]
+    return documents_embeddings  # Return as is if it's already flat
+
+
+    #try:
+        #response = openai.Embedding.create(
+         #   model=model,
+          #  input=text,
+        #)
+        #return response['data'][0]['embedding']
+    #except openai.error.InvalidRequestError as e:
+        #if "tokens" in str(e):
+         #   logging.error(f'Text exceeds the maximum token limit: {e}')
+        #else:
+         #   logging.error(f'An unexpected error occurred with OpenAI API: {e}')
+        #return None
+    #except Exception as e:
+        #logging.error(f'An unexpected error occurred: {e}')
+        #return None
 
 def save_embedding(original_file_name, chunk_file_name, embedding, document_type_id, document_type_name):
     with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
