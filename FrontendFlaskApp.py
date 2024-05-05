@@ -8,8 +8,11 @@ import json
 from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_better_query, decode_formatting, encode_formatting, send_to_claude_and_get_chunks
 import nltk
 from nltk.tokenize import sent_tokenize
-if not os.path.exists(nltk.data.find('tokenizers/punkt')):
-    nltk.download('punkt')
+#if not os.path.exists(nltk.data.find('tokenizers/punkt')):
+#    nltk.download('punkt')
+import spacy
+nlp = spacy.load("en_core_web_sm")  # Load the small English model
+
 
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
@@ -55,7 +58,9 @@ def upload_file():
     # Encode formatting in the entire document text
     encoded_text = encode_formatting(text)
 
-    sentences = sent_tokenize(encoded_text)
+    doc = nlp(encoded_text)
+    sentences = [sent.text.strip() for sent in doc.sents]
+
     numbered_sentences = {i+1: sentence for i, sentence in enumerate(sentences)}
 
     chunks = send_to_claude_and_get_chunks(numbered_sentences)
