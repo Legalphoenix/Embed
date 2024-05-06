@@ -32,41 +32,46 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
+
     if 'file' not in request.files:
         return jsonify(error="No file part"), 400
-
+    #get file
     file = request.files['file']
     if file.filename == '':
         return jsonify(error="No selected file"), 400
 
+    #ensure it has a working name
     filename = secure_filename(file.filename)
     if filename.split('.')[-1].lower() not in app.config['ALLOWED_EXTENSIONS']:
         return jsonify(error=f"Unsupported file type: {filename}"), 400
 
+    #save the file
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
 
+    #tika parses the content from the file & stores it in the text variable. Metadata also stored in metadata.
     parsed = parser.from_file(file_path)
     text = parsed["content"] if parsed["content"] else ""
     metadata = parsed["metadata"]
 
-    # Classification step here
+    #text is sent for classification via Haiku model and we receive both a document_type id and the document_type_name
     document_type, document_type_name = classify_document(text)  # Receive both ID and name
     if document_type is None:
         return jsonify(error="Failed to classify document."), 400
 
-    # Encode formatting in the entire document text
-    encoded_text = encode_formatting(text)
+    # Encode formatting in the entire document text - all /n replaced with <newline> and same with /t <tab>
+    #encoded_text = encode_formatting(text)
 
-    doc = nlp(encoded_text)
+    #encoded text is placed into doc variable and natural language process is used to break document up into sentences.
+    doc = nlp(text)
     sentences = [sent.text.strip() for sent in doc.sents]
 
     numbered_sentences = {i+1: sentence for i, sentence in enumerate(sentences)}
-
+    #logging.info(f"numbered sentences {numbered_sentences}")
     chunks = send_to_claude_and_get_chunks(numbered_sentences)
 
     for chunk_id, sentence_nums in chunks.items():
-        chunk_text = " ".join(decode_formatting(numbered_sentences[num]) for num in sentence_nums)
+        chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
         # Append the document type descriptor for embedding
         document_type_descriptor = f"\n<Document Type: {document_type_name}> </Document Type>"
         chunk_text_with_type = chunk_text + document_type_descriptor
@@ -74,10 +79,10 @@ def upload_file():
         chunk_filename = f"{os.path.splitext(filename)[0]}_chunk_{chunk_id}.json"
         chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
         # Log the text being sent for embedding
-        logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type}")
+        #logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type}")
 
 
-        logging.info(f"Generating embedding for chunk {chunk_id} of {filename}")
+        #logging.info(f"Generating embedding for chunk {chunk_id} of {filename}")
         embedding = get_embedding(chunk_text_with_type, input_type='document')  # Use modified text for embedding
         if embedding is None:
             logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
