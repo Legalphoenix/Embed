@@ -177,17 +177,19 @@ def decode_formatting(text):
 def send_to_claude_and_get_chunks(numbered_sentences):
 
     # Prepare the content by encoding formatting and joining sentences.
-    sentences_content = '\n'.join([f'{num}) {sentence}' for num, sentence in numbered_sentences.items()])
-    messages = [{"role": "user", "content": '<documents> ' + sentences_content + ' </documents>' + ' <instructions> Check the final sentence number first to ensure you do not go past that number when generating your chunks.  </instructions>  '}]
+    #sentences_content = '<line>'.join([f'{num}) {sentence}' for num, sentence in numbered_sentences.items()])
+    # test with opening and closing tags
+    sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
+    messages = [{"role": "user", "content": '<documents> ' + sentences_content + ' </documents>' + ' <instructions> Check the final <line id="num">sentence</line> number first to ensure you do not go past that number when generating your chunks.  </instructions>  '}]
 
     logging.info(f"Sending to Claude: {messages}")
 
     # Create a message to Claude.
     message = client.messages.create(
         model="claude-3-haiku-20240307",
-        max_tokens=1000,
+        max_tokens=4096,
         temperature=0,
-        system="<role>You are a legal embedding chunking program. I am embedding a court case. Please read the document below carefully and do nothing except follow the exact instructions. </role> <instructions> You should segment the court case that has been provided into chunks of about 1000 tokens or about 8000 characters. You will break up the case into legally relevant chunks. Imagine how a lawyer might group the passages together for an embedding database. Aim to group semantic ideas together into a single chunk where possible. This doesn’t mean keeping every idea to one chunk. It means to attempt not to split one meaning over two chunks. In order to minimize the amount of text in your output, we will do the following: 1. The user will provide the case formatted such that each sentence or group of sentences from the case are numbered top to bottom. 2. When you chunk the case as above, you will provide your segmentated chunks in the following format, and order, chunked by responding only in the exact format in the provided example. </instructions> <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...  No matter what, follow this exact format. </example>",
+        system="<role>You are an expert legal embedding chunking program. I am embedding a court case. Please read the document below carefully and do nothing except follow the exact instructions. Please read  </role> <instructions> You should segment the court case that has been provided into legally relevant chunks. Imagine how a lawyer might group the passages together for an embedding database. Aim to keep semantic ideas together into a single chunk where possible, for example, keep whole clauses or sections together, including headings and section or article numbers. Or if it's a court case, keep lines of reasoning or similar ideas together. In order to minimize the amount of text in your output, we will do the following: 1. You will be provided with the document formatted such that each sentence or group of sentences from the case are numbered top to bottom idicated by '<line id=num>sentence</line>' where num is the line number. 2. When you chunk the document, you will output your segmentated chunks strictly in the following example format: </instructions> <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...  No matter what, follow only this exact format. </example>",
         messages=messages
     )
 
@@ -223,7 +225,7 @@ def send_to_claude_and_get_chunks(numbered_sentences):
 
 #Use Claud to classify the document using integers, and map them to the category so that other functions can use them.
 def classify_document(text):
-    encoded_text = encode_formatting(text[:2000])
+    encoded_text = (text[:2000])
     document_type_map = {
         1: "Legislation",
         2: "Legal Guidelines",
@@ -246,7 +248,7 @@ def classify_document(text):
             messages=messages,
             max_tokens=5,
             temperature=0,
-            system="<role> You are a legal document classifier. Read the document below carefully and classify it according to the given categories. Respond only with a number and nothing else. </role>"
+            system="<role> You are an expert legal document classifier. Read the document below carefully and classify it according to the given categories. Respond only with a number and nothing else. </role>"
         )
         logging.info(f"API Response: {message}")
 
