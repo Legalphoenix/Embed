@@ -5,13 +5,7 @@ from tika import parser
 import os
 import logging
 import json
-from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_better_query, decode_formatting, encode_formatting, send_to_claude_and_get_chunks
-import nltk
-from nltk.tokenize import sent_tokenize
-#if not os.path.exists(nltk.data.find('tokenizers/punkt')):
-#    nltk.download('punkt')
-import spacy
-nlp = spacy.load("en_core_web_sm")  # Load the small English model
+from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_better_query, send_to_claude_and_get_chunks
 
 
 
@@ -59,14 +53,15 @@ def upload_file():
     if document_type is None:
         return jsonify(error="Failed to classify document."), 400
 
-    # Encode formatting in the entire document text - all /n replaced with <newline> and same with /t <tab>
-    #encoded_text = encode_formatting(text)
+    #TESTING SECTION
+    #Below cleans the doc of whitespace and then adds numbers. Ensures numbering is sequential.
+    cleaned_lines = [line.strip() for line in text.split('\n') if line.strip()]
+    numbered_sentences = {i + 1: line.strip() for i, line in enumerate(cleaned_lines)}
 
-    #encoded text is placed into doc variable and natural language process is used to break document up into sentences.
-    doc = nlp(text)
-    sentences = [sent.text.strip() for sent in doc.sents]
+    #Below skips over whitespace when numbering. Results in non-sequential numbers sent to llm.
+    #lines = text.split('\n')
+    #numbered_sentences = {i + 1: line.strip() for i, line in enumerate(lines) if line.strip()}
 
-    numbered_sentences = {i+1: sentence for i, sentence in enumerate(sentences)}
     #logging.info(f"numbered sentences {numbered_sentences}")
     chunks = send_to_claude_and_get_chunks(numbered_sentences)
 

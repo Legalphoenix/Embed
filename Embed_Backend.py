@@ -176,9 +176,8 @@ def decode_formatting(text):
 #Chunking function
 def send_to_claude_and_get_chunks(numbered_sentences):
 
-    # Prepare the content by encoding formatting and joining sentences.
-    #sentences_content = '<line>'.join([f'{num}) {sentence}' for num, sentence in numbered_sentences.items()])
-    # test with opening and closing tags
+    # Prepare the content by encoding formatting and joining sentences with a unique identifier
+    # test with opening and closing tags - works well - use the below again
     sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
     messages = [{"role": "user", "content": '<documents> ' + sentences_content + ' </documents>' + ' <instructions> Check the final <line id="num">sentence</line> number first to ensure you do not go past that number when generating your chunks.  </instructions>  '}]
 
