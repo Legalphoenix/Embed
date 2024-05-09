@@ -5,16 +5,20 @@ from tika import parser
 import os
 import logging
 import json
-from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_better_query, send_to_claude_and_get_chunks
-
+from Embed_Backend import get_embedding,classify_document, TikaServer, save_embedding, search_embeddings, rerank_results, generate_better_query, send_to_claude_and_get_chunks
+import atexit
+import signal
 
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'Uploads'  # Ensure this directory exists within your project structure
+app.config['UPLOAD_FOLDER'] = 'Uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3', 'rtf'}
+
+# Start the Tika server
+tika_server = TikaServer()
 
 #the following code is used to render the Frontend.html file
 @app.route('/')
@@ -149,5 +153,19 @@ def uploaded_file(filename):
         return send_file(file_path, as_attachment=True)
     return jsonify(error="File not found"), 404
 
+def setup_signal_handlers(app, tika_server):
+    def stop_tika_server():
+        if tika_server:
+            tika_server.stop()
+            print("Tika server stopped")
+
+    def signal_handler(sig, frame):
+        stop_tika_server()
+        os._exit(0)
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    atexit.register(stop_tika_server)
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=True)
