@@ -5,3 +5,4 @@ API.env
 *.log
 Uploads/
 embeddings.csv
+tika/

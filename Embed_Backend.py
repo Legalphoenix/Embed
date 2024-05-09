@@ -2,14 +2,15 @@
 import csv
 import numpy as np
 import openai
-import json
+import subprocess
 import logging
 import os
+from os.path import dirname, abspath, join
 from dotenv import load_dotenv
 from schema import Schema, And, Use, SchemaError
-import json
 import anthropic
 import voyageai
+import socket
 
 #API Key handling
 openai.api_key_path = './API.env'
@@ -28,6 +29,39 @@ load_dotenv()
 # Set up logging
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Singleton pattern to ensure we only start one Tika server
+class TikaServer:
+    instance = None
+
+    def __new__(cls):
+        if cls.instance is None:
+            cls.instance = super(TikaServer, cls).__new__(cls)
+            cls.instance.process = cls.start_tika_server()
+        return cls.instance
+
+    @staticmethod
+    def find_free_port():
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind(('', 0))
+            return s.getsockname()[1]
+
+    @staticmethod
+    def start_tika_server():
+        tika_jar = join(dirname(abspath(__file__)), 'tika', 'tika-server-standard-2.9.2.jar')
+        if not os.path.isfile(tika_jar):
+            raise FileNotFoundError(f"Tika server JAR not found: {tika_jar}")
+
+        port = TikaServer.find_free_port()
+        os.environ['TIKA_SERVER_ENDPOINT'] = f'http://localhost:{port}'
+        os.environ['TIKA_SERVER_JAR'] = f"file:///{tika_jar}"
+        command = ['java', '-jar', tika_jar, f'-p{port}']
+        return subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    def stop(self):
+        if self.instance and self.instance.process:
+            self.instance.process.terminate()
+            self.instance.process.wait()
 
 # Define a schema for JSON validation based on expected structure and content
 def get_json_schema():
@@ -162,16 +196,7 @@ def rerank_results(summaries, query):
         return summaries  # Return original summaries in case of an error
 
 
-#Support the upload function so that Claude can do the chunking and we can maintain formatting
 
-# Define functions for encoding and decoding formatting
-def encode_formatting(text):
-    # Replace new lines and tabs with special tokens
-    return text.replace('\n', '<NEWLINE>').replace('\t', '<TAB>')
-
-def decode_formatting(text):
-    # Convert special tokens back to their original characters
-    return text.replace('<NEWLINE>', '\n').replace('<TAB>', '\t')
 
 #Chunking function
 def send_to_claude_and_get_chunks(numbered_sentences):
@@ -179,7 +204,9 @@ def send_to_claude_and_get_chunks(numbered_sentences):
     # Prepare the content by encoding formatting and joining sentences with a unique identifier
     # test with opening and closing tags - works well - use the below again
     sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
-    messages = [{"role": "user", "content": '<documents> ' + sentences_content + ' </documents>' + ' <instructions> Check the final <line id="num">sentence</line> number first to ensure you do not go past that number when generating your chunks.  </instructions>  '}]
+    messages = [{"role": "user", "content": '<documents> ' + sentences_content + '''
+                 </documents> <instructions> Check the final <line id="num">sentence</line> number first to ensure you
+                do not go past that number when generating your chunks.  </instructions>  '''}]
 
     logging.info(f"Sending to Claude: {messages}")
 
@@ -188,7 +215,19 @@ def send_to_claude_and_get_chunks(numbered_sentences):
         model="claude-3-haiku-20240307",
         max_tokens=4096,
         temperature=0,
-        system="<role>You are an expert legal embedding chunking program. I am embedding a court case. Please read the document below carefully and do nothing except follow the exact instructions. Please read  </role> <instructions> You should segment the court case that has been provided into legally relevant chunks. Imagine how a lawyer might group the passages together for an embedding database. Aim to keep semantic ideas together into a single chunk where possible, for example, keep whole clauses or sections together, including headings and section or article numbers. Or if it's a court case, keep lines of reasoning or similar ideas together. In order to minimize the amount of text in your output, we will do the following: 1. You will be provided with the document formatted such that each sentence or group of sentences from the case are numbered top to bottom idicated by '<line id=num>sentence</line>' where num is the line number. 2. When you chunk the document, you will output your segmentated chunks strictly in the following example format: </instructions> <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...  No matter what, follow only this exact format. </example>",
+        system='''<role>You are an expert legal embedding chunking program. I am embedding a court case, legilsation, contract, or guidelines.
+        Please read the document below carefully and do nothing except follow the exact instructions.
+        </role> <instruction 1> You should segment the document that has been provided into legally relevant chunks.
+        Imagine how a lawyer might group the passages together for an embedding database.
+        For legislation and contracts, keep whole sections together, including headings and section numbers.
+        For court case or guidelines, keep lines of reasoning, arguments, guidance, entire orders sections, ratio decidendi (reasons for a decision)  or similar ideas together.</instruction>
+        <instruction 2> In order to minimize the amount of text in your output, we will do the following:
+        1. You will be provided with the document formatted such that each sentence or group of sentences
+        from the case are numbered top to bottom idicated by '<line id=num>sentence</line>' where num is the line number.
+        2. When you chunk the document, you will output your segmentated chunks strictly in the following example format:
+        </instruction>
+        <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...
+        No matter what, follow only this exact format. </example>''',
         messages=messages
     )
 
