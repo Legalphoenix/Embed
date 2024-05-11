@@ -5,10 +5,8 @@ from tika import parser
 import os
 import logging
 import json
-from Embed_Backend import get_embedding,classify_document, TikaServer, save_embedding, search_embeddings, rerank_results, generate_better_query, send_to_claude_and_get_chunks
-import atexit
-import signal
-
+from tika_server import TikaServer, close_tika_server
+from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_better_query, send_to_claude_and_get_chunks
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -38,7 +36,7 @@ def upload_file():
     if file.filename == '':
         return jsonify(error="No selected file"), 400
 
-    #ensure it has a working name
+    #ensure it has a working name and an allowed filetype
     filename = secure_filename(file.filename)
     if filename.split('.')[-1].lower() not in app.config['ALLOWED_EXTENSIONS']:
         return jsonify(error=f"Unsupported file type: {filename}"), 400
@@ -57,11 +55,12 @@ def upload_file():
     if document_type is None:
         return jsonify(error="Failed to classify document."), 400
 
-    #TESTING SECTION
+
     #Below cleans the doc of whitespace and then adds numbers. Ensures numbering is sequential.
     cleaned_lines = [line.strip() for line in text.split('\n') if line.strip()]
     numbered_sentences = {i + 1: line.strip() for i, line in enumerate(cleaned_lines)}
 
+    #TESTING SECTION
     #Below skips over whitespace when numbering. Results in non-sequential numbers sent to llm.
     #lines = text.split('\n')
     #numbered_sentences = {i + 1: line.strip() for i, line in enumerate(lines) if line.strip()}
@@ -69,20 +68,22 @@ def upload_file():
     #logging.info(f"numbered sentences {numbered_sentences}")
     chunks = send_to_claude_and_get_chunks(numbered_sentences)
 
+    #Code to create chunks for embedding and save chunk json files
     for chunk_id, sentence_nums in chunks.items():
         chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
-        # Append the document type descriptor for embedding
+        #document type/classification written in this format for purposes of embedding
         document_type_descriptor = f"\n<Document Type: {document_type_name}> </Document Type>"
+        #content + document type/classification
         chunk_text_with_type = chunk_text + document_type_descriptor
-
+        #filename
         chunk_filename = f"{os.path.splitext(filename)[0]}_chunk_{chunk_id}.json"
+        #file path
         chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
         # Log the text being sent for embedding
         #logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type}")
 
-
-        #logging.info(f"Generating embedding for chunk {chunk_id} of {filename}")
-        embedding = get_embedding(chunk_text_with_type, input_type='document')  # Use modified text for embedding
+        #get the embeddings for the chunk
+        embedding = get_embedding(chunk_text_with_type, input_type='document')
         if embedding is None:
             logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
             continue  # Skip this chunk if embedding generation fails
@@ -90,8 +91,7 @@ def upload_file():
         # Save the embedding along with the original document filename, chunk filename, and document type
         save_embedding(filename, chunk_filename, embedding, document_type, document_type_name)
 
-
-        # Create and save JSON for the chunk with only the original chunk text
+        # Save JSON for the chunk with only the original chunk text
         chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type_id': document_type, 'document_type_name': document_type_name}
         with open(chunk_path, 'w', encoding='utf-8') as json_file:
             json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
@@ -111,7 +111,7 @@ def search():
         return jsonify(error="Error generating better query"), 400
     logging.info(f"better query: {better_query}")
 
-    # Obtain the embedding for the better query
+    # Obtain the embedding for the spell checked query
     query_embedding = get_embedding(better_query, input_type='query')
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
@@ -153,19 +153,9 @@ def uploaded_file(filename):
         return send_file(file_path, as_attachment=True)
     return jsonify(error="File not found"), 404
 
-def setup_signal_handlers(app, tika_server):
-    def stop_tika_server():
-        if tika_server:
-            tika_server.stop()
-            print("Tika server stopped")
+#code to close tika server
+close_tika_server
 
-    def signal_handler(sig, frame):
-        stop_tika_server()
-        os._exit(0)
-
-    signal.signal(signal.SIGINT, signal_handler)
-    signal.signal(signal.SIGTERM, signal_handler)
-    atexit.register(stop_tika_server)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
