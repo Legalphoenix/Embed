@@ -2,15 +2,11 @@
 import csv
 import numpy as np
 import openai
-import subprocess
 import logging
-import os
-from os.path import dirname, abspath, join
 from dotenv import load_dotenv
 from schema import Schema, And, Use, SchemaError
 import anthropic
 import voyageai
-import socket
 
 #API Key handling
 openai.api_key_path = './API.env'
@@ -25,43 +21,6 @@ client = anthropic.Anthropic(api_key=api_key)
 
 # Load environment variables
 load_dotenv()
-
-# Set up logging
-logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Singleton pattern to ensure we only start one Tika server
-class TikaServer:
-    instance = None
-
-    def __new__(cls):
-        if cls.instance is None:
-            cls.instance = super(TikaServer, cls).__new__(cls)
-            cls.instance.process = cls.start_tika_server()
-        return cls.instance
-
-    @staticmethod
-    def find_free_port():
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind(('', 0))
-            return s.getsockname()[1]
-
-    @staticmethod
-    def start_tika_server():
-        tika_jar = join(dirname(abspath(__file__)), 'tika', 'tika-server-standard-2.9.2.jar')
-        if not os.path.isfile(tika_jar):
-            raise FileNotFoundError(f"Tika server JAR not found: {tika_jar}")
-
-        port = TikaServer.find_free_port()
-        os.environ['TIKA_SERVER_ENDPOINT'] = f'http://localhost:{port}'
-        os.environ['TIKA_SERVER_JAR'] = f"file:///{tika_jar}"
-        command = ['java', '-jar', tika_jar, f'-p{port}']
-        return subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    def stop(self):
-        if self.instance and self.instance.process:
-            self.instance.process.terminate()
-            self.instance.process.wait()
 
 # Define a schema for JSON validation based on expected structure and content
 def get_json_schema():
