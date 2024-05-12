@@ -6,7 +6,7 @@ import os
 import logging
 import json
 from tika_server import TikaServer, close_tika_server
-from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_better_query, send_to_claude_and_get_chunks
+from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_modified_query, send_to_claude_and_get_chunks
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -26,6 +26,7 @@ def home():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+'''UPLOAD FUNCTIONALITY'''
 @app.route('/upload', methods=['POST'])
 def upload_file():
 
@@ -99,25 +100,25 @@ def upload_file():
     return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type, file_name=filename)
 
 
-
+'''SEARCH FUNCTIONALITY'''
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form['query']
     doc_type = int(request.form['doc_type'])  # Expecting 0, 1, 2, or 3
 
-    # Generate a better query based on the original query for embedding
-    better_query = generate_better_query(query)
-    if not better_query:
-        return jsonify(error="Error generating better query"), 400
-    logging.info(f"better query: {better_query}")
+    # Generate a spell checked query based on the original query for embedding
+    modified_query = generate_modified_query(query)
+    if not modified_query:
+        return jsonify(error="Error generating modified query"), 400
+    logging.info(f"modified query: {modified_query}")
 
-    # Obtain the embedding for the spell checked query
-    query_embedding = get_embedding(better_query, input_type='query')
+    # Obtain the embedding for the spell checked/modified query
+    query_embedding = get_embedding(modified_query, input_type='query')
     if query_embedding is None:
         return jsonify(error="Error generating query embedding"), 400
 
     # Search for the most similar embeddings
-    results = search_embeddings(query_embedding, doc_type, top_n=5)
+    results = search_embeddings(query_embedding, doc_type, top_n=15)
     if not results:
         return jsonify(error="No matching documents found"), 404
 
@@ -138,13 +139,12 @@ def search():
             'preview_text': preview_text_with_type,
             'match_score': match_score
         })
-
     # Re-rank based on the relevance of the preview text to the query
-    reranked_summaries = rerank_results(summaries, query)
+    reranked_summaries = rerank_results(summaries, modified_query)
     return jsonify(results=reranked_summaries)
 
 
-#the following code is used to download the file
+'''DOWNLOAD FILE FUNCTIONALITY'''
 @app.route('/files/<filename>')
 def uploaded_file(filename):
     secure_name = secure_filename(filename)
