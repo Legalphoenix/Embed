@@ -6,7 +6,7 @@ import os
 import logging
 import json
 from tika_server import TikaServer, close_tika_server
-from Embed_Backend import get_embedding,classify_document, save_embedding, search_embeddings, rerank_results, generate_modified_query, send_to_claude_and_get_chunks
+from Embed_Backend import get_embedding, classify_document_with_title, extract_parties_from_document, save_embedding, search_embeddings, rerank_results, generate_modified_query, send_to_claude_and_get_chunks
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -51,9 +51,15 @@ def upload_file():
     text = parsed["content"] if parsed["content"] else ""
     metadata = parsed["metadata"]
 
+
     #text is sent for classification via Haiku model and we receive both a document_type id and the document_type_name
-    document_type, document_type_name = classify_document(text)  # Receive both ID and name
-    if document_type is None:
+    document_type_id, document_type_name, document_title = classify_document_with_title(text)  # Receive both ID and name
+    if document_type_id is None:
+        return jsonify(error="Failed to classify document."), 400
+
+    #text is sent for extraction of parties names via Haiku model
+    document_parties = extract_parties_from_document(text)  # Receive parties names
+    if document_parties is None:
         return jsonify(error="Failed to classify document."), 400
 
 
@@ -73,31 +79,31 @@ def upload_file():
     for chunk_id, sentence_nums in chunks.items():
         chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
         #document type/classification written in this format for purposes of embedding
-        document_type_descriptor = f"\n<Document Type: {document_type_name}> </Document Type>"
+        document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Title: {document_parties}]"
         #content + document type/classification
-        chunk_text_with_type = chunk_text + document_type_descriptor
+        chunk_text_with_type_title = document_type_and_title_descriptor + " " + chunk_text
         #filename
         chunk_filename = f"{os.path.splitext(filename)[0]}_chunk_{chunk_id}.json"
         #file path
         chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
         # Log the text being sent for embedding
-        #logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type}")
+        logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type_title}")
 
         #get the embeddings for the chunk
-        embedding = get_embedding(chunk_text_with_type, input_type='document')
+        embedding = get_embedding(chunk_text_with_type_title, input_type='document')
         if embedding is None:
             logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
             continue  # Skip this chunk if embedding generation fails
 
         # Save the embedding along with the original document filename, chunk filename, and document type
-        save_embedding(filename, chunk_filename, embedding, document_type, document_type_name)
+        save_embedding(filename, chunk_filename, document_title, document_parties, embedding, document_type_id, document_type_name)
 
         # Save JSON for the chunk with only the original chunk text
-        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type_id': document_type, 'document_type_name': document_type_name}
+        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type_id': document_type_id, 'document_type_name': document_type_name, 'document_title': document_title, 'document_title': document_parties}
         with open(chunk_path, 'w', encoding='utf-8') as json_file:
             json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
 
-    return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type, file_name=filename)
+    return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type_id, file_name=filename)
 
 
 '''SEARCH FUNCTIONALITY'''
