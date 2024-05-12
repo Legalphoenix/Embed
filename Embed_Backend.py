@@ -72,14 +72,8 @@ def save_embedding(original_file_name, chunk_file_name, embedding, document_type
 
 
 
-def cosine_similarity(vec_a, vec_b):
-    """Calculate the cosine similarity between two vectors."""
-    cos_sim = np.dot(vec_a, vec_b) / (np.linalg.norm(vec_a) * np.linalg.norm(vec_b))
-    return cos_sim
-
-
 # Function to search for the most similar embedding, filtered by document type
-def search_embeddings(query_embedding, doc_type, top_n=5):
+def search_embeddings(query_embedding, doc_type, top_n=15):
     matches = []
     with open('embeddings.csv', 'r', encoding='utf-8') as f:
         csv_reader = csv.reader(f)
@@ -97,12 +91,16 @@ def search_embeddings(query_embedding, doc_type, top_n=5):
     top_matches = sorted_matches[:top_n]
     return top_matches  # Each item will have (original_filename, chunk_filename, similarity)
 
+def cosine_similarity(vec_a, vec_b):
+    """Calculate the cosine similarity between two vectors."""
+    cos_sim = np.dot(vec_a, vec_b) / (np.linalg.norm(vec_a) * np.linalg.norm(vec_b))
+    return cos_sim
 
 #refine the users query
-def generate_better_query(query):
+def generate_modified_query(query):
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-1106",  # Ensure this model identifier is correct
+            model="gpt-3.5-turbo-0125",  # Ensure this model identifier is correct
             messages=[
                 {
                     "role": "system",
@@ -110,7 +108,35 @@ def generate_better_query(query):
                 },
                 {
                     "role": "user",
-                    "content": f"A user is attempting to search an embedding space with this query: \"{query}\". Fix any spelling errors but otherwise replicate the exact query in your response "
+                    "content": f'''A user is attempting to search an embedding space with this query: \"{query}\"
+                                    Output a new query using the exact format below.
+                                    Query Subject: which could be seen as an encapsulation of the overall subject or theme of the query.
+                                    Query Description: which provides a more detailed description of what the query is about.
+                                    Query Tags: which include specific tags that categorize the legal themes or keywords associated with the question.
+                                    Query content: (exact query here with fixed spelling)
+
+
+                                Examples
+                                Original User Query: "What are the implications of filing for bankruptcy under Chapter 7?"
+                                Modified Query
+
+                                    Query Subject: Bankruptcy
+                                    Query Description: Implications of filing
+                                    Query Tags: Chapter 7; Personal Bankruptcy
+                                    Query content: What are the implications of filing for bankruptcy under Chapter 7?
+
+                                Original User Query: "Can I modify a custody agreement without going to court?"
+                                Modified Query
+
+                                    Query Subject: Child Custody
+                                    Query Description: Modifying agreement without court
+                                    Query Tags: Custody Modification; Legal Procedure
+                                    Query content: Can I modify a custody agreement without going to court?
+
+
+
+
+                                    )'''
                                #"Your role is to boost its semantic meaning to increase the likelihood of a match in an embedding space. "
                                #"For example, if the query is: 'is it lawful to detain a person who has applied for refugee status who otherwise cannot be removed from the country?' "
                                #"You should respond with: 'Can a person who has applied for refugee status and cannot be removed from the country be lawfully detained by the government pending their asylum decision?' "
@@ -126,29 +152,28 @@ def generate_better_query(query):
 
         return generated_document
     except Exception as e:
-        logging.error(f"Error generating better query: {e}")
+        logging.error(f"Error generating modified query: {e}")
         return None
 
 
-def rerank_results(summaries, query):
+def rerank_results(summaries, modified_query):
     """
     Re-rank search results using Voyage AI reranker.
     """
-    #for i, summary in enumerate(summaries):
-     #   logging.info(f"Summary {i + 1} for reranking: {summary}")
     # Extract preview texts for reranking
-    documents = [f"{summary['file_name']}: {summary['preview_text']}" for summary in summaries]
+    documents = [f"{summary['preview_text']}" for summary in summaries]
     #logging.info(f"Sending the following previews for reranking: {documents}")
     #logging.info(f"Starting rerank with query: {query} and {len(documents)} documents.")
 
     # Call the rerank method from the Voyage AI library
     try:
-        reranking = vo.rerank(query, documents, model="rerank-lite-1")
+        reranking = vo.rerank(modified_query, documents, model="rerank-lite-1")
+        logging.info(f"Rerank query {modified_query}")
         # Collect reranked results according to the new relevance scores
         ordered_summaries = [summaries[r.index] for r in sorted(reranking.results, key=lambda x: -x.relevance_score)]
         logging.info(f"Reranking successful. Reordered indices: {[r.index for r in reranking.results]}")
-        relevance_scores = [round(r.relevance_score * 100, 2) for r in reranking.results]
-        logging.info(f"Relevance scores (as percentages): {relevance_scores}")
+        #relevance_scores = [round(r.relevance_score * 100, 2) for r in reranking.results]
+        #logging.info(f"Relevance scores (as percentages): {relevance_scores * 100}")
         return ordered_summaries
     except Exception as e:
         logging.error(f"Error re-ranking results with Voyage AI: {e}")
