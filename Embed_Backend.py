@@ -65,10 +65,10 @@ def get_embedding(text, input_type=None):
         #logging.error(f'An unexpected error occurred: {e}')
         #return None
 
-def save_embedding(original_file_name, chunk_file_name, embedding, document_type_id, document_type_name):
+def save_embedding(original_file_name, chunk_file_name, document_title, document_parties, embedding, document_type_id, document_type_name):
     with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
         csv_writer = csv.writer(f)
-        csv_writer.writerow([original_file_name, chunk_file_name, document_type_id, document_type_name] + list(embedding))
+        csv_writer.writerow([original_file_name, chunk_file_name, document_title, document_parties, document_type_id, document_type_name] + list(embedding))
 
 
 
@@ -79,7 +79,7 @@ def search_embeddings(query_embedding, doc_type, top_n=15):
         csv_reader = csv.reader(f)
         for row in csv_reader:
             # Adjusted to account for the additional document_type_name column
-            original_filename, chunk_filename, document_type_id, document_type_name, *embedding_values = row
+            original_filename, chunk_filename, document_title, document_parties, document_type_id, document_type_name, *embedding_values = row
             # Filter results based on the document type
             if doc_type == 0 or int(document_type_id) == doc_type:
                 embedding = np.array(embedding_values, dtype=float)
@@ -238,7 +238,7 @@ def send_to_claude_and_get_chunks(numbered_sentences):
                 chunk_number, sentence_numbers = line.split(': ')
                 chunk_sentences = [int(num) for num in sentence_numbers.split(',')]
                 chunks[int(chunk_number.split(' ')[1])] = chunk_sentences
-        logging.info(f"Extracted chunks: {chunks}")
+        #logging.info(f"Extracted chunks: {chunks}")
     else:
         logging.error("Combined text is empty, cannot extract chunks.")
 
@@ -246,7 +246,7 @@ def send_to_claude_and_get_chunks(numbered_sentences):
     return chunks
 
 #Use Claud to classify the document using integers, and map them to the category so that other functions can use them.
-def classify_document(text):
+def classify_document_with_title(text):
     encoded_text = (text[:2000])
     document_type_map = {
         1: "Legislation",
@@ -258,36 +258,72 @@ def classify_document(text):
     messages = [
         {
             "role": "user",
-            "content": f"<documents> {encoded_text} </documents> <instructions> Classify this document as 1 (Legislation), 2 (Guidelines), 3 (Court Cases), or 4 (Contracts). </instructions>"
+            "content": f"<documents> {encoded_text} </documents> <instructions> Classify this document and extract or guess the full title. Classify as 1 (Legislation), 2 (Guidelines), 3 (Court Cases), or 4 (Contracts). </instructions>"
         }
     ]
 
-    logging.info(f"Sending to Claude for classification: {messages}")
+    logging.info(f"Sending to Claude for classification and title extraction: {messages}")
 
     try:
         message = client.messages.create(
             model="claude-3-haiku-20240307",
             messages=messages,
-            max_tokens=5,
+            max_tokens=10,
             temperature=0,
-            system="<role> You are an expert legal document classifier. Read the document below carefully and classify it according to the given categories. Respond only with a number and nothing else. </role>"
+            system="<role> You are an expert legal document classifier. Read the document below carefully and classify it according to the given categories. Respond with a number followed by a comma and the full document title. </role>"
         )
         logging.info(f"API Response: {message}")
 
-        # Extract the document type ID from the response
         content_texts = [item.text for item in message.content if hasattr(item, 'text')]
         if content_texts:
-            response_text = content_texts[0].strip()
-            document_type_id = int(response_text)
+            response_parts = content_texts[0].strip().split(',', 1)
+            document_type_id = int(response_parts[0])
+            document_title = response_parts[1].strip() if len(response_parts) > 1 else "Unknown Title"
             document_type_name = document_type_map.get(document_type_id, "Unknown")
-            logging.info(f"Document classified as type: {document_type_id}, {document_type_name}")
-            return document_type_id, document_type_name
+            logging.info(f"Document classified as type: {document_type_id}, {document_type_name} with title: '{document_title}'")
+            return document_type_id, document_type_name, document_title
         else:
             logging.error("Unexpected response structure or missing 'text' attribute in message content")
-            return None, None
+            return None, None, None
     except Exception as e:
         logging.error(f"Error in classification: {e}")
-        return None, None
+        return None, None, None
+
+def extract_parties_from_document(text):
+    encoded_text = (text[:2000])
+
+    messages = [
+        {
+            "role": "user",
+            "content": f"<documents> {encoded_text} </documents> <instructions> Extract the names of any companies or parties involved in this document. List the parties only and do not output anything else. Remove all formatting. </instructions>"
+        }
+    ]
+
+    logging.info(f"Sending to Claude for party extraction: {messages}")
+
+    try:
+        message = client.messages.create(
+            model="claude-3-haiku-20240307",
+            messages=messages,
+            max_tokens=25,
+            temperature=0,
+            system="<role> You are an expert in identifying relevant parties from legal documents. Read the document below carefully and list the names of all identified parties, separated by commas. </role>"
+        )
+        logging.info(f"API Response: {message}")
+
+        content_texts = [item.text for item in message.content if hasattr(item, 'text')]
+        if content_texts:
+            parties = content_texts[0].strip()
+            logging.info(f"Parties extracted: '{parties}'")
+            return parties
+        else:
+            logging.error("Unexpected response structure or missing 'text' attribute in message content")
+            return "Parties not found"
+    except Exception as e:
+        logging.error(f"Error in party extraction: {e}")
+        return "Error during extraction"
+
+
 
 
 
