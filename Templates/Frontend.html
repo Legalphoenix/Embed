@@ -4,56 +4,178 @@
 <head>
     <meta charset="UTF-8">
     <title>File Upload and Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .drop-area {
             border: 2px dashed #ccc;
             padding: 20px;
-            width: 300px;
-            margin: 0 auto;
+            width: 50%;
+            margin: 20px auto;
             text-align: center;
+            cursor: pointer;
+            /* Add cursor pointer to indicate interactivity */
+            border-radius: 5px;
+            /* Rounded corners for softer look */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+            transition: box-shadow 0.3s ease;
+            /* Smooth transition for hover effect */
         }
 
-        .drag-over {
-            border-color: #000;
+        .drop-area:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* More prominent shadow on hover */
+        }
+
+        .drop-area.drag-over {
+            border-color: #007bff;
+            /* Highlight border on drag over */
         }
 
         #results {
             margin-top: 20px;
-            text-align: center;
-            /*white-space: pre-wrap; - if you want to maintain formatting*/
+            text-align: left;
+        }
+
+        .result {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        /* Style the download links */
+        .result a {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .result a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading spinner styles */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            /* Ensure it's on top */
+        }
+
+        /* Style for upload success messages */
+        .upload-success {
+            position: relative;
+            border: 1px solid #4CAF50;
+            /* Green border */
+            background-color: #e6ffe6;
+            /* Light green background */
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .upload-success .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .upload-button {
+            font-size: 14px;
+            /* Adjust the size as needed */
+        }
+
+        .search-button {
+            font-size: 14px;
+        }
+
+        /* Style for the select dropdown */
+        .form-control.docType-select {
+            background-color: #f6f6f6;
+            border: 1px solid #d9dee473;
+            border-radius: 4px;
+            height: 38px;
+            /* Match height with search input */
+        }
+
+        .form-control.docType-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        /* Add a subtle macOS grey background to the dropdown menu when open */
+        .docType-select:focus option {
+            background-color: #f6f6f6;
+            color: #343a40;
+        }
+
+        /* Style for search input with adjusted height */
+        #searchQuery {
+            height: 38px;
+            /* Match height with dropdown */
+            min-height: 38px;
+            /* Set minimum height to prevent collapsing */
         }
     </style>
 </head>
 
 <body>
-    <div class="drop-area" id="drop-area">
-        Drag and drop a file here
-        <input type="file" id="fileElem" multiple style="display:none" onchange="handleFiles(this.files)">
+    <div class="container">
+        <h1 class="text-center">LexiSearch</h1>
+        <div class="drop-area" id="drop-area">
+            <span>Drag and drop files here or click to select files</span>
+            <input type="file" id="fileElem" multiple style="display:none;" onchange="handleFiles(this.files)">
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6">
+                <select id="docType" class="form-control docType-select">
+                    <option value="0">All Categories</option>
+                    <option value="1">Legislation</option>
+                    <option value="2">Guidelines</option>
+                    <option value="3">Court Cases</option>
+                    <option value="4">Contracts</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <textarea id="searchQuery" class="form-control" placeholder="Search..." rows="1"></textarea>
+            </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 20px;">
+            <button onclick="submitSearch()" class="btn btn-primary search-button">Search</button>
+        </div>
+
+        <div id="results"></div>
     </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <button onclick="submitSearch()">Search</button>
+    <!-- Loading spinner -->
+    <div class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <select id="docType">
-            <option value="0">All Categories</option>
-            <option value="1">Legislation</option>
-            <option value="2">Guidelines</option>
-            <option value="3">Court Cases</option>
-            <option value="4">Contracts</option>
-        </select>
-    </div>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <textarea id="searchQuery" placeholder="Enter your query here" rows="1"
-            style="width: 330px; min-height: 100px; overflow: hidden; resize: none;"></textarea>
-    </div>
-
-    <div id="results"></div>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         let dropArea = document.getElementById('drop-area');
+        let resultsDiv = document.getElementById('results');
+        let fileElem = document.getElementById('fileElem');
+
+        // Add event listener for clicking the drop area to trigger file input
+        dropArea.addEventListener('click', () => {
+            fileElem.click();
+        });
 
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, preventDefaults, false);
@@ -99,31 +221,41 @@
 
             formData.append('file', file);
 
+            showLoadingSpinner(); // Show loading spinner
+
             fetch(url, {
                 method: 'POST',
                 body: formData
             })
                 .then(response => response.json())
                 .then(data => {
-                    let resultsDiv = document.getElementById('results');
+                    hideLoadingSpinner(); // Hide loading spinner
+
                     if (data.error) {
-                        resultsDiv.innerHTML = `<p>${data.error}</p>`;
+                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">${data.error}</div>` + resultsDiv.innerHTML; // Add error to the top
                     } else if (data.success) {
-                        // Now directly using file_name from the response
-                        resultsDiv.innerHTML = `<p>Upload successful! File: ${data.file_name}</p>`;
+                        // Create a new upload success message
+                        let successMessage = document.createElement('div');
+                        successMessage.className = 'upload-success';
+                        successMessage.innerHTML = `<span class="close-btn" onclick="this.parentElement.remove();">&times;</span>Upload successful! File: ${data.file_name}`;
+                        resultsDiv.insertBefore(successMessage, resultsDiv.firstChild); // Add message to the top
                     } else {
-                        resultsDiv.innerHTML = `<p>Error: An unexpected error occurred.</p>`;
+                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: An unexpected error occurred.</div>` + resultsDiv.innerHTML; // Add error to the top
                     }
                 })
                 .catch(() => {
+                    hideLoadingSpinner(); // Hide loading spinner
                     console.error('Error:');
-                    document.getElementById('results').innerHTML = '<p>Error with upload. Please try again.</p>';
+                    resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error with upload. Please try again.</div>` + resultsDiv.innerHTML; // Add error to the top
                 });
         }
 
         function submitSearch() {
             let query = document.getElementById('searchQuery').value;
-            let docType = document.getElementById('docType').value;  // Get the selected document type value
+            let docType = document.getElementById('docType').value;
+            resultsDiv.innerHTML = ''; // Clear upload messages
+
+            showLoadingSpinner(); // Show loading spinner
 
             fetch('/search', {
                 method: 'POST',
@@ -134,34 +266,34 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    let resultsDiv = document.getElementById('results');
-                    resultsDiv.innerHTML = ''; // Clear previous results
+                    hideLoadingSpinner(); // Hide loading spinner
 
                     if (data.error) {
-                        resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: ${data.error}</div>`;
                     } else {
                         // Handling multiple results
                         if (data.results && data.results.length > 0) {
                             let content = '<h2>Search Results:</h2>';
                             data.results.forEach((result, index) => {
                                 content += `<div class="result">
-                                <p><b>Result #${index + 1}</b> (Match Score: ${result.match_score.toFixed(2)}%)</p>
+                                <h4>Result #${index + 1}</h4>
+                                <p>Match Score: ${result.match_score.toFixed(2)}%</p>
                                 <p>${result.preview_text}</p>
                                 <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-                            </div><hr>`;
+                            </div>`;
                             });
                             resultsDiv.innerHTML = content;
                         } else {
-                            resultsDiv.innerHTML = '<p>No results found.</p>';
+                            resultsDiv.innerHTML = `<div class="alert alert-warning" role="alert">No results found.</div>`;
                         }
                     }
                 })
                 .catch(error => {
+                    hideLoadingSpinner(); // Hide loading spinner
                     console.error('Error:', error);
-                    document.getElementById('results').innerHTML = '<p>Error: Could not retrieve search results.</p>';
+                    resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: Could not retrieve search results.</div>`;
                 });
         }
-
 
         // Add an event listener for the 'Enter' key on the search input field
         document.getElementById('searchQuery').addEventListener('keypress', function (event) {
@@ -170,22 +302,29 @@
                 submitSearch(); // Trigger the search function
             }
         });
-        // Autosize the search input field
-        //function autosize() {
-        // var el = this;
-        // setTimeout(function () {
-        //     el.style.cssText = 'height:auto; padding:0; width:330px;'; // Set a fixed width here
-        //      el.style.cssText += 'height:' + (el.scrollHeight) + 'px';
-        //   }, 0);
-        //  }
+
+        // Show loading spinner
+        function showLoadingSpinner() {
+            $('.loading-spinner').show();
+        }
+
+        // Hide loading spinner
+        function hideLoadingSpinner() {
+            $('.loading-spinner').hide();
+        }
+
+        // Autoresize the search input field
+        function autosize() {
+            var el = this;
+            setTimeout(function () {
+                el.style.cssText = 'height:auto; padding:0;';
+                el.style.cssText += 'height:' + (el.scrollHeight) + 'px';
+            }, 0);
+        }
 
         let searchQueryTextarea = document.getElementById('searchQuery');
         searchQueryTextarea.addEventListener('input', autosize);
-
-
-
     </script>
-
 </body>
 
 </html>
