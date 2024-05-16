@@ -1,14 +1,15 @@
-#embded_backend.py
-import csv
+#embed_backend.py
 import numpy as np
 import openai
 import logging
 from dotenv import load_dotenv
-from schema import Schema, And, Use, SchemaError
+from schema import Schema, Use, SchemaError
 import anthropic
 import voyageai
+import chromadb
+import uuid
 
-#API Key handling
+# API Key handling
 openai.api_key_path = './API.env'
 voyageai.api_key_path = './Voyage.env'
 vo = voyageai.Client()
@@ -19,14 +20,20 @@ def load_api_key(env_path='./Claude.env'):
 api_key = load_api_key()
 client = anthropic.Anthropic(api_key=api_key)
 
+# Initialize persistent ChromaDB client
+chroma_client = chromadb.PersistentClient(path="./chromadb")
+
+# Create collections for each document type
+collection_legislation = chroma_client.get_or_create_collection(name="legislation")
+collection_guidelines = chroma_client.get_or_create_collection(name="guidelines")
+collection_court_cases = chroma_client.get_or_create_collection(name="court_cases")
+collection_contracts = chroma_client.get_or_create_collection(name="contracts")
+
 # Load environment variables
 load_dotenv()
 
-# Define a schema for JSON validation based on expected structure and content
 def get_json_schema():
-    return Schema({
-        'text': Use(str)  # Remove the length condition for now
-    })
+    return Schema({'text': Use(str)})
 
 def validate_json(data):
     schema = get_json_schema()
@@ -37,70 +44,71 @@ def validate_json(data):
         logging.error(f'JSON validation error: {e}')
         return False
 
-#Fetches the embedding for the given text, specifying if it's a query or a document.
 def get_embedding(text, input_type=None):
-    text = text.replace("\n", " ")  # Ensure no newlines interfere with the API call
-    # Specify input_type if provided, otherwise default to None
+    text = text.replace("\n", " ")
     documents_embeddings = vo.embed(text, model="voyage-law-2", input_type=input_type).embeddings
-    # Flatten the embeddings list if it's a list of lists
     if documents_embeddings and isinstance(documents_embeddings[0], list):
         return [item for sublist in documents_embeddings for item in sublist]
-    return documents_embeddings  # Return as is if it's already flat
-
-
-
-    #try:
-        #response = openai.Embedding.create(
-         #   model=model,
-          #  input=text,
-        #)
-        #return response['data'][0]['embedding']
-    #except openai.error.InvalidRequestError as e:
-        #if "tokens" in str(e):
-         #   logging.error(f'Text exceeds the maximum token limit: {e}')
-        #else:
-         #   logging.error(f'An unexpected error occurred with OpenAI API: {e}')
-        #return None
-    #except Exception as e:
-        #logging.error(f'An unexpected error occurred: {e}')
-        #return None
+    return documents_embeddings
 
 def save_embedding(original_file_name, chunk_file_name, document_title, document_parties, embedding, document_type_id, document_type_name):
-    with open('embeddings.csv', 'a', newline='', encoding='utf-8') as f:
-        csv_writer = csv.writer(f)
-        csv_writer.writerow([original_file_name, chunk_file_name, document_title, document_parties, document_type_id, document_type_name] + list(embedding))
+    unique_id = str(uuid.uuid4())
+    metadata = {
+        'original_file_name': original_file_name,
+        'chunk_file_name': chunk_file_name,
+        'document_title': document_title,
+        'document_parties': document_parties,
+        'document_type_id': document_type_id,
+        'document_type_name': document_type_name
+    }
+    if document_type_id == 1:
+        collection_legislation.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
+    elif document_type_id == 2:
+        collection_guidelines.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
+    elif document_type_id == 3:
+        collection_court_cases.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
+    elif document_type_id == 4:
+        collection_contracts.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
 
-
-
-# Function to search for the most similar embedding, filtered by document type
 def search_embeddings(query_embedding, doc_type, top_n=15):
-    matches = []
-    with open('embeddings.csv', 'r', encoding='utf-8') as f:
-        csv_reader = csv.reader(f)
-        for row in csv_reader:
-            # Adjusted to account for the additional document_type_name column
-            original_filename, chunk_filename, document_title, document_parties, document_type_id, document_type_name, *embedding_values = row
-            # Filter results based on the document type
-            if doc_type == 0 or int(document_type_id) == doc_type:
-                embedding = np.array(embedding_values, dtype=float)
-                similarity = cosine_similarity(query_embedding, embedding)
-                matches.append((original_filename, chunk_filename, similarity))
-    # Sort matches by their similarity, descending
-    sorted_matches = sorted(matches, key=lambda x: x[2], reverse=True)
-    # Return the top_n matches, now including the chunk filename
-    top_matches = sorted_matches[:top_n]
-    return top_matches  # Each item will have (original_filename, chunk_filename, similarity)
+    collections = []
+    if doc_type == 1:
+        collections.append(collection_legislation)
+    elif doc_type == 2:
+        collections.append(collection_guidelines)
+    elif doc_type == 3:
+        collections.append(collection_court_cases)
+    elif doc_type == 4:
+        collections.append(collection_contracts)
+    else:
+        collections = [collection_legislation, collection_guidelines, collection_court_cases, collection_contracts]
+
+    results = []
+    for collection in collections:
+        query_results = collection.query(query_embeddings=[query_embedding], n_results=top_n, include=["metadatas", "distances"])
+        for i in range(len(query_results["ids"])):
+            results.append({
+                "metadata": query_results["metadatas"][i],
+                "distance": query_results["distances"][i]
+            })
+
+    results = sorted(results, key=lambda x: x["distance"])[:top_n]
+    return results
+
+
+
+
+
+
 
 def cosine_similarity(vec_a, vec_b):
-    """Calculate the cosine similarity between two vectors."""
     cos_sim = np.dot(vec_a, vec_b) / (np.linalg.norm(vec_a) * np.linalg.norm(vec_b))
     return cos_sim
 
-#refine the users query
 def generate_modified_query(query):
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0125",  # Ensure this model identifier is correct
+            model="gpt-3.5-turbo-0125",
             messages=[
                 {
                     "role": "system",
@@ -137,10 +145,6 @@ def generate_modified_query(query):
 
 
                                     )'''
-                               #"Your role is to boost its semantic meaning to increase the likelihood of a match in an embedding space. "
-                               #"For example, if the query is: 'is it lawful to detain a person who has applied for refugee status who otherwise cannot be removed from the country?' "
-                               #"You should respond with: 'Can a person who has applied for refugee status and cannot be removed from the country be lawfully detained by the government pending their asylum decision?' "
-                               #"Remember, please respond without any additional explanations or text."
                 }
             ],
             temperature=0,
@@ -149,44 +153,23 @@ def generate_modified_query(query):
         )
         generated_document = response.choices[0]['message']['content'].strip()
         logging.info(f"GPT-3.5 generated document: {generated_document}")
-
         return generated_document
     except Exception as e:
         logging.error(f"Error generating modified query: {e}")
         return None
 
-
 def rerank_results(summaries, modified_query):
-    """
-    Re-rank search results using Voyage AI reranker.
-    """
-    # Extract preview texts for reranking
     documents = [f"{summary['preview_text']}" for summary in summaries]
-    #logging.info(f"Sending the following previews for reranking: {documents}")
-    #logging.info(f"Starting rerank with query: {query} and {len(documents)} documents.")
-
-    # Call the rerank method from the Voyage AI library
     try:
         reranking = vo.rerank(modified_query, documents, model="rerank-lite-1")
-        logging.info(f"Rerank query {modified_query}")
-        # Collect reranked results according to the new relevance scores
         ordered_summaries = [summaries[r.index] for r in sorted(reranking.results, key=lambda x: -x.relevance_score)]
         logging.info(f"Reranking successful. Reordered indices: {[r.index for r in reranking.results]}")
-        #relevance_scores = [round(r.relevance_score * 100, 2) for r in reranking.results]
-        #logging.info(f"Relevance scores (as percentages): {relevance_scores * 100}")
         return ordered_summaries
     except Exception as e:
         logging.error(f"Error re-ranking results with Voyage AI: {e}")
-        return summaries  # Return original summaries in case of an error
+        return summaries
 
-
-
-
-#Chunking function
 def send_to_claude_and_get_chunks(numbered_sentences):
-
-    # Prepare the content by encoding formatting and joining sentences with a unique identifier
-    # test with opening and closing tags - works well - use the below again
     sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
     messages = [{"role": "user", "content": '<documents> ' + sentences_content + '''
                  </documents> <instructions> Check the final <line id="num">sentence</line> number first to ensure you
@@ -194,7 +177,6 @@ def send_to_claude_and_get_chunks(numbered_sentences):
 
     logging.info(f"Sending to Claude: {messages}")
 
-    # Create a message to Claude.
     message = client.messages.create(
         model="claude-3-haiku-20240307",
         max_tokens=4096,
@@ -218,10 +200,7 @@ def send_to_claude_and_get_chunks(numbered_sentences):
     logging.info(f"Claude's raw response: {message}")
     logging.info(f"Claude's content: {message.content}")
 
-
-    # Attempt to extract text again with additional checks
     try:
-        # Example of accessing 'text' if 'TextBlock' is a custom object with attributes
         content_texts = [item.text for item in message.content]
         combined_text = "\n".join(content_texts)
     except Exception as e:
@@ -230,7 +209,6 @@ def send_to_claude_and_get_chunks(numbered_sentences):
 
     logging.info(f"Combined text for chunk processing: {combined_text}")
 
-    # Assuming combined_text is now correctly populated, continue to process for chunks
     chunks = {}
     if combined_text:
         for line in combined_text.split('\n'):
@@ -238,14 +216,11 @@ def send_to_claude_and_get_chunks(numbered_sentences):
                 chunk_number, sentence_numbers = line.split(': ')
                 chunk_sentences = [int(num) for num in sentence_numbers.split(',')]
                 chunks[int(chunk_number.split(' ')[1])] = chunk_sentences
-        #logging.info(f"Extracted chunks: {chunks}")
     else:
         logging.error("Combined text is empty, cannot extract chunks.")
 
-    # Return the dictionary containing chunks information
     return chunks
 
-#Use Claud to classify the document using integers, and map them to the category so that other functions can use them.
 def classify_document_with_title(text):
     encoded_text = (text[:2000])
     document_type_map = {
@@ -322,9 +297,3 @@ def extract_parties_from_document(text):
     except Exception as e:
         logging.error(f"Error in party extraction: {e}")
         return "Error during extraction"
-
-
-
-
-
-
