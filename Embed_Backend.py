@@ -24,10 +24,27 @@ client = anthropic.Anthropic(api_key=api_key)
 chroma_client = chromadb.PersistentClient(path="./chromadb")
 
 # Create collections for each document type
-collection_legislation = chroma_client.get_or_create_collection(name="legislation")
-collection_guidelines = chroma_client.get_or_create_collection(name="guidelines")
-collection_court_cases = chroma_client.get_or_create_collection(name="court_cases")
-collection_contracts = chroma_client.get_or_create_collection(name="contracts")
+# Create collections with inner product similarity (dot product)
+collection_legislation = chroma_client.get_or_create_collection(
+    name="legislation",
+    metadata={"hnsw:space": "ip"}
+)
+
+collection_guidelines = chroma_client.get_or_create_collection(
+    name="guidelines",
+    metadata={"hnsw:space": "ip"}
+)
+
+collection_court_cases = chroma_client.get_or_create_collection(
+    name="court_cases",
+    metadata={"hnsw:space": "ip"}
+)
+
+collection_contracts = chroma_client.get_or_create_collection(
+    name="contracts",
+    metadata={"hnsw:space": "ip"}
+)
+
 
 # Load environment variables
 load_dotenv()
@@ -93,11 +110,8 @@ def search_embeddings(query_embedding, doc_type, top_n=15):
             })
 
     results = sorted(results, key=lambda x: x["distance"])[:top_n]
+    logging.info(f"results: {results}")
     return results
-
-
-
-
 
 
 
