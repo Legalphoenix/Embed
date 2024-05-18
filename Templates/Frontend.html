@@ -268,25 +268,24 @@
                 .then(data => {
                     hideLoadingSpinner(); // Hide loading spinner
 
-                    if (data.error) {
-                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: ${data.error}</div>`;
-                    } else {
-                        // Handling multiple results
-                        if (data.results && data.results.length > 0) {
-                            let content = '<h2>Search Results:</h2>';
-                            data.results.forEach((result, index) => {
+                    if (data.results && data.results.length > 0) {
+                        let content = '<h2>Search Results:</h2>';
+                        data.results.forEach((result, index) => {
+                            let matchScore = parseFloat(result.match_score);  // Ensure match_score is a number
+                            if (!isNaN(matchScore)) {  // Check if matchScore is a valid number
                                 content += `<div class="result">
-                                <h4>Result #${index + 1}</h4>
-                                <p>Match Score: ${result.match_score.toFixed(2)}%</p>
-                                <p>${result.preview_text}</p>
-                                <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-                            </div>`;
-                            });
-                            resultsDiv.innerHTML = content;
-                        } else {
-                            resultsDiv.innerHTML = `<div class="alert alert-warning" role="alert">No results found.</div>`;
-                        }
+                <h4>Result #${index + 1}</h4>
+                <p>Match Score: ${matchScore.toFixed(2)}%</p>
+                <p>${result.preview_text}</p>
+                <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+            </div>`;
+                            }
+                        });
+                        resultsDiv.innerHTML = content;
+                    } else {
+                        resultsDiv.innerHTML = `<div class="alert alert-warning" role="alert">No results found.</div>`;
                     }
+
                 })
                 .catch(error => {
                     hideLoadingSpinner(); // Hide loading spinner

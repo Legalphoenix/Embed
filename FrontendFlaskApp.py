@@ -98,17 +98,20 @@ def search():
 
     summaries = []
     for result in results:
-        metadata = result["metadata"]
-        logging.info(f"Metadata: {metadata}")
-        logging.info(f"Metadata type: {type(metadata)}")
+        metadata_list = result["metadata"]
+        similarity = result.get("distance", [])  # Get the list of distances
 
-        if isinstance(metadata, list) and metadata:  # Ensure it's a non-empty list
-            # Handle each dictionary within the list
-            for meta in metadata:
-                logging.info(f"Meta: {meta}")
+        if isinstance(metadata_list, list) and metadata_list:  # Ensure it's a non-empty list
+            for index, meta in enumerate(metadata_list):
+                if index >= len(similarity):
+                    break  # If there are more metadata items than similarity scores, break
+
                 original_filename = meta.get("original_file_name")
                 chunk_filename = meta.get("chunk_file_name")
-                similarity = result.get("distance", 0)  # Provide a default value for similarity
+                match_score = 1 - similarity[index]  # Get the corresponding similarity score & make it more user friendly (higher is better instead of lower)
+
+                logging.info(f"Similarities: {match_score}")
+
                 if not all([original_filename, chunk_filename]):
                     continue  # Skip if any required data is missing
                 json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
@@ -118,42 +121,26 @@ def search():
                         preview_text = ' '.join(data['text'].split()[:2000])
                         preview_text_with_type = f"{preview_text}\n<Document Type: {data['document_type_name']}> </Document Type>"
                 except IOError:
-                    preview_text = "Preview not available"
+                    preview_text_with_type = "Preview not available"
 
-                match_score = similarity * 100
                 summaries.append({
                     'file_name': original_filename,
                     'preview_text': preview_text_with_type,
                     'match_score': match_score
                 })
-        elif isinstance(metadata, dict):
-            # If metadata is a dictionary, handle it as usual
-            original_filename = metadata.get("original_file_name")
-            chunk_filename = metadata.get("chunk_file_name")
-            similarity = result.get("distance", 0)  # Provide a default value for similarity
-            if not all([original_filename, chunk_filename]):
-                continue  # Skip if any required data is missing
-            json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
-            try:
-                with open(json_file_path, 'r', encoding='utf-8') as json_file:
-                    data = json.load(json_file)
-                    preview_text = ' '.join(data['text'].split()[:2000])
-                    preview_text_with_type = f"{preview_text}\n<Document Type: {data['document_type_name']}> </Document Type>"
-            except IOError:
-                preview_text = "Preview not available"
-
-            match_score = similarity * 100
-            summaries.append({
-                'file_name': original_filename,
-                'preview_text': preview_text_with_type,
-                'match_score': match_score
-            })
 
     if not summaries:
         return jsonify(error="No matching documents found"), 404
 
-    reranked_summaries = rerank_results(summaries, modified_query)
-    return jsonify(results=reranked_summaries)
+    logging.info(f"Summaries: {summaries}")
+    return jsonify(results=summaries)
+
+
+    #reranked_summaries = rerank_results(summaries, modified_query)
+    #return jsonify(results=reranked_summaries)
+
+
+
 
 
 
