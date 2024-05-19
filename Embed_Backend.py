@@ -44,6 +44,26 @@ collection_contracts = chroma_client.get_or_create_collection(
     name="contracts",
     metadata={"hnsw:space": "ip"}
 )
+parent_collection_legislation = chroma_client.get_or_create_collection(
+    name="parent_legislation",
+    metadata={"hnsw:space": "ip"}
+)
+
+parent_collection_guidelines = chroma_client.get_or_create_collection(
+    name="parent_guidelines",
+    metadata={"hnsw:space": "ip"}
+)
+
+parent_collection_court_cases = chroma_client.get_or_create_collection(
+    name="parent_court_cases",
+    metadata={"hnsw:space": "ip"}
+)
+
+parent_collection_contracts = chroma_client.get_or_create_collection(
+    name="parent_contracts",
+    metadata={"hnsw:space": "ip"}
+)
+
 
 
 # Load environment variables
@@ -68,24 +88,62 @@ def get_embedding(text, input_type=None):
         return [item for sublist in documents_embeddings for item in sublist]
     return documents_embeddings
 
-def save_embedding(original_file_name, chunk_file_name, document_title, document_parties, embedding, document_type_id, document_type_name):
+# Embed_Backend.py
+def flatten_metadata(metadata):
+    def _flatten_dict(d, parent_key='', sep='_'):
+        items = []
+        for k, v in d.items():
+            new_key = f"{parent_key}{sep}{k}" if parent_key else k
+            if isinstance(v, dict):
+                items.extend(_flatten_dict(v, new_key, sep=sep).items())
+            elif isinstance(v, list):
+                # Convert list to a comma-separated string
+                flattened_list = ', '.join([str(item) if isinstance(item, (str, int, float, bool)) else str(flatten_metadata(item)) for item in v])
+                items.append((new_key, flattened_list))
+            else:
+                items.append((new_key, str(v)))  # Ensure the value is converted to a string
+        return dict(items)
+
+    return _flatten_dict(metadata)
+
+
+
+
+def save_embedding(original_file_name, document_title, document_parties, embedding, document_type_id, document_type_name, chunk_text, metadata, document_family_id, parent_hash, parent_document_filesize, is_parent):
     unique_id = str(uuid.uuid4())
-    metadata = {
+    chunk_metadata = {
         'original_file_name': original_file_name,
-        'chunk_file_name': chunk_file_name,
         'document_title': document_title,
         'document_parties': document_parties,
         'document_type_id': document_type_id,
-        'document_type_name': document_type_name
+        'document_type_name': document_type_name,
+        'chunk_text': chunk_text,
+        'metadata': metadata,
+        'document_family_id': document_family_id,  # Include the document family ID in the metadata
+        'parent_hash': parent_hash,  # Include the parent hash in the metadata
+        'parent_document_filesize': parent_document_filesize  # Include the parent document filesize in the metadata
     }
-    if document_type_id == 1:
-        collection_legislation.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
-    elif document_type_id == 2:
-        collection_guidelines.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
-    elif document_type_id == 3:
-        collection_court_cases.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
-    elif document_type_id == 4:
-        collection_contracts.add(embeddings=[embedding], metadatas=[metadata], ids=[unique_id])
+
+    if is_parent:
+        # Adjust the collection based on the parent document type ID
+        if document_type_id == 101:
+            parent_collection_legislation.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 102:
+            parent_collection_guidelines.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 103:
+            parent_collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 104:
+            parent_collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+    else:
+        # Adjust the collection based on the original document type ID
+        if document_type_id == 1:
+            collection_legislation.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 2:
+            collection_guidelines.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 3:
+            collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 4:
+            collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
 def search_embeddings(query_embedding, doc_type, top_n=15):
     collections = []

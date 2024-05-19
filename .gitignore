@@ -6,3 +6,8 @@ API.env
 Uploads/
 embeddings.csv
 tika/
+chromadb/
+import chromadb.py
+Voyage.env
+Claude.env
+resetdatabase_warning.py
