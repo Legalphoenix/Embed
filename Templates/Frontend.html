@@ -13,23 +13,17 @@
             margin: 20px auto;
             text-align: center;
             cursor: pointer;
-            /* Add cursor pointer to indicate interactivity */
             border-radius: 5px;
-            /* Rounded corners for softer look */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            /* Subtle shadow for depth */
             transition: box-shadow 0.3s ease;
-            /* Smooth transition for hover effect */
         }
 
         .drop-area:hover {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            /* More prominent shadow on hover */
         }
 
         .drop-area.drag-over {
             border-color: #007bff;
-            /* Highlight border on drag over */
         }
 
         #results {
@@ -44,7 +38,6 @@
             border-radius: 5px;
         }
 
-        /* Style the download links */
         .result a {
             display: block;
             margin-top: 10px;
@@ -56,7 +49,6 @@
             text-decoration: underline;
         }
 
-        /* Loading spinner styles */
         .loading-spinner {
             display: none;
             position: fixed;
@@ -64,16 +56,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
-            /* Ensure it's on top */
         }
 
-        /* Style for upload success messages */
         .upload-success {
             position: relative;
             border: 1px solid #4CAF50;
-            /* Green border */
             background-color: #e6ffe6;
-            /* Light green background */
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
@@ -90,20 +78,17 @@
 
         .upload-button {
             font-size: 14px;
-            /* Adjust the size as needed */
         }
 
         .search-button {
             font-size: 14px;
         }
 
-        /* Style for the select dropdown */
         .form-control.docType-select {
             background-color: #f6f6f6;
             border: 1px solid #d9dee473;
             border-radius: 4px;
             height: 38px;
-            /* Match height with search input */
         }
 
         .form-control.docType-select:focus {
@@ -111,18 +96,14 @@
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
 
-        /* Add a subtle macOS grey background to the dropdown menu when open */
         .docType-select:focus option {
             background-color: #f6f6f6;
             color: #343a40;
         }
 
-        /* Style for search input with adjusted height */
         #searchQuery {
             height: 38px;
-            /* Match height with dropdown */
             min-height: 38px;
-            /* Set minimum height to prevent collapsing */
         }
     </style>
 </head>
@@ -143,6 +124,10 @@
                     <option value="2">Guidelines</option>
                     <option value="3">Court Cases</option>
                     <option value="4">Contracts</option>
+                    <option value="101">Parent Legislation</option>
+                    <option value="102">Parent Guidelines</option>
+                    <option value="103">Parent Court Cases</option>
+                    <option value="104">Parent Contracts</option>
                 </select>
             </div>
             <div class="col-md-6">
@@ -157,7 +142,6 @@
         <div id="results"></div>
     </div>
 
-    <!-- Loading spinner -->
     <div class="loading-spinner">
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
@@ -172,7 +156,6 @@
         let resultsDiv = document.getElementById('results');
         let fileElem = document.getElementById('fileElem');
 
-        // Add event listener for clicking the drop area to trigger file input
         dropArea.addEventListener('click', () => {
             fileElem.click();
         });
@@ -234,7 +217,6 @@
                     if (data.error) {
                         resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">${data.error}</div>` + resultsDiv.innerHTML; // Add error to the top
                     } else if (data.success) {
-                        // Create a new upload success message
                         let successMessage = document.createElement('div');
                         successMessage.className = 'upload-success';
                         successMessage.innerHTML = `<span class="close-btn" onclick="this.parentElement.remove();">&times;</span>Upload successful! File: ${data.file_name}`;
@@ -253,7 +235,9 @@
         function submitSearch() {
             let query = document.getElementById('searchQuery').value;
             let docType = document.getElementById('docType').value;
-            resultsDiv.innerHTML = ''; // Clear upload messages
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            console.log(`Submitting search with query: ${query} and doc_type: ${docType}`); // Add this line for debugging
 
             showLoadingSpinner(); // Show loading spinner
 
@@ -264,28 +248,34 @@
                 },
                 body: 'query=' + encodeURIComponent(query) + '&doc_type=' + encodeURIComponent(docType)
             })
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(data => {
+                    console.log("Server response:", data); // Log the response from the server
                     hideLoadingSpinner(); // Hide loading spinner
 
-                    if (data.results && data.results.length > 0) {
-                        let content = '<h2>Search Results:</h2>';
-                        data.results.forEach((result, index) => {
-                            let matchScore = parseFloat(result.match_score);  // Ensure match_score is a number
-                            if (!isNaN(matchScore)) {  // Check if matchScore is a valid number
-                                content += `<div class="result">
-                <h4>Result #${index + 1}</h4>
-                <p>Match Score: ${matchScore.toFixed(2)}%</p>
-                <p>${result.preview_text}</p>
-                <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-            </div>`;
-                            }
-                        });
-                        resultsDiv.innerHTML = content;
-                    } else {
-                        resultsDiv.innerHTML = `<div class="alert alert-warning" role="alert">No results found.</div>`;
+                    try {
+                        let jsonData = JSON.parse(data);
+                        if (jsonData.results && jsonData.results.length > 0) {
+                            let content = '<h2>Search Results:</h2>';
+                            jsonData.results.forEach((result, index) => {
+                                let matchScore = parseFloat(result.match_score);  // Ensure match_score is a number
+                                if (!isNaN(matchScore)) {  // Check if matchScore is a valid number
+                                    content += `<div class="result">
+                            <h4>Result #${index + 1}</h4>
+                            <p>Match Score: ${matchScore.toFixed(2)}%</p>
+                            <p>${result.preview_text}</p>
+                            <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+                        </div>`;
+                                }
+                            });
+                            resultsDiv.innerHTML = content;
+                        } else {
+                            resultsDiv.innerHTML = `<div class="alert alert-warning" role="alert">No results found.</div>`;
+                        }
+                    } catch (e) {
+                        console.error("Error parsing JSON:", e);
+                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: Could not retrieve search results.</div>`;
                     }
-
                 })
                 .catch(error => {
                     hideLoadingSpinner(); // Hide loading spinner
@@ -294,25 +284,22 @@
                 });
         }
 
-        // Add an event listener for the 'Enter' key on the search input field
+
         document.getElementById('searchQuery').addEventListener('keypress', function (event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent the default action to stop form submission
-                submitSearch(); // Trigger the search function
+                event.preventDefault();
+                submitSearch();
             }
         });
 
-        // Show loading spinner
         function showLoadingSpinner() {
             $('.loading-spinner').show();
         }
 
-        // Hide loading spinner
         function hideLoadingSpinner() {
             $('.loading-spinner').hide();
         }
 
-        // Autoresize the search input field
         function autosize() {
             var el = this;
             setTimeout(function () {

@@ -6,7 +6,10 @@ import os
 import logging
 import json
 from tika_server import TikaServer, close_tika_server
-from Embed_Backend import get_embedding, classify_document_with_title, extract_parties_from_document, save_embedding, search_embeddings, rerank_results, generate_modified_query, send_to_claude_and_get_chunks
+from Embed_Backend import get_embedding, search_embeddings, flatten_metadata, classify_document_with_title, extract_parties_from_document, save_embedding, send_to_claude_and_get_chunks
+import time
+import uuid
+import hashlib
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -16,7 +19,7 @@ app.config['UPLOAD_FOLDER'] = 'Uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3', 'rtf'}
 
 # Start the Tika server
-tika_server = TikaServer()
+#tika_server = TikaServer()
 
 @app.route('/')
 def home():
@@ -25,8 +28,13 @@ def home():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+# Start the Tika server
+tika_server = TikaServer()
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
+
+    '''GET FILE AND PARSE TEXT + metadata'''
     if 'file' not in request.files:
         return jsonify(error="No file part"), 400
     file = request.files['file']
@@ -42,7 +50,12 @@ def upload_file():
 
     parsed = parser.from_file(file_path)
     text = parsed["content"] if parsed["content"] else ""
-    metadata = parsed["metadata"]
+    #metadata = parsed["metadata"]
+    #metadata = flatten_metadata(metadata)
+    metadata = '1'
+
+    '''GENERATE META DATA'''
+    parent_document_filesize = os.path.getsize(file_path)
 
     document_type_id, document_type_name, document_title = classify_document_with_title(text)
     if document_type_id is None:
@@ -52,6 +65,33 @@ def upload_file():
     if document_parties is None:
         return jsonify(error="Failed to classify document."), 400
 
+    parent_document_family_id = str(uuid.uuid4())  # Generate a unique document family ID
+    parent_document_hash = hashlib.sha256(text.encode('utf-8')).hexdigest()  # Generate a hash for the whole document
+
+    parent_document_type_id = document_type_id + 100  # Generate parent document type ID
+
+    '''EMBED AND SAVE PARENT DOCUMENT'''
+    parent_embedding = get_embedding(text, input_type='document')
+    if parent_embedding is None:
+        logging.error(f"Failed to generate embedding for parent document {filename}")
+        return jsonify(error="Failed to generate embedding for parent document."), 500
+
+    save_embedding(
+        filename,
+        document_title,
+        document_parties,
+        parent_embedding,
+        parent_document_type_id,
+        document_type_name,
+        text,  # Use the entire document text
+        metadata,
+        parent_document_family_id,
+        parent_document_hash,
+        parent_document_filesize,
+        is_parent=True  # Indicate that this is the parent document
+    )
+
+    '''CHUNK AND SAVE'''
     cleaned_lines = [line.strip() for line in text.split('\n') if line.strip()]
     numbered_sentences = {i + 1: line.strip() for i, line in enumerate(cleaned_lines)}
 
@@ -61,8 +101,6 @@ def upload_file():
         chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
         document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Parties: {document_parties}]"
         chunk_text_with_type_title = document_type_and_title_descriptor + " " + chunk_text
-        chunk_filename = f"{os.path.splitext(filename)[0]}_chunk_{chunk_id}.json"
-        chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
         logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type_title}")
 
         embedding = get_embedding(chunk_text_with_type_title, input_type='document')
@@ -70,86 +108,81 @@ def upload_file():
             logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
             continue
 
-        save_embedding(filename, chunk_filename, document_title, document_parties, embedding, document_type_id, document_type_name)
-
-        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type_id': document_type_id, 'document_type_name': document_type_name, 'document_title': document_title, 'document_parties': document_parties}
-        with open(chunk_path, 'w', encoding='utf-8') as json_file:
-            json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
+        save_embedding(
+            filename,
+            document_title,
+            document_parties,
+            embedding,
+            document_type_id,
+            document_type_name,
+            chunk_text,
+            metadata,
+            parent_document_family_id,
+            parent_document_hash,
+            parent_document_filesize,
+            is_parent=False  # Indicate that this is a chunk
+        )
 
     return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type_id, file_name=filename)
 
+
 @app.route('/search', methods=['POST'])
 def search():
-    query = request.form['query']
-    doc_type = int(request.form['doc_type'])
+    try:
+        query = request.form['query']
+        doc_type = int(request.form['doc_type'])
 
-    modified_query = generate_modified_query(query)
-    if not modified_query:
-        return jsonify(error="Error generating modified query"), 400
-    logging.info(f"Modified query: {modified_query}")
+        logging.info(f"Search request received: query={query}, doc_type={doc_type}")
 
-    query_embedding = get_embedding(modified_query, input_type='query')
-    if query_embedding is None:
-        return jsonify(error="Error generating query embedding"), 400
+        query_embedding = get_embedding(query, input_type='query')
+        if query_embedding is None:
+            logging.error("Error generating query embedding")
+            return jsonify(error="Error generating query embedding"), 400
 
-    results = search_embeddings(query_embedding, doc_type, top_n=15)
-    if not results:
-        return jsonify(error="No matching documents found"), 404
+        results = search_embeddings(query_embedding, doc_type, top_n=10)
+        if not results:
+            logging.info("No matching documents found")
+            return jsonify(error="No matching documents found"), 404
 
-    summaries = []
-    for result in results:
-        metadata_list = result["metadata"]
-        similarity = result.get("distance", [])  # Get the list of distances
+        summaries = []
+        for result in results:
+            metadata_list = result["metadata"]
+            similarity = result.get("distance", [])  # Get the list of distances
 
-        if isinstance(metadata_list, list) and metadata_list:  # Ensure it's a non-empty list
-            for index, meta in enumerate(metadata_list):
-                if index >= len(similarity):
-                    break  # If there are more metadata items than similarity scores, break
+            if isinstance(metadata_list, list) and metadata_list:  # Ensure it's a non-empty list
+                for index, meta in enumerate(metadata_list):
+                    if index >= len(similarity):
+                        break  # If there are more metadata items than similarity scores, break
 
-                original_filename = meta.get("original_file_name")
-                chunk_filename = meta.get("chunk_file_name")
-                match_score = 1 - similarity[index]  # Get the corresponding similarity score & make it more user friendly (higher is better instead of lower)
+                    original_filename = meta.get("original_file_name")
+                    preview_text = meta.get("chunk_text", "Preview not available")  # Get preview text from metadata
+                    document_type_name = meta.get("document_type_name")
+                    match_score = 1 - similarity[index]  # Get the corresponding similarity score & make it more user friendly (higher is better instead of lower)
 
-                logging.info(f"Similarities: {match_score}")
+                    summaries.append({
+                        'file_name': original_filename,
+                        'preview_text': f"{preview_text}\n<Document Type: {document_type_name}>",
+                        'match_score': match_score
+                    })
+                logging.info(f"Summaries: {summaries}")
+        if not summaries:
+            logging.info("No matching documents found in summaries")
+            return jsonify(error="No matching documents found"), 404
+        return jsonify(results=summaries)
+    except Exception as e:
+        logging.error(f"Error during search: {e}")
+        return jsonify(error="An error occurred during the search"), 500
 
-                if not all([original_filename, chunk_filename]):
-                    continue  # Skip if any required data is missing
-                json_file_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
-                try:
-                    with open(json_file_path, 'r', encoding='utf-8') as json_file:
-                        data = json.load(json_file)
-                        preview_text = ' '.join(data['text'].split()[:2000])
-                        preview_text_with_type = f"{preview_text}\n<Document Type: {data['document_type_name']}> </Document Type>"
-                except IOError:
-                    preview_text_with_type = "Preview not available"
+#The below adds 1.5 seconds
+    #modified_query = generate_modified_query(query)
+    #if not modified_query:
+        #return jsonify(error="Error generating modified query"), 400
+    #logging.info(f"Modified query: {modified_query}")
 
-                summaries.append({
-                    'file_name': original_filename,
-                    'preview_text': preview_text_with_type,
-                    'match_score': match_score
-                })
-
-    if not summaries:
-        return jsonify(error="No matching documents found"), 404
-
-    logging.info(f"Summaries: {summaries}")
-    return jsonify(results=summaries)
-
+#old code getting preview text took 0.2
 
     #reranked_summaries = rerank_results(summaries, modified_query)
     #return jsonify(results=reranked_summaries)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
