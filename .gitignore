@@ -7,7 +7,8 @@ Uploads/
 embeddings.csv
 tika/
 chromadb/
-import chromadb.py
+chroma.sqlite3
+importchromadb.py
 Voyage.env
 Claude.env
 resetdatabase_warning.py
