@@ -59,7 +59,7 @@ def upload_file():
 
     for chunk_id, sentence_nums in chunks.items():
         chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
-        document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Title: {document_parties}]"
+        document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Parties: {document_parties}]"
         chunk_text_with_type_title = document_type_and_title_descriptor + " " + chunk_text
         chunk_filename = f"{os.path.splitext(filename)[0]}_chunk_{chunk_id}.json"
         chunk_path = os.path.join(app.config['UPLOAD_FOLDER'], chunk_filename)
@@ -72,7 +72,7 @@ def upload_file():
 
         save_embedding(filename, chunk_filename, document_title, document_parties, embedding, document_type_id, document_type_name)
 
-        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type_id': document_type_id, 'document_type_name': document_type_name, 'document_title': document_title, 'document_title': document_parties}
+        chunk_data = {'text': chunk_text, 'metadata': metadata, 'document_type_id': document_type_id, 'document_type_name': document_type_name, 'document_title': document_title, 'document_parties': document_parties}
         with open(chunk_path, 'w', encoding='utf-8') as json_file:
             json.dump(chunk_data, json_file, ensure_ascii=False, indent=4)
 
