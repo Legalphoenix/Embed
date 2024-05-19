@@ -8,6 +8,9 @@ import anthropic
 import voyageai
 import chromadb
 import uuid
+from tenacity import retry, stop_after_attempt, wait_random_exponential
+import concurrent.futures
+
 
 # API Key handling
 openai.api_key_path = './API.env'
@@ -23,7 +26,6 @@ client = anthropic.Anthropic(api_key=api_key)
 # Initialize persistent ChromaDB client
 chroma_client = chromadb.PersistentClient(path="./chromadb")
 
-# Create collections for each document type
 # Create collections with inner product similarity (dot product)
 collection_legislation = chroma_client.get_or_create_collection(
     name="legislation",
@@ -65,7 +67,6 @@ parent_collection_contracts = chroma_client.get_or_create_collection(
 )
 
 
-
 # Load environment variables
 load_dotenv()
 
@@ -81,35 +82,73 @@ def validate_json(data):
         logging.error(f'JSON validation error: {e}')
         return False
 
+
+'''CHUNK AND SAVE'''
+# Create collections for each document type
+def save_embeddings_in_batches(embeddings, chunk_texts, filename, document_title, document_parties, document_type_id, document_type_name, metadata, document_family_id, parent_hash, parent_document_filesize):
+    for i, embedding in enumerate(embeddings):
+        chunk_text = chunk_texts[i]
+        unique_id = str(uuid.uuid4())
+        chunk_metadata = {
+            'original_file_name': filename,
+            'document_title': document_title,
+            'document_parties': document_parties,
+            'document_type_id': document_type_id,
+            'document_type_name': document_type_name,
+            'chunk_text': chunk_text,
+            'metadata': metadata,
+            'document_family_id': document_family_id,
+            'parent_hash': parent_hash,
+            'parent_document_filesize': parent_document_filesize
+        }
+
+        # Adjust the collection based on the original document type ID
+        if document_type_id == 1:
+            collection_legislation.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 2:
+            collection_guidelines.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 3:
+            collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        elif document_type_id == 4:
+            collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+
+
+def process_chunks_in_batches(chunks, numbered_sentences, document_type_name, document_title, document_parties):
+    chunk_texts = []
+    for sentence_nums in chunks.values():
+        chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
+        document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Parties: {document_parties}]"
+        chunk_text_with_type_title = document_type_and_title_descriptor + " " + chunk_text
+        chunk_texts.append(chunk_text_with_type_title)
+
+    batch_size = 128
+    all_embeddings = []
+
+    for i in range(0, len(chunk_texts), batch_size):
+        batch = chunk_texts[i:i + batch_size]
+        embeddings = embed_with_backoff(documents=batch)
+        all_embeddings.extend(embeddings)
+
+    return all_embeddings, chunk_texts
+
+
+
+@retry(wait=wait_random_exponential(multiplier=1, max=60), stop=stop_after_attempt(6))
+def embed_with_backoff(documents, model="voyage-law-2", input_type="document"):
+    return vo.embed(documents, model=model, input_type=input_type).embeddings
+
+
+'''SAVE PARENT DOCUMENT'''
 def get_embedding(text, input_type=None):
-    text = text.replace("\n", " ")
+    text = text.strip()
+    logging.info(f"stripped text: {text}")
     documents_embeddings = vo.embed(text, model="voyage-law-2", input_type=input_type).embeddings
     if documents_embeddings and isinstance(documents_embeddings[0], list):
         return [item for sublist in documents_embeddings for item in sublist]
     return documents_embeddings
 
-# Embed_Backend.py
-def flatten_metadata(metadata):
-    def _flatten_dict(d, parent_key='', sep='_'):
-        items = []
-        for k, v in d.items():
-            new_key = f"{parent_key}{sep}{k}" if parent_key else k
-            if isinstance(v, dict):
-                items.extend(_flatten_dict(v, new_key, sep=sep).items())
-            elif isinstance(v, list):
-                # Convert list to a comma-separated string
-                flattened_list = ', '.join([str(item) if isinstance(item, (str, int, float, bool)) else str(flatten_metadata(item)) for item in v])
-                items.append((new_key, flattened_list))
-            else:
-                items.append((new_key, str(v)))  # Ensure the value is converted to a string
-        return dict(items)
 
-    return _flatten_dict(metadata)
-
-
-
-
-def save_embedding(original_file_name, document_title, document_parties, embedding, document_type_id, document_type_name, chunk_text, metadata, document_family_id, parent_hash, parent_document_filesize, is_parent):
+def save_embedding(original_file_name, document_title, document_parties, embedding, document_type_id, document_type_name, chunk_text, metadata, document_family_id, parent_hash, parent_document_filesize):
     unique_id = str(uuid.uuid4())
     chunk_metadata = {
         'original_file_name': original_file_name,
@@ -124,27 +163,17 @@ def save_embedding(original_file_name, document_title, document_parties, embeddi
         'parent_document_filesize': parent_document_filesize  # Include the parent document filesize in the metadata
     }
 
-    if is_parent:
-        # Adjust the collection based on the parent document type ID
-        if document_type_id == 101:
-            parent_collection_legislation.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
-        elif document_type_id == 102:
-            parent_collection_guidelines.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
-        elif document_type_id == 103:
-            parent_collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
-        elif document_type_id == 104:
-            parent_collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
-    else:
-        # Adjust the collection based on the original document type ID
-        if document_type_id == 1:
-            collection_legislation.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
-        elif document_type_id == 2:
-            collection_guidelines.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
-        elif document_type_id == 3:
-            collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
-        elif document_type_id == 4:
-            collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+    # Adjust the collection based on the parent document type ID
+    if document_type_id == 101:
+        parent_collection_legislation.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+    elif document_type_id == 102:
+        parent_collection_guidelines.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+    elif document_type_id == 103:
+        parent_collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+    elif document_type_id == 104:
+        parent_collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
+'''SEARCH EMBEDDINGS'''
 def search_embeddings(query_embedding, doc_type, top_n=15):
     collections = []
     if doc_type == 1:
@@ -170,12 +199,6 @@ def search_embeddings(query_embedding, doc_type, top_n=15):
     results = sorted(results, key=lambda x: x["distance"])[:top_n]
     logging.info(f"results: {results}")
     return results
-
-
-
-def cosine_similarity(vec_a, vec_b):
-    cos_sim = np.dot(vec_a, vec_b) / (np.linalg.norm(vec_a) * np.linalg.norm(vec_b))
-    return cos_sim
 
 def generate_modified_query(query):
     try:
@@ -241,6 +264,8 @@ def rerank_results(summaries, modified_query):
         logging.error(f"Error re-ranking results with Voyage AI: {e}")
         return summaries
 
+'''GET CHUNKS FOR EMBEDDINGS AND CHUNKS'''
+
 def send_to_claude_and_get_chunks(numbered_sentences):
     sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
     messages = [{"role": "user", "content": '<documents> ' + sentences_content + '''
@@ -292,6 +317,30 @@ def send_to_claude_and_get_chunks(numbered_sentences):
         logging.error("Combined text is empty, cannot extract chunks.")
 
     return chunks
+
+'''CLASSIFY AND EXTRACT INFORMATION'''
+
+def classify_extract_and_chunk(text):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        classify_future = executor.submit(classify_document_with_title, text)
+        extract_future = executor.submit(extract_parties_from_document, text)
+        clean_and_chunk_future = executor.submit(clean_and_chunk, text)
+
+        # Wait for all futures to complete
+        document_type_id, document_type_name, document_title = classify_future.result()
+        document_parties = extract_future.result()
+        numbered_sentences, chunks = clean_and_chunk_future.result()
+
+    return document_type_id, document_type_name, document_title, document_parties, numbered_sentences, chunks
+
+def clean_and_chunk(text):
+    cleaned_lines = [line.strip() for line in text.split('\n') if line.strip()]
+    numbered_sentences = {i + 1: line.strip() for i, line in enumerate(cleaned_lines)}
+    chunks = send_to_claude_and_get_chunks(numbered_sentences)
+
+    return numbered_sentences, chunks
+
+
 
 def classify_document_with_title(text):
     encoded_text = (text[:2000])

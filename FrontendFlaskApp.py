@@ -6,7 +6,7 @@ import os
 import logging
 import json
 from tika_server import TikaServer, close_tika_server
-from Embed_Backend import get_embedding, search_embeddings, flatten_metadata, classify_document_with_title, extract_parties_from_document, save_embedding, send_to_claude_and_get_chunks
+from Embed_Backend import get_embedding, classify_extract_and_chunk, search_embeddings, save_embeddings_in_batches, process_chunks_in_batches, classify_document_with_title, extract_parties_from_document, save_embedding, send_to_claude_and_get_chunks
 import time
 import uuid
 import hashlib
@@ -31,10 +31,14 @@ def allowed_file(filename):
 # Start the Tika server
 tika_server = TikaServer()
 
+
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
 
     '''GET FILE AND PARSE TEXT + metadata'''
+    start_time = time.time()
+
     if 'file' not in request.files:
         return jsonify(error="No file part"), 400
     file = request.files['file']
@@ -47,23 +51,32 @@ def upload_file():
 
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Grab file elapsed time: {elapsed_time:.2f} seconds")
 
+    start_time = time.time()
     parsed = parser.from_file(file_path)
     text = parsed["content"] if parsed["content"] else ""
     #metadata = parsed["metadata"]
     #metadata = flatten_metadata(metadata)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Parse file {elapsed_time:.2f} seconds")
     metadata = '1'
+
 
     '''GENERATE META DATA'''
     parent_document_filesize = os.path.getsize(file_path)
 
-    document_type_id, document_type_name, document_title = classify_document_with_title(text)
-    if document_type_id is None:
-        return jsonify(error="Failed to classify document."), 400
+    start_time = time.time()
+    document_type_id, document_type_name, document_title, document_parties, numbered_sentences, chunks = classify_extract_and_chunk(text)
+    if document_type_id is None or document_parties is None:
+        return jsonify(error="Failed to classify document or extract parties."), 400
 
-    document_parties = extract_parties_from_document(text)
-    if document_parties is None:
-        return jsonify(error="Failed to classify document."), 400
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"classify doc {elapsed_time:.2f} seconds")
 
     parent_document_family_id = str(uuid.uuid4())  # Generate a unique document family ID
     parent_document_hash = hashlib.sha256(text.encode('utf-8')).hexdigest()  # Generate a hash for the whole document
@@ -88,40 +101,28 @@ def upload_file():
         parent_document_family_id,
         parent_document_hash,
         parent_document_filesize,
-        is_parent=True  # Indicate that this is the parent document
     )
 
     '''CHUNK AND SAVE'''
-    cleaned_lines = [line.strip() for line in text.split('\n') if line.strip()]
-    numbered_sentences = {i + 1: line.strip() for i, line in enumerate(cleaned_lines)}
+    start_time = time.time()
+    embeddings, chunk_texts = process_chunks_in_batches(chunks, numbered_sentences, document_type_name, document_title, document_parties)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"process and embed chunks {elapsed_time:.2f} seconds")
 
-    chunks = send_to_claude_and_get_chunks(numbered_sentences)
-
-    for chunk_id, sentence_nums in chunks.items():
-        chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
-        document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Parties: {document_parties}]"
-        chunk_text_with_type_title = document_type_and_title_descriptor + " " + chunk_text
-        logging.info(f"Chunk {chunk_id} being sent for embedding: {chunk_text_with_type_title}")
-
-        embedding = get_embedding(chunk_text_with_type_title, input_type='document')
-        if embedding is None:
-            logging.error(f"Failed to generate embedding for chunk {chunk_id} of {filename}")
-            continue
-
-        save_embedding(
-            filename,
-            document_title,
-            document_parties,
-            embedding,
-            document_type_id,
-            document_type_name,
-            chunk_text,
-            metadata,
-            parent_document_family_id,
-            parent_document_hash,
-            parent_document_filesize,
-            is_parent=False  # Indicate that this is a chunk
-        )
+    save_embeddings_in_batches(
+        embeddings,
+        chunk_texts,
+        filename,
+        document_title,
+        document_parties,
+        document_type_id,
+        document_type_name,
+        metadata,
+        parent_document_family_id,
+        parent_document_hash,
+        parent_document_filesize
+    )
 
     return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type_id, file_name=filename)
 
