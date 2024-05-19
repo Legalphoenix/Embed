@@ -84,10 +84,9 @@ def validate_json(data):
 
 
 '''CHUNK AND SAVE'''
-# Create collections for each document type
 def save_embeddings_in_batches(embeddings, chunk_texts, filename, document_title, document_parties, document_type_id, document_type_name, metadata, document_family_id, parent_hash, parent_document_filesize):
     for i, embedding in enumerate(embeddings):
-        chunk_text = chunk_texts[i]
+        chunk_text = chunk_texts[i]  # Use the plain chunk text here
         unique_id = str(uuid.uuid4())
         chunk_metadata = {
             'original_file_name': filename,
@@ -113,23 +112,27 @@ def save_embeddings_in_batches(embeddings, chunk_texts, filename, document_title
             collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
 
+
 def process_chunks_in_batches(chunks, numbered_sentences, document_type_name, document_title, document_parties):
     chunk_texts = []
+    chunk_texts_with_descriptor = []
     for sentence_nums in chunks.values():
         chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
         document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Parties: {document_parties}]"
         chunk_text_with_type_title = document_type_and_title_descriptor + " " + chunk_text
-        chunk_texts.append(chunk_text_with_type_title)
+        chunk_texts.append(chunk_text)
+        chunk_texts_with_descriptor.append(chunk_text_with_type_title)
 
     batch_size = 128
     all_embeddings = []
 
-    for i in range(0, len(chunk_texts), batch_size):
-        batch = chunk_texts[i:i + batch_size]
+    for i in range(0, len(chunk_texts_with_descriptor), batch_size):
+        batch = chunk_texts_with_descriptor[i:i + batch_size]
         embeddings = embed_with_backoff(documents=batch)
         all_embeddings.extend(embeddings)
 
     return all_embeddings, chunk_texts
+
 
 
 
