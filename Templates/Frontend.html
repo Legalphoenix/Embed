@@ -260,12 +260,24 @@
                             jsonData.results.forEach((result, index) => {
                                 let matchScore = parseFloat(result.match_score);  // Ensure match_score is a number
                                 if (!isNaN(matchScore)) {  // Check if matchScore is a valid number
+                                    let previewText = result.preview_text;
+                                    let fullText = previewText;
+                                    // Check if it's a parent document collection
+                                    if (['101', '102', '103', '104'].includes(docType)) {
+                                        // Truncate previewText to 100 words
+                                        let words = previewText.split(' ');
+                                        if (words.length > 100) {
+                                            previewText = words.slice(0, 100).join(' ') + '...';
+                                        }
+                                    }
                                     content += `<div class="result">
-                            <h4>Result #${index + 1}</h4>
-                            <p>Match Score: ${matchScore.toFixed(2)}%</p>
-                            <p>${result.preview_text}</p>
-                            <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-                        </div>`;
+                                        <h4>Result #${index + 1}</h4>
+                                        <p>Match Score: ${matchScore.toFixed(2)}%</p>
+                                        <p class="preview-text" id="preview-${index}">${previewText}</p>
+                                        <p class="full-text" id="full-${index}" style="display:none;">${fullText}</p>
+                                        <a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>
+                                        <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+                                    </div>`;
                                 }
                             });
                             resultsDiv.innerHTML = content;
@@ -283,7 +295,6 @@
                     resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: Could not retrieve search results.</div>`;
                 });
         }
-
 
         document.getElementById('searchQuery').addEventListener('keypress', function (event) {
             if (event.key === 'Enter') {
@@ -310,6 +321,22 @@
 
         let searchQueryTextarea = document.getElementById('searchQuery');
         searchQueryTextarea.addEventListener('input', autosize);
+
+        function toggleText(index) {
+            let previewText = document.getElementById(`preview-${index}`);
+            let fullText = document.getElementById(`full-${index}`);
+            let toggleLink = document.getElementById(`toggle-${index}`);
+
+            if (previewText.style.display === 'none') {
+                previewText.style.display = 'block';
+                fullText.style.display = 'none';
+                toggleLink.textContent = 'Show more';
+            } else {
+                previewText.style.display = 'none';
+                fullText.style.display = 'block';
+                toggleLink.textContent = 'Show less';
+            }
+        }
     </script>
 </body>
 
