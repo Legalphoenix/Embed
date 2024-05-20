@@ -105,6 +105,10 @@
             height: 38px;
             min-height: 38px;
         }
+
+        .preformatted-text {
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 
@@ -274,7 +278,7 @@
                                         <h4>Result #${index + 1}</h4>
                                         <p>Match Score: ${matchScore.toFixed(2)}%</p>
                                         <p class="preview-text" id="preview-${index}">${previewText}</p>
-                                        <p class="full-text" id="full-${index}" style="display:none;">${fullText}</p>
+                                        <p class="full-text preformatted-text" id="full-${index}" style="display:none;">${fullText}</p>
                                         <a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>
                                         <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
                                     </div>`;
