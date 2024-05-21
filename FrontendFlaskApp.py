@@ -1,15 +1,23 @@
-#Frontendflaskapp.py
 from flask import Flask, request, jsonify, render_template, send_file
 from werkzeug.utils import secure_filename, safe_join
 from tika import parser
 import os
 import logging
 import json
+import openai
 from tika_server import TikaServer, close_tika_server
 from Embed_Backend import get_embedding, classify_extract_and_chunk, search_embeddings, save_embeddings_in_batches, process_chunks_in_batches, classify_document_with_title, extract_parties_from_document, save_embedding, send_to_claude_and_get_chunks
 import time
 import uuid
 import hashlib
+import anthropic
+
+def load_api_key(env_path='./Claude.env'):
+    with open(env_path, 'r') as file:
+        return file.read().strip()
+
+api_key = load_api_key()
+client = anthropic.Anthropic(api_key=api_key)
 
 logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -19,7 +27,7 @@ app.config['UPLOAD_FOLDER'] = 'Uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx', 'odt', 'json', 'html', 'xml', 'wav', 'mp3', 'rtf'}
 
 # Start the Tika server
-#tika_server = TikaServer()
+tika_server = TikaServer()
 
 @app.route('/')
 def home():
@@ -28,14 +36,8 @@ def home():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-# Start the Tika server
-tika_server = TikaServer()
-
-
-
 @app.route('/upload', methods=['POST'])
 def upload_file():
-
     '''GET FILE AND PARSE TEXT + metadata'''
     start_time = time.time()
 
@@ -58,13 +60,10 @@ def upload_file():
     start_time = time.time()
     parsed = parser.from_file(file_path)
     text = parsed["content"].strip() if parsed["content"] else ""
-    #metadata = parsed["metadata"]
-    #metadata = flatten_metadata(metadata)
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Parse file {elapsed_time:.2f} seconds")
     metadata = '1'
-
 
     '''GENERATE META DATA'''
     parent_document_filesize = os.path.getsize(file_path)
@@ -88,7 +87,6 @@ def upload_file():
     if parent_embedding is None:
         logging.error(f"Failed to generate embedding for parent document {filename}")
         return jsonify(error="Failed to generate embedding for parent document."), 500
-
 
     save_embedding(
         filename,
@@ -126,7 +124,6 @@ def upload_file():
     )
 
     return jsonify(success=True, message="Document processed into chunks and saved", file_type=document_type_id, file_name=filename)
-
 
 @app.route('/search', methods=['POST'])
 def search():
@@ -175,18 +172,63 @@ def search():
         logging.error(f"Error during search: {e}")
         return jsonify(error="An error occurred during the search"), 500
 
-#The below adds 1.5 seconds
-    #modified_query = generate_modified_query(query)
-    #if not modified_query:
-        #return jsonify(error="Error generating modified query"), 400
-    #logging.info(f"Modified query: {modified_query}")
-
-#old code getting preview text took 0.2
-
-    #reranked_summaries = rerank_results(summaries, modified_query)
-    #return jsonify(results=reranked_summaries)
 
 
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    message = data.get('message')
+    context = data.get('context')
+
+    if not message:
+        return jsonify(error="Message is required"), 400
+
+    full_context = f"Legal Text Context:\n{context}\n\nUser Message: {message}"
+    try:
+        messages = [{"role": "user", "content": full_context}]
+        #logging.info(f"Sending to Claude: {messages}")
+
+        response = client.messages.create(
+            model="claude-3-haiku-20240307",
+            max_tokens=1024,
+            system = "You are a legal assistant. Provide research and analysis based on the provided legal text. Please be concise. Please respond using html tag where applicable for formatting.",
+            temperature=0,
+            messages=messages
+        )
+        logging.info(f"Sending to Claude: {response}")
+        # Extract the text content from the TextBlock
+        reply = ''.join(block.text for block in response.content)
+        return jsonify(reply=reply)
+    except Exception as e:
+        logging.error(f"Error during chat: {e}")
+        return jsonify(error="An error occurred during the chat"), 500
+
+
+
+
+""" @app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    message = data.get('message')
+    context = data.get('context')
+
+    if not message:
+        return jsonify(error="Message is required"), 400
+
+    full_context = f"Legal Text Context:\n{context}\n\nUser Message: {message}"
+    try:
+        response = openai.ChatCompletion.create(
+            model="GPT-4o",
+            messages=[
+                {"role": "system", "content": "You are a legal assistant. Provide research and analysis based on the provided legal text. Please be concise. Please respond using html tag where applicable for formatting."},
+                {"role": "user", "content": full_context}
+            ]
+        )
+        reply = response.choices[0].message['content']
+        return jsonify(reply=reply)
+    except Exception as e:
+        logging.error(f"Error during chat: {e}")
+        return jsonify(error="An error occurred during the chat"), 500 """
 
 @app.route('/files/<filename>')
 def uploaded_file(filename):

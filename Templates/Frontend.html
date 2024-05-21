@@ -6,6 +6,7 @@
     <title>File Upload and Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* Existing styles */
         .drop-area {
             border: 2px dashed #ccc;
             padding: 20px;
@@ -109,6 +110,27 @@
         .preformatted-text {
             white-space: pre-wrap;
         }
+
+        .chat-container {
+            margin-top: 20px;
+        }
+
+        .chat-box {
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .chat-buttons {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -144,6 +166,15 @@
         </div>
 
         <div id="results"></div>
+
+        <div class="chat-container">
+            <div class="chat-box" id="chatBox"></div>
+            <textarea id="chatInput" class="chat-input" placeholder="Type your message here..."></textarea>
+            <div class="chat-buttons">
+                <button onclick="sendMessage()" class="btn btn-primary">Send</button>
+                <button onclick="clearChat()" class="btn btn-danger">Clear Chat</button>
+            </div>
+        </div>
     </div>
 
     <div class="loading-spinner">
@@ -159,6 +190,8 @@
         let dropArea = document.getElementById('drop-area');
         let resultsDiv = document.getElementById('results');
         let fileElem = document.getElementById('fileElem');
+        let selectedTexts = [];
+        let chatBox = document.getElementById('chatBox');
 
         dropArea.addEventListener('click', () => {
             fileElem.click();
@@ -274,6 +307,7 @@
                                     }
 
                                     content += `<div class="result">
+                                        <input type="checkbox" id="result-checkbox-${index}" value="${fullText}" onclick="toggleSelectedText(this)">
                                         <h4>Result #${index + 1}</h4>
                                         <p>Match Score: ${matchScore.toFixed(2)}%</p>
                                         <p class="preview-text" id="preview-${index}">${truncatedText}</p>
@@ -339,11 +373,63 @@
                 fullText.style.display = 'none';
                 toggleLink.textContent = 'Show more';
             } else {
-                previewText.style.display = 'none';
+                (previewText.style.display = 'none');
                 fullText.style.display = 'block';
                 toggleLink.textContent = 'Show less';
             }
         }
+
+        function toggleSelectedText(checkbox) {
+            let value = checkbox.value;
+            if (checkbox.checked) {
+                selectedTexts.push(value);
+            } else {
+                selectedTexts = selectedTexts.filter(text => text !== value);
+            }
+        }
+
+        function sendMessage() {
+            let message = document.getElementById('chatInput').value;
+            let context = selectedTexts.join('\n');
+
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    context: context
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else if (data.reply) {
+                        chatBox.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+                        chatBox.innerHTML += `<div><strong>Chatbot:</strong> ${data.reply}</div>`;
+                        document.getElementById('chatInput').value = '';
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error sending message');
+                });
+        }
+
+        function clearChat() {
+            chatBox.innerHTML = '';
+            selectedTexts = [];
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
     </script>
 </body>
 
