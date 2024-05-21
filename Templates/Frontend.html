@@ -266,21 +266,24 @@
                                 if (!isNaN(matchScore)) {  // Check if matchScore is a valid number
                                     let previewText = result.preview_text;
                                     let fullText = previewText;
-                                    // Check if it's a parent document collection
-                                    if (['101', '102', '103', '104'].includes(docType)) {
-                                        // Truncate previewText to 100 words
-                                        let words = previewText.split(' ');
-                                        if (words.length > 100) {
-                                            previewText = words.slice(0, 100).join(' ') + '...';
-                                        }
+                                    let truncatedText = previewText;
+                                    let words = previewText.split(' ');
+
+                                    if (words.length > 100) {
+                                        truncatedText = words.slice(0, 100).join(' ') + '...';
                                     }
+
                                     content += `<div class="result">
                                         <h4>Result #${index + 1}</h4>
                                         <p>Match Score: ${matchScore.toFixed(2)}%</p>
-                                        <p class="preview-text" id="preview-${index}">${previewText}</p>
-                                        <p class="full-text preformatted-text" id="full-${index}" style="display:none;">${fullText}</p>
-                                        <a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>
-                                        <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+                                        <p class="preview-text" id="preview-${index}">${truncatedText}</p>
+                                        <p class="full-text preformatted-text" id="full-${index}" style="display:none;">${fullText}</p>`;
+
+                                    if (words.length > 100) {
+                                        content += `<a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>`;
+                                    }
+
+                                    content += `<a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
                                     </div>`;
                                 }
                             });

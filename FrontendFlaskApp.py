@@ -57,7 +57,7 @@ def upload_file():
 
     start_time = time.time()
     parsed = parser.from_file(file_path)
-    text = parsed["content"] if parsed["content"] else ""
+    text = parsed["content"].strip() if parsed["content"] else ""
     #metadata = parsed["metadata"]
     #metadata = flatten_metadata(metadata)
     end_time = time.time()
@@ -88,6 +88,7 @@ def upload_file():
     if parent_embedding is None:
         logging.error(f"Failed to generate embedding for parent document {filename}")
         return jsonify(error="Failed to generate embedding for parent document."), 500
+
 
     save_embedding(
         filename,
