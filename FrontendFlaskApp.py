@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename, safe_join
 from tika import parser
 import os
 import logging
-import json
 from tika_server import TikaServer, close_tika_server
 from Embed_Backend import get_embedding, classify_extract_and_chunk, search_embeddings, save_embeddings_in_batches, process_chunks_in_batches, classify_document_with_title, extract_parties_from_document, save_embedding, send_to_claude_and_get_chunks
 import time
