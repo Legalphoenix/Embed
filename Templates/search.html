@@ -3,29 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>File Upload and Search</title>
+    <title>Document Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .drop-area {
-            border: 2px dashed #ccc;
-            padding: 20px;
-            width: 50%;
-            margin: 20px auto;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .drop-area:hover {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .drop-area.drag-over {
-            border-color: #007bff;
-        }
-
         #results {
             margin-top: 20px;
             text-align: left;
@@ -56,28 +36,6 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
-        }
-
-        .upload-success {
-            position: relative;
-            border: 1px solid #4CAF50;
-            background-color: #e6ffe6;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-
-        .upload-success .close-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .upload-button {
-            font-size: 14px;
         }
 
         .search-button {
@@ -114,12 +72,7 @@
 
 <body>
     <div class="container">
-        <h1 class="text-center">LexiSearch</h1>
-        <div class="drop-area" id="drop-area">
-            <span>Drag and drop files here or click to select files</span>
-            <input type="file" id="fileElem" multiple style="display:none;" onchange="handleFiles(this.files)">
-        </div>
-
+        <h1 class="text-center">Document Search</h1>
         <div class="form-row">
             <div class="col-md-6">
                 <select id="docType" class="form-control docType-select">
@@ -138,112 +91,30 @@
                 <textarea id="searchQuery" class="form-control" placeholder="Search..." rows="1"></textarea>
             </div>
         </div>
-
         <div class="text-center" style="margin-top: 20px;">
             <button onclick="submitSearch()" class="btn btn-primary search-button">Search</button>
         </div>
-
         <div id="results"></div>
     </div>
-
     <div class="loading-spinner">
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        let dropArea = document.getElementById('drop-area');
         let resultsDiv = document.getElementById('results');
-        let fileElem = document.getElementById('fileElem');
-
-        dropArea.addEventListener('click', () => {
-            fileElem.click();
-        });
-
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight(e) {
-            dropArea.classList.add('drag-over');
-        }
-
-        function unhighlight(e) {
-            dropArea.classList.remove('drag-over');
-        }
-
-        dropArea.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            let dt = e.dataTransfer;
-            let files = dt.files;
-
-            handleFiles(files);
-        }
-
-        function handleFiles(files) {
-            ([...files]).forEach(uploadFile);
-        }
-
-        function uploadFile(file) {
-            let url = '/upload';
-            let formData = new FormData();
-
-            formData.append('file', file);
-
-            showLoadingSpinner(); // Show loading spinner
-
-            fetch(url, {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    hideLoadingSpinner(); // Hide loading spinner
-
-                    if (data.error) {
-                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">${data.error}</div>` + resultsDiv.innerHTML; // Add error to the top
-                    } else if (data.success) {
-                        let successMessage = document.createElement('div');
-                        successMessage.className = 'upload-success';
-                        successMessage.innerHTML = `<span class="close-btn" onclick="this.parentElement.remove();">&times;</span>Upload successful! File: ${data.file_name}`;
-                        resultsDiv.insertBefore(successMessage, resultsDiv.firstChild); // Add message to the top
-                    } else {
-                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: An unexpected error occurred.</div>` + resultsDiv.innerHTML; // Add error to the top
-                    }
-                })
-                .catch(() => {
-                    hideLoadingSpinner(); // Hide loading spinner
-                    console.error('Error:');
-                    resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error with upload. Please try again.</div>` + resultsDiv.innerHTML; // Add error to the top
-                });
-        }
 
         function submitSearch() {
             let query = document.getElementById('searchQuery').value;
             let docType = document.getElementById('docType').value;
-            resultsDiv.innerHTML = ''; // Clear previous results
+            resultsDiv.innerHTML = '';
 
-            console.log(`Submitting search with query: ${query} and doc_type: ${docType}`); // Add this line for debugging
+            console.log(`Submitting search with query: ${query} and doc_type: ${docType}`);
 
-            showLoadingSpinner(); // Show loading spinner
+            showLoadingSpinner();
 
             fetch('/search', {
                 method: 'POST',
@@ -254,16 +125,16 @@
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log("Server response:", data); // Log the response from the server
-                    hideLoadingSpinner(); // Hide loading spinner
+                    console.log("Server response:", data);
+                    hideLoadingSpinner();
 
                     try {
                         let jsonData = JSON.parse(data);
                         if (jsonData.results && jsonData.results.length > 0) {
                             let content = '<h2>Search Results:</h2>';
                             jsonData.results.forEach((result, index) => {
-                                let matchScore = parseFloat(result.match_score);  // Ensure match_score is a number
-                                if (!isNaN(matchScore)) {  // Check if matchScore is a valid number
+                                let matchScore = parseFloat(result.match_score);
+                                if (!isNaN(matchScore)) {
                                     let previewText = result.preview_text;
                                     let fullText = previewText;
                                     let truncatedText = previewText;
@@ -274,17 +145,17 @@
                                     }
 
                                     content += `<div class="result">
-                                        <h4>Result #${index + 1}</h4>
-                                        <p>Match Score: ${matchScore.toFixed(2)}%</p>
-                                        <p class="preview-text" id="preview-${index}">${truncatedText}</p>
-                                        <p class="full-text preformatted-text" id="full-${index}" style="display:none;">${fullText}</p>`;
+                                    <h4>Result #${index + 1}</h4>
+                                    <p>Match Score: ${matchScore.toFixed(2)}%</p>
+                                    <p class="preview-text" id="preview-${index}">${truncatedText}</p>
+                                    <p class="full-text preformatted-text" id="full-${index}" style="display:none;">${fullText}</p>`;
 
                                     if (words.length > 100) {
                                         content += `<a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>`;
                                     }
 
                                     content += `<a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-                                    </div>`;
+                                </div>`;
                                 }
                             });
                             resultsDiv.innerHTML = content;
@@ -297,7 +168,7 @@
                     }
                 })
                 .catch(error => {
-                    hideLoadingSpinner(); // Hide loading spinner
+                    hideLoadingSpinner();
                     console.error('Error:', error);
                     resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: Could not retrieve search results.</div>`;
                 });
@@ -317,17 +188,6 @@
         function hideLoadingSpinner() {
             $('.loading-spinner').hide();
         }
-
-        function autosize() {
-            var el = this;
-            setTimeout(function () {
-                el.style.cssText = 'height:auto; padding:0;';
-                el.style.cssText += 'height:' + (el.scrollHeight) + 'px';
-            }, 0);
-        }
-
-        let searchQueryTextarea = document.getElementById('searchQuery');
-        searchQueryTextarea.addEventListener('input', autosize);
 
         function toggleText(index) {
             let previewText = document.getElementById(`preview-${index}`);

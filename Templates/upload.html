@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .drop-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            width: 50%;
+            margin: 20px auto;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .drop-area:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .drop-area.drag-over {
+            border-color: #007bff;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .upload-success {
+            position: relative;
+            border: 1px solid #4CAF50;
+            background-color: #e6ffe6;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .upload-success .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Document Upload</h1>
+        <div class="drop-area" id="drop-area">
+            <span>Drag and drop files here or click to select files</span>
+            <input type="file" id="fileElem" multiple style="display:none;" onchange="handleFiles(this.files)">
+        </div>
+        <div id="results"></div>
+    </div>
+    <div class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let dropArea = document.getElementById('drop-area');
+        let resultsDiv = document.getElementById('results');
+        let fileElem = document.getElementById('fileElem');
+
+        dropArea.addEventListener('click', () => {
+            fileElem.click();
+        });
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropArea.classList.add('drag-over');
+        }
+
+        function unhighlight(e) {
+            dropArea.classList.remove('drag-over');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            ([...files]).forEach(uploadFile);
+        }
+
+        function uploadFile(file) {
+            let url = '/upload';
+            let formData = new FormData();
+            formData.append('file', file);
+            showLoadingSpinner();
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoadingSpinner();
+                    if (data.error) {
+                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">${data.error}</div>` + resultsDiv.innerHTML;
+                    } else if (data.success) {
+                        let successMessage = document.createElement('div');
+                        successMessage.className = 'upload-success';
+                        successMessage.innerHTML = `<span class="close-btn" onclick="this.parentElement.remove();">&times;</span>Upload successful! File: ${data.file_name}`;
+                        resultsDiv.insertBefore(successMessage, resultsDiv.firstChild);
+                    } else {
+                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: An unexpected error occurred.</div>` + resultsDiv.innerHTML;
+                    }
+                })
+                .catch(() => {
+                    hideLoadingSpinner();
+                    console.error('Error:');
+                    resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error with upload. Please try again.</div>` + resultsDiv.innerHTML;
+                });
+        }
+
+        function showLoadingSpinner() {
+            $('.loading-spinner').show();
+        }
+
+        function hideLoadingSpinner() {
+            $('.loading-spinner').hide();
+        }
+    </script>
+</body>
+
+</html>
