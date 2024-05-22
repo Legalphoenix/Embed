@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #results {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .result {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .result a {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .result a:hover {
+            text-decoration: underline;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .search-button {
+            font-size: 14px;
+        }
+
+        .form-control.docType-select {
+            background-color: #f6f6f6;
+            border: 1px solid #d9dee473;
+            border-radius: 4px;
+            height: 38px;
+        }
+
+        .form-control.docType-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .docType-select:focus option {
+            background-color: #f6f6f6;
+            color: #343a40;
+        }
+
+        #searchQuery {
+            height: 38px;
+            min-height: 38px;
+        }
+
+        .preformatted-text {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Document Search</h1>
+        <div class="form-row">
+            <div class="col-md-6">
+                <select id="docType" class="form-control docType-select">
+                    <option value="0">All Categories</option>
+                    <option value="1">Legislation</option>
+                    <option value="2">Guidelines</option>
+                    <option value="3">Court Cases</option>
+                    <option value="4">Contracts</option>
+                    <option value="101">Parent Legislation</option>
+                    <option value="102">Parent Guidelines</option>
+                    <option value="103">Parent Court Cases</option>
+                    <option value="104">Parent Contracts</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <textarea id="searchQuery" class="form-control" placeholder="Search..." rows="1"></textarea>
+            </div>
+        </div>
+        <div class="text-center" style="margin-top: 20px;">
+            <button onclick="submitSearch()" class="btn btn-primary search-button">Search</button>
+        </div>
+        <div id="results"></div>
+    </div>
+    <div class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let resultsDiv = document.getElementById('results');
+
+        function submitSearch() {
+            let query = document.getElementById('searchQuery').value;
+            let docType = document.getElementById('docType').value;
+            resultsDiv.innerHTML = '';
+
+            console.log(`Submitting search with query: ${query} and doc_type: ${docType}`);
+
+            showLoadingSpinner();
+
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'query=' + encodeURIComponent(query) + '&doc_type=' + encodeURIComponent(docType)
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log("Server response:", data);
+                    hideLoadingSpinner();
+
+                    try {
+                        let jsonData = JSON.parse(data);
+                        if (jsonData.results && jsonData.results.length > 0) {
+                            let content = '<h2>Search Results:</h2>';
+                            jsonData.results.forEach((result, index) => {
+                                let matchScore = parseFloat(result.match_score);
+                                if (!isNaN(matchScore)) {
+                                    let previewText = result.preview_text;
+                                    let fullText = previewText;
+                                    let truncatedText = previewText;
+                                    let words = previewText.split(' ');
+
+                                    if (words.length > 100) {
+                                        truncatedText = words.slice(0, 100).join(' ') + '...';
+                                    }
+
+                                    content += `<div class="result">
+                                    <h4>Result #${index + 1}</h4>
+                                    <p>Match Score: ${matchScore.toFixed(2)}%</p>
+                                    <p class="preview-text" id="preview-${index}">${truncatedText}</p>
+                                    <p class="full-text preformatted-text" id="full-${index}" style="display:none;">${fullText}</p>`;
+
+                                    if (words.length > 100) {
+                                        content += `<a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>`;
+                                    }
+
+                                    content += `<a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+                                </div>`;
+                                }
+                            });
+                            resultsDiv.innerHTML = content;
+                        } else {
+                            resultsDiv.innerHTML = `<div class="alert alert-warning" role="alert">No results found.</div>`;
+                        }
+                    } catch (e) {
+                        console.error("Error parsing JSON:", e);
+                        resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: Could not retrieve search results.</div>`;
+                    }
+                })
+                .catch(error => {
+                    hideLoadingSpinner();
+                    console.error('Error:', error);
+                    resultsDiv.innerHTML = `<div class="alert alert-danger" role="alert">Error: Could not retrieve search results.</div>`;
+                });
+        }
+
+        document.getElementById('searchQuery').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                submitSearch();
+            }
+        });
+
+        function showLoadingSpinner() {
+            $('.loading-spinner').show();
+        }
+
+        function hideLoadingSpinner() {
+            $('.loading-spinner').hide();
+        }
+
+        function toggleText(index) {
+            let previewText = document.getElementById(`preview-${index}`);
+            let fullText = document.getElementById(`full-${index}`);
+            let toggleLink = document.getElementById(`toggle-${index}`);
+
+            if (previewText.style.display === 'none') {
+                previewText.style.display = 'block';
+                fullText.style.display = 'none';
+                toggleLink.textContent = 'Show more';
+            } else {
+                previewText.style.display = 'none';
+                fullText.style.display = 'block';
+                toggleLink.textContent = 'Show less';
+            }
+        }
+    </script>
+</body>
+
+</html>
