@@ -22,7 +22,7 @@ def search():
             logging.error("Error generating query embedding")
             return jsonify(error="Error generating query embedding"), 400
 
-        results = search_embeddings(query_embedding, doc_type, top_n=10)
+        results = search_embeddings(query_embedding, doc_type, top_n=100)
         if not results:
             logging.info("No matching documents found")
             return jsonify(error="No matching documents found"), 404

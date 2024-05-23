@@ -8,6 +8,7 @@ import hashlib
 from shared_config import UPLOAD_FOLDER, ALLOWED_EXTENSIONS, TIKA_SERVER_PORT
 from embed_backend import get_embedding, classify_extract_and_chunk, save_embedding, process_chunks_in_batches, save_embeddings_in_batches
 
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 

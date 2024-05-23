@@ -1,6 +1,6 @@
 #embed_backend.py
 import numpy as np
-import openai
+from openai import OpenAI
 import logging
 from dotenv import load_dotenv
 from schema import Schema, Use, SchemaError
@@ -10,10 +10,14 @@ import chromadb
 import uuid
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 import concurrent.futures
+import os
+load_dotenv(os.path.join(os.path.dirname(__file__), 'gpt_api.env'))
+openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+logging.basicConfig(level=logging.INFO, filename='embedding_log.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s')
+#from WIP_gpt_batches import send_to_claude_and_get_chunks
 
 # API Key handling
-openai.api_key_path = './API.env'
 voyageai.api_key_path = './Voyage.env'
 vo = voyageai.Client()
 def load_api_key(env_path='./Claude.env'):
@@ -21,7 +25,7 @@ def load_api_key(env_path='./Claude.env'):
         return file.read().strip()
 
 api_key = load_api_key()
-client = anthropic.Anthropic(api_key=api_key)
+anthropic_client = anthropic.Anthropic(api_key=api_key)
 
 # Initialize persistent ChromaDB client
 chroma_client = chromadb.PersistentClient(path="./chromadb")
@@ -177,7 +181,7 @@ def save_embedding(original_file_name, document_title, document_parties, embeddi
         parent_collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
 '''SEARCH EMBEDDINGS'''
-def search_embeddings(query_embedding, doc_type, top_n=15):
+def search_embeddings(query_embedding, doc_type, top_n=100):
     collections = []
     if doc_type in [1, 101]:  # Legislation or Parent Legislation
         if doc_type == 1:
@@ -221,16 +225,15 @@ def search_embeddings(query_embedding, doc_type, top_n=15):
 
 def generate_modified_query(query):
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0125",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant."
-                },
-                {
-                    "role": "user",
-                    "content": f'''A user is attempting to search an embedding space with this query: \"{query}\"
+        response = openai_client.chat.completions.create(model="gpt-3.5-turbo-0125",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant."
+            },
+            {
+                "role": "user",
+                "content": f'''A user is attempting to search an embedding space with this query: \"{query}\"
                                     Output a new query using the exact format below.
                                     Query Subject: which could be seen as an encapsulation of the overall subject or theme of the query.
                                     Query Description: which provides a more detailed description of what the query is about.
@@ -259,13 +262,12 @@ def generate_modified_query(query):
 
 
                                     )'''
-                }
-            ],
-            temperature=0,
-            max_tokens=1024,
-            stop=None,
-        )
-        generated_document = response.choices[0]['message']['content'].strip()
+            }
+        ],
+        temperature=0,
+        max_tokens=1024,
+        stop=None)
+        generated_document = response.choices[0].message.content.strip()
         logging.info(f"GPT-3.5 generated document: {generated_document}")
         return generated_document
     except Exception as e:
@@ -287,13 +289,70 @@ def rerank_results(summaries, modified_query):
 
 def send_to_claude_and_get_chunks(numbered_sentences):
     sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
+    logging.info(f"Sending to ChatGPT: {sentences_content}")
+    messages = [
+        {
+            "role": "system",
+            "content": '''
+                You are an expert legal embedding chunking program.
+                Please read the GDPR document below very carefully and do nothing except follow the exact instructions.
+                <instruction 1> Segment the GDPR Articles document into one chunk per entire and complete Article of GDPR. When you see "Article X" alone between two lines like this: <line id=num>Article X</line> then you know you should create a new chunk and keep all clauses following inside that chunk. The title of the document should be chunked by itself. </instruction>
+                <instruction 2> In order to minimize the amount of text in your output, we will do the following:
+                1. You will be provided with the document formatted such that each sentence or group of sentences
+                from the document are numbered top to bottom indicated by '<line id=num>sentence</line>' where num is the line number.
+                2. When you chunk the document, you will output your segmented chunks strictly in the following example format:
+                </instruction>
+                <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...
+                No matter what, follow only this exact format. All sections in each Article should be grouped in one chunk. </example>
+            '''
+        },
+        {
+            "role": "user",
+            "content": '<documents> ' + sentences_content + '''
+                         </documents> <instructions> Check the final <line id="num">sentence</line> number first to ensure you
+                        do not go past that number when generating your chunks.  </instructions>  '''
+        }
+    ]
+
+    logging.info(f"SxxxxxxxxT: {messages}")
+
+    try:
+        response = openai_client.chat.completions.create(model="gpt-4o",
+        messages=messages,
+        max_tokens=4096,
+        temperature=0)
+        logging.info(f"ChatGPT's raw response: '{response}'")
+        message_content = response.choices[0].message.content
+        logging.info(f"ChatGPT's content: '{message_content}'")
+
+        combined_text = message_content.strip()
+    except Exception as e:
+        logging.error(f"Error processing ChatGPT's response: {e}")
+        combined_text = ""
+
+    logging.info(f"Combined text for chunk processing: {combined_text}")
+
+    chunks = {}
+    if combined_text:
+        for line in combined_text.split('\n'):
+            if line.startswith('Chunk'):
+                chunk_number, sentence_numbers = line.split(': ')
+                chunk_sentences = [int(num) for num in sentence_numbers.split(',')]
+                chunks[int(chunk_number.split(' ')[1])] = chunk_sentences
+    else:
+        logging.error("Combined text is empty, cannot extract chunks.")
+
+    return chunks
+
+""" def send_to_claude_and_get_chunks(numbered_sentences):
+    sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
     messages = [{"role": "user", "content": '<documents> ' + sentences_content + '''
                  </documents> <instructions> Check the final <line id="num">sentence</line> number first to ensure you
                 do not go past that number when generating your chunks.  </instructions>  '''}]
 
     logging.info(f"Sending to Claude: {messages}")
 
-    message = client.messages.create(
+    message = anthropic_client.messages.create(
         model="claude-3-haiku-20240307",
         max_tokens=4096,
         temperature=0,
@@ -335,7 +394,7 @@ def send_to_claude_and_get_chunks(numbered_sentences):
     else:
         logging.error("Combined text is empty, cannot extract chunks.")
 
-    return chunks
+    return chunks """
 
 '''CLASSIFY AND EXTRACT INFORMATION'''
 
@@ -380,12 +439,12 @@ def classify_document_with_title(text):
     logging.info(f"Sending to Claude for classification and title extraction: {messages}")
 
     try:
-        message = client.messages.create(
+        message = anthropic_client.messages.create(
             model="claude-3-haiku-20240307",
             messages=messages,
-            max_tokens=10,
+            max_tokens=50,
             temperature=0,
-            system="<role> You are an expert legal document classifier. Read the document below carefully and classify it according to the given categories. Respond with a number followed by a comma and the full document title. </role>"
+            system="<role> You are an expert legal document classifier. Read the document below carefully and classify it according to the given categories. Respond with a number that maps to the classification followed by a comma and the full document title. </role>"
         )
         logging.info(f"API Response: {message}")
 
@@ -410,19 +469,19 @@ def extract_parties_from_document(text):
     messages = [
         {
             "role": "user",
-            "content": f"<documents> {encoded_text} </documents> <instructions> Extract the names of any companies or parties involved in this document. List the parties only and do not output anything else. Remove all formatting. </instructions>"
+            "content": f"<documents> {encoded_text} </documents> <instructions> Extract the names of any companies or parties involved in this document. If it is the GDPR, then output 'European Union.' List the parties only and do not output anything else. Remove all formatting. </instructions>"
         }
     ]
 
     logging.info(f"Sending to Claude for party extraction: {messages}")
 
     try:
-        message = client.messages.create(
+        message = anthropic_client.messages.create(
             model="claude-3-haiku-20240307",
             messages=messages,
-            max_tokens=25,
+            max_tokens=100,
             temperature=0,
-            system="<role> You are an expert in identifying relevant parties from legal documents. Read the document below carefully and list the names of all identified parties, separated by commas. </role>"
+            system="<role> You are an expert in identifying relevant parties from legal documents. Read the document below carefully and list the names of all identified parties, separated by commas. If it is the GDPR, then output 'European Union'. </role>"
         )
         logging.info(f"API Response: {message}")
 

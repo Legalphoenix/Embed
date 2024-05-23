@@ -9,4 +9,6 @@ tika/
 chromadb/
 Voyage.env
 Claude.env
-chromadb/chroma.sqlite3
+GDPR/
+batch_input.jsonl
+gpt_api.env
