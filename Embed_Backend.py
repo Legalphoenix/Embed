@@ -181,33 +181,30 @@ def save_embedding(original_file_name, document_title, document_parties, embeddi
         parent_collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
 '''SEARCH EMBEDDINGS'''
-def search_embeddings(query_embedding, doc_type, top_n=100):
+def search_embeddings(query_embedding, doc_types, top_n=100):
     collections = []
-    if doc_type in [1, 101]:  # Legislation or Parent Legislation
-        if doc_type == 1:
-            collections.append(collection_legislation)
-        elif doc_type == 101:
-            collections.append(parent_collection_legislation)
-    elif doc_type in [2, 102]:  # Guidelines or Parent Guidelines
-        if doc_type == 2:
-            collections.append(collection_guidelines)
-        elif doc_type == 102:
-            collections.append(parent_collection_guidelines)
-    elif doc_type in [3, 103]:  # Court Cases or Parent Court Cases
-        if doc_type == 3:
-            collections.append(collection_court_cases)
-        elif doc_type == 103:
-            collections.append(parent_collection_court_cases)
-    elif doc_type in [4, 104]:  # Contracts or Parent Contracts
-        if doc_type == 4:
-            collections.append(collection_contracts)
-        elif doc_type == 104:
-            collections.append(parent_collection_contracts)
-    else:  # All categories
+    if 0 in doc_types:  # All categories
         collections = [
             collection_legislation, collection_guidelines, collection_court_cases, collection_contracts,
             parent_collection_legislation, parent_collection_guidelines, parent_collection_court_cases, parent_collection_contracts
         ]
+    else:
+        if 1 in doc_types:
+            collections.append(collection_legislation)
+        if 101 in doc_types:
+            collections.append(parent_collection_legislation)
+        if 2 in doc_types:
+            collections.append(collection_guidelines)
+        if 102 in doc_types:
+            collections.append(parent_collection_guidelines)
+        if 3 in doc_types:
+            collections.append(collection_court_cases)
+        if 103 in doc_types:
+            collections.append(parent_collection_court_cases)
+        if 4 in doc_types:
+            collections.append(collection_contracts)
+        if 104 in doc_types:
+            collections.append(parent_collection_contracts)
 
     results = []
     for collection in collections:
@@ -221,6 +218,7 @@ def search_embeddings(query_embedding, doc_type, top_n=100):
     results = sorted(results, key=lambda x: x["distance"])[:top_n]
     logging.info(f"results: {results}")
     return results
+
 
 
 def generate_modified_query(query):

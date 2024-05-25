@@ -1,6 +1,9 @@
-from flask import Flask, request, jsonify, render_template
+# search.py code
+from flask import Flask, request, jsonify, render_template, send_file
 import logging
 from embed_backend import get_embedding, search_embeddings
+from werkzeug.utils import secure_filename, safe_join
+import os
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO, filename='search_log.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s')
@@ -13,7 +16,7 @@ def home():
 def search():
     try:
         query = request.form['query']
-        doc_type = int(request.form['doc_type'])
+        doc_type = request.form.get('doc_type', '0')  # Default to "All Categories"
 
         logging.info(f"Search request received: query={query}, doc_type={doc_type}")
 
@@ -22,7 +25,10 @@ def search():
             logging.error("Error generating query embedding")
             return jsonify(error="Error generating query embedding"), 400
 
-        results = search_embeddings(query_embedding, doc_type, top_n=100)
+        # Convert doc_type to list of integers
+        doc_type_list = list(map(int, doc_type.split(',')))
+
+        results = search_embeddings(query_embedding, doc_type_list, top_n=100)
         if not results:
             logging.info("No matching documents found")
             return jsonify(error="No matching documents found"), 404
@@ -56,6 +62,14 @@ def search():
     except Exception as e:
         logging.error(f"Error during search: {e}")
         return jsonify(error="An error occurred during the search"), 500
+
+@app.route('/files/<filename>')
+def uploaded_file(filename):
+    secure_name = secure_filename(filename)
+    file_path = safe_join(app.config['UPLOAD_FOLDER'], secure_name)
+    if os.path.isfile(file_path):
+        return send_file(file_path, as_attachment=True)
+    return jsonify(error="File not found"), 404
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
