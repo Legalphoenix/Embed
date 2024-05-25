@@ -6,9 +6,12 @@
     <title>LexiSearch</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
         }
 
         .container {
@@ -36,6 +39,7 @@
             margin-left: 270px;
             padding: 20px;
             flex-grow: 1;
+            max-width: 800px;
         }
 
         #results {
@@ -70,16 +74,12 @@
             z-index: 1000;
         }
 
-        .search-button {
-            font-size: 14px;
-
-        }
-
         .form-control {
             background-color: #ffffff;
             border: 1px solid #d9dee473;
-            border-radius: 0;
+            border-radius: 30px;
             transition: box-shadow 0.2s ease;
+            font-size: 14px;
         }
 
         .form-control:focus,
@@ -92,31 +92,41 @@
 
         .search-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            max-width: 450px;
+            max-width: 575px;
             margin: auto;
             margin-top: 20px;
             position: relative;
         }
 
-        .search-button {
-            height: 38px;
-            border-top-right-radius: 4px;
-            border-bottom-right-radius: 4px;
-            border: 1px solid #d9dee473;
-            border-left: none;
-            background-color: #ffffff;
-            color: #000000;
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
 
-        .search-button:hover {
+        .search-button,
+        .clear-button {
+            font-size: 14px;
+            height: 38px;
+            padding: 0 20px;
+            border: 1px solid #d9dee473;
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+
+        .search-button:hover,
+        .clear-button:hover {
             background-color: #f7f8fa;
         }
 
         ::placeholder {
             font-size: 0.9em;
             opacity: 0.5;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Open Sans', sans-serif;
         }
 
         .preformatted-text {
@@ -124,16 +134,38 @@
         }
 
         #searchQuery {
-            height: 38px;
-            min-height: 38px;
+            height: 46px;
+            min-height: 46px;
             max-height: 192px;
-            /* 8 lines with a line height of 24px */
             overflow-y: hidden;
-            /* Hide scrollbar initially */
             resize: none;
-            /* Disable manual resizing */
-            transition: none;
-            /* Disable transition for height */
+            transition: height 0.2s ease;
+            box-sizing: border-box;
+            line-height: 1.5;
+            border-radius: 30px;
+            padding: 12px 15px;
+            /* Adjust padding to center text */
+            font-size: 14px;
+        }
+
+        /* Adjust the placeholder text */
+        #searchQuery::placeholder {
+            line-height: 1.5;
+            /* Match the line-height of the textarea */
+            padding-top: 2.3px;
+            font-size: 12px;
+            /* Adjust to vertically align */
+        }
+
+
+        .hidden {
+            display: none;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -142,39 +174,39 @@
     <div class="container">
         <div class="sidebar">
             <h5>Search Categories</h5>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="0" id="allCategories" checked>
+            <div class="form-check hidden">
+                <input class="form-check-input" type="checkbox" value="0" id="allCategories">
                 <label class="form-check-label" for="allCategories"> All Categories </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input category-checkbox" type="checkbox" value="1" id="legislation">
-                <label class="form-check-label" for="legislation"> Legislation </label>
+                <input class="form-check-input category-checkbox" type="checkbox" value="1" id="legislation" checked>
+                <label class="form-check-label" for="legislation"> GDPR </label>
             </div>
-            <div class="form-check">
+            <div class="form-check hidden">
                 <input class="form-check-input category-checkbox" type="checkbox" value="2" id="guidelines">
                 <label class="form-check-label" for="guidelines"> Guidelines </label>
             </div>
-            <div class="form-check">
+            <div class="form-check hidden">
                 <input class="form-check-input category-checkbox" type="checkbox" value="3" id="courtCases">
                 <label class="form-check-label" for="courtCases"> Court Cases </label>
             </div>
-            <div class="form-check">
+            <div class="form-check hidden">
                 <input class="form-check-input category-checkbox" type="checkbox" value="4" id="contracts">
                 <label class="form-check-label" for="contracts"> Contracts </label>
             </div>
-            <div class="form-check">
+            <div class="form-check hidden">
                 <input class="form-check-input category-checkbox" type="checkbox" value="101" id="parentLegislation">
                 <label class="form-check-label" for="parentLegislation"> Parent Legislation </label>
             </div>
-            <div class="form-check">
+            <div class="form-check hidden">
                 <input class="form-check-input category-checkbox" type="checkbox" value="102" id="parentGuidelines">
                 <label class="form-check-label" for="parentGuidelines"> Parent Guidelines </label>
             </div>
-            <div class="form-check">
+            <div class="form-check hidden">
                 <input class="form-check-input category-checkbox" type="checkbox" value="103" id="parentCourtCases">
                 <label class="form-check-label" for="parentCourtCases"> Parent Court Cases </label>
             </div>
-            <div class="form-check">
+            <div class="form-check hidden">
                 <input class="form-check-input category-checkbox" type="checkbox" value="104" id="parentContracts">
                 <label class="form-check-label" for="parentContracts"> Parent Contracts </label>
             </div>
@@ -184,7 +216,11 @@
             <div class="search-container">
                 <textarea id="searchQuery" class="form-control"
                     placeholder="Search legal concepts, case facts or ask a question" rows="1"></textarea>
-                <button onclick="submitSearch()" class="search-button">Search</button>
+                <div class="buttons-container">
+                    <button onclick="submitSearch()" class="search-button">Search</button>
+                    <button onclick="clearQuery()" class="clear-button">Clear query</button>
+                </div>
+                <div id="error-message" class="error-message"></div>
             </div>
             <div id="results"></div>
         </div>
@@ -198,11 +234,17 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('searchQuery').focus();
+        });
+
         let resultsDiv = document.getElementById('results');
+        let errorMessageDiv = document.getElementById('error-message');
 
         document.querySelectorAll('.category-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', function () {
                 document.getElementById('allCategories').checked = false;
+                errorMessageDiv.textContent = ''; // Clear error message when any category is selected
             });
         });
 
@@ -211,21 +253,30 @@
                 document.querySelectorAll('.category-checkbox').forEach(checkbox => {
                     checkbox.checked = false;
                 });
+                errorMessageDiv.textContent = ''; // Clear error message when "All Categories" is selected
             }
         });
 
         function submitSearch() {
             let query = document.getElementById('searchQuery').value;
-            let docTypes = [];
+            if (!query.trim()) {
+                document.getElementById('searchQuery').focus();
+                return;
+            }
 
+            let docTypes = [];
             if (!document.getElementById('allCategories').checked) {
                 document.querySelectorAll('.category-checkbox:checked').forEach(checkbox => {
                     docTypes.push(checkbox.value);
                 });
             }
+
             if (docTypes.length === 0) {
-                docTypes.push(0); // Default to "All Categories" if none are selected
+                errorMessageDiv.textContent = 'Please select a category';
+                return;
             }
+
+            errorMessageDiv.textContent = '';
 
             resultsDiv.innerHTML = '';
 
@@ -276,8 +327,8 @@
                                         content += `<a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>`;
                                     }
 
-                                    content += `<a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-                                </div>`;
+                                    content += "</div>" /* <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
+                                </div>`*/;
                                 }
                             });
                             resultsDiv.innerHTML = content;
@@ -296,6 +347,15 @@
                 });
         }
 
+        function clearQuery() {
+            document.getElementById('searchQuery').value = '';
+            document.getElementById('searchQuery').style.height = '38px';
+            document.getElementById('searchQuery').style.overflowY = 'hidden';
+            document.getElementById('searchQuery').focus();
+            resultsDiv.innerHTML = '';
+            errorMessageDiv.textContent = '';
+        }
+
         document.getElementById('searchQuery').addEventListener('keypress', function (event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
@@ -303,18 +363,35 @@
             }
         });
 
+        let initialHeightSet = false;
+
         document.getElementById('searchQuery').addEventListener('input', function () {
-            this.style.height = 'auto'; // Reset height to auto to calculate the new height
-            this.style.overflowY = 'hidden'; // Hide overflow to prevent scroll bar from appearing prematurely
+            if (this.value.length === 0 || (this.scrollHeight <= 38 && initialHeightSet)) {
+                this.style.height = '38px';
+                this.style.overflowY = 'hidden';
+                initialHeightSet = false;
+                return;
+            }
+
+            if (!initialHeightSet) {
+                if (this.scrollHeight > this.offsetHeight) {
+                    initialHeightSet = true;
+                } else {
+                    return;
+                }
+            }
+
+            this.style.height = 'auto';
+            this.style.overflowY = 'hidden';
 
             const currentHeight = this.scrollHeight;
-            const maxHeight = 192; // 8 lines with a line height of 24px
+            const maxHeight = 192;
 
             if (currentHeight > maxHeight) {
-                this.style.height = maxHeight + 'px'; // Cap the height at max-height
-                this.style.overflowY = 'auto'; // Show overflow if the content exceeds max-height
+                this.style.height = maxHeight + 'px';
+                this.style.overflowY = 'auto';
             } else {
-                this.style.height = currentHeight + 'px'; // Set the height to the scrollHeight
+                this.style.height = currentHeight + 'px';
             }
         });
 
