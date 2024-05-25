@@ -63,13 +63,13 @@ def search():
         logging.error(f"Error during search: {e}")
         return jsonify(error="An error occurred during the search"), 500
 
-@app.route('/files/<filename>')
+""" @app.route('/files/<filename>')
 def uploaded_file(filename):
     secure_name = secure_filename(filename)
     file_path = safe_join(app.config['UPLOAD_FOLDER'], secure_name)
     if os.path.isfile(file_path):
         return send_file(file_path, as_attachment=True)
     return jsonify(error="File not found"), 404
-
+ """
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
