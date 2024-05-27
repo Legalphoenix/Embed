@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from schema import Schema, Use, SchemaError
 import anthropic
 import voyageai
-import chromadb
+from chromadb import HttpClient, Settings
 import uuid
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 import concurrent.futures
@@ -28,7 +28,14 @@ api_key = load_api_key()
 anthropic_client = anthropic.Anthropic(api_key=api_key)
 
 # Initialize persistent ChromaDB client
-chroma_client = chromadb.PersistentClient(path="./chromadb")
+#chroma run --path ./chromadb
+chroma_client = HttpClient(
+    host="localhost",
+    port="8000",
+    ssl=False,
+    headers={},
+    settings=Settings()
+)
 
 # Create collections with inner product similarity (dot product)
 collection_legislation = chroma_client.get_or_create_collection(
