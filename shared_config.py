@@ -5,5 +5,7 @@ ALLOWED_EXTENSIONS = {'pdf', 'docx', 'doc', 'txt', 'csv', 'xlsx', 'xls', 'pptx',
 
 TIKA_SERVER_JAR = 'tika/tika-server-standard-2.9.2.jar'
 TIKA_SERVER_PORT = 9998  # You can choose any available port
+TIKA_SERVER_URL = f'http://localhost:{TIKA_SERVER_PORT}'
+
 
 CHROMADB_PATH = './chromadb'

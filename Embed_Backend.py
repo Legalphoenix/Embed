@@ -28,6 +28,7 @@ api_key = load_api_key()
 anthropic_client = anthropic.Anthropic(api_key=api_key)
 
 # Initialize persistent ChromaDB client
+#java -jar tika/tika-server-standard-2.9.2.jar -p 9998
 #chroma run --path ./chromadb
 chroma_client = HttpClient(
     host="localhost",
@@ -53,8 +54,8 @@ collection_court_cases = chroma_client.get_or_create_collection(
     metadata={"hnsw:space": "ip"}
 )
 
-collection_contracts = chroma_client.get_or_create_collection(
-    name="contracts",
+collection_recitals = chroma_client.get_or_create_collection(
+    name="recitals",
     metadata={"hnsw:space": "ip"}
 )
 parent_collection_legislation = chroma_client.get_or_create_collection(
@@ -72,8 +73,8 @@ parent_collection_court_cases = chroma_client.get_or_create_collection(
     metadata={"hnsw:space": "ip"}
 )
 
-parent_collection_contracts = chroma_client.get_or_create_collection(
-    name="parent_contracts",
+parent_collection_recitals = chroma_client.get_or_create_collection(
+    name="parent_recitals",
     metadata={"hnsw:space": "ip"}
 )
 
@@ -106,6 +107,7 @@ def save_embeddings_in_batches(embeddings, chunk_texts, filename, document_title
             'document_type_id': document_type_id,
             'document_type_name': document_type_name,
             'chunk_text': chunk_text,
+            'full_preview_text': chunk_text,
             'metadata': metadata,
             'document_family_id': document_family_id,
             'parent_hash': parent_hash,
@@ -120,7 +122,7 @@ def save_embeddings_in_batches(embeddings, chunk_texts, filename, document_title
         elif document_type_id == 3:
             collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
         elif document_type_id == 4:
-            collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+            collection_recitals.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
 
 
@@ -130,6 +132,7 @@ def process_chunks_in_batches(chunks, numbered_sentences, document_type_name, do
     for sentence_nums in chunks.values():
         chunk_text = " ".join(numbered_sentences[num] for num in sentence_nums)
         document_type_and_title_descriptor = f"[Type: {document_type_name}] [Parent Document Title: {document_title}] [Parent Document Parties: {document_parties}]"
+        logging.info(f"title embeded: {document_title}")
         chunk_text_with_type_title = document_type_and_title_descriptor + " " + chunk_text
         chunk_texts.append(chunk_text)
         chunk_texts_with_descriptor.append(chunk_text_with_type_title)
@@ -171,6 +174,7 @@ def save_embedding(original_file_name, document_title, document_parties, embeddi
         'document_type_id': document_type_id,
         'document_type_name': document_type_name,
         'chunk_text': chunk_text,
+        'full_preview_text': chunk_text,
         'metadata': metadata,
         'document_family_id': document_family_id,  # Include the document family ID in the metadata
         'parent_hash': parent_hash,  # Include the parent hash in the metadata
@@ -185,15 +189,15 @@ def save_embedding(original_file_name, document_title, document_parties, embeddi
     elif document_type_id == 103:
         parent_collection_court_cases.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
     elif document_type_id == 104:
-        parent_collection_contracts.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
+        parent_collection_recitals.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
 '''SEARCH EMBEDDINGS'''
 def search_embeddings(query_embedding, doc_types, top_n=100):
     collections = []
     if 0 in doc_types:  # All categories
         collections = [
-            collection_legislation, collection_guidelines, collection_court_cases, collection_contracts,
-            parent_collection_legislation, parent_collection_guidelines, parent_collection_court_cases, parent_collection_contracts
+            collection_legislation, collection_guidelines, collection_court_cases, collection_recitals,
+            parent_collection_legislation, parent_collection_guidelines, parent_collection_court_cases, parent_collection_recitals
         ]
     else:
         if 1 in doc_types:
@@ -209,9 +213,9 @@ def search_embeddings(query_embedding, doc_types, top_n=100):
         if 103 in doc_types:
             collections.append(parent_collection_court_cases)
         if 4 in doc_types:
-            collections.append(collection_contracts)
+            collections.append(collection_recitals)
         if 104 in doc_types:
-            collections.append(parent_collection_contracts)
+            collections.append(parent_collection_recitals)
 
     results = []
     for collection in collections:
@@ -292,6 +296,7 @@ def rerank_results(summaries, modified_query):
 
 '''GET CHUNKS FOR EMBEDDINGS AND CHUNKS'''
 
+
 def send_to_claude_and_get_chunks(numbered_sentences):
     sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
     logging.info(f"Sending to ChatGPT: {sentences_content}")
@@ -299,16 +304,15 @@ def send_to_claude_and_get_chunks(numbered_sentences):
         {
             "role": "system",
             "content": '''
-                You are an expert legal embedding chunking program.
-                Please read the GDPR document below very carefully and do nothing except follow the exact instructions.
-                <instruction 1> Segment the GDPR Articles document into one chunk per entire and complete Article of GDPR. When you see "Article X" alone between two lines like this: <line id=num>Article X</line> then you know you should create a new chunk and keep all clauses following inside that chunk. The title of the document should be chunked by itself. </instruction>
+                Please read and parse the legal document below very carefully and do nothing except follow the exact instructions.
+                <instruction 1> Segment the document into one chunk per "Recital". Each Recital is contained in a <line id="X">Recital 173</line> followed by its child text.  </instruction>
                 <instruction 2> In order to minimize the amount of text in your output, we will do the following:
-                1. You will be provided with the document formatted such that each sentence or group of sentences
-                from the document are numbered top to bottom indicated by '<line id=num>sentence</line>' where num is the line number.
-                2. When you chunk the document, you will output your segmented chunks strictly in the following example format:
+                1. You will be provided with the document formatted such that each sentence or group of sentences.
+                from the document are numbered top to bottom indicated by '<line id=num>sentence</line>' where num represents the line number.
+                2. When you chunk each Recital, you should combine the paragraphs that follow the Recital heading until you hit the next recital. Output following this example format:
                 </instruction>
-                <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...
-                No matter what, follow only this exact format. All sections in each Article should be grouped in one chunk. </example>
+                <example> Please only follow this exact format - Chunk 1: 1 Chunk 2: 2 Chunk 3: 4 Chunk 4: 5,6 ...
+                No matter what, follow only this exact format. Check the last line ID number before you begin and ensure you include all line id's into the chunks. All sections in each Recital should be grouped in one chunk. </example>
             '''
         },
         {
@@ -351,6 +355,66 @@ def send_to_claude_and_get_chunks(numbered_sentences):
 
 """ def send_to_claude_and_get_chunks(numbered_sentences):
     sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
+    logging.info(f"Sending to ChatGPT: {sentences_content}")
+    messages = [
+        {
+            "role": "system",
+            "content": '''
+                You are an expert legal embedding chunking program.
+                Please read the GDPR document below very carefully and do nothing except follow the exact instructions.
+                <instruction 1> Segment the GDPR Articles document into one chunk per entire and complete Article of GDPR. When you see "Article X" alone between two lines like this: <line id=num>Article X</line> then you know you should create a new chunk and keep all clauses following inside that chunk. The title of the document should be chunked by itself. </instruction>
+                <instruction 2> In order to minimize the amount of text in your output, we will do the following:
+                1. You will be provided with the document formatted such that each sentence or group of sentences
+                from the document are numbered top to bottom indicated by '<line id=num>sentence</line>' where num is the line number.
+                2. When you chunk the document, you will output your segmented chunks strictly in the following example format:
+                </instruction>
+                <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...
+                No matter what, follow only this exact format. All sections in each Article should be grouped in one chunk.
+
+
+                </example>
+            '''
+        },
+        {
+            "role": "user",
+            "content": '<documents> ' + sentences_content + '''
+                         </documents> <instructions> Check the final <line id="num">sentence</line> number first to ensure you
+                        do not go past that number when generating your chunks.  </instructions>  '''
+        }
+    ]
+
+    logging.info(f"SxxxxxxxxT: {messages}")
+
+    try:
+        response = openai_client.chat.completions.create(model="gpt-4o",
+        messages=messages,
+        max_tokens=4096,
+        temperature=0)
+        logging.info(f"ChatGPT's raw response: '{response}'")
+        message_content = response.choices[0].message.content
+        logging.info(f"ChatGPT's content: '{message_content}'")
+
+        combined_text = message_content.strip()
+    except Exception as e:
+        logging.error(f"Error processing ChatGPT's response: {e}")
+        combined_text = ""
+
+    logging.info(f"Combined text for chunk processing: {combined_text}")
+
+    chunks = {}
+    if combined_text:
+        for line in combined_text.split('\n'):
+            if line.startswith('Chunk'):
+                chunk_number, sentence_numbers = line.split(': ')
+                chunk_sentences = [int(num) for num in sentence_numbers.split(',')]
+                chunks[int(chunk_number.split(' ')[1])] = chunk_sentences
+    else:
+        logging.error("Combined text is empty, cannot extract chunks.")
+
+    return chunks """
+
+""" def send_to_claude_and_get_chunks(numbered_sentences):
+    sentences_content = ''.join([f'<line id="{num}">{sentence}</line>' for num, sentence in numbered_sentences.items()])
     messages = [{"role": "user", "content": '<documents> ' + sentences_content + '''
                  </documents> <instructions> Check the final <line id="num">sentence</line> number first to ensure you
                 do not go past that number when generating your chunks.  </instructions>  '''}]
@@ -361,19 +425,17 @@ def send_to_claude_and_get_chunks(numbered_sentences):
         model="claude-3-haiku-20240307",
         max_tokens=4096,
         temperature=0,
-        system='''<role>You are an expert legal embedding chunking program. I am embedding a court case, legilsation, contract, or guidelines.
-        Please read the document below carefully and do nothing except follow the exact instructions.
-        </role> <instruction 1> You should segment the document that has been provided into legally relevant chunks.
-        Imagine how a lawyer might group the passages together for an embedding database.
-        For legislation and contracts, keep whole sections together, including headings and section numbers.
-        For court case or guidelines, keep lines of reasoning, arguments, guidance, entire orders sections, ratio decidendi (reasons for a decision)  or similar ideas together.</instruction>
-        <instruction 2> In order to minimize the amount of text in your output, we will do the following:
-        1. You will be provided with the document formatted such that each sentence or group of sentences
-        from the case are numbered top to bottom idicated by '<line id=num>sentence</line>' where num is the line number.
-        2. When you chunk the document, you will output your segmentated chunks strictly in the following example format:
-        </instruction>
-        <example> Please only follow this exact format - Chunk 1: 1,2,3,4 Chunk 2: 5,6,7 Chunk 3: 8,9,10,11,12 Chunk 4: ...
-        No matter what, follow only this exact format. </example>''',
+        system='''<role> You are an expert legal chunking program.
+                Please read and parse the document below very carefully and do nothing except follow the exact instructions.
+                <instruction 1> Segment the document into one chunk per "Recital". The name Recital is a heading for a block of text. Each Recital is numbered 1 - 173, each containing either one or two paragraphs of text within it. </instruction>
+                <instruction 2> In order to minimize the amount of text in your output, we will do the following:
+                1. You will be provided with the document formatted such that each sentence or group of sentences.
+                from the document are numbered top to bottom indicated by '<line id=num>sentence</line>' where num represents the line number.
+                2. When you chunk each recital, you should combine the sentence id's that follow the Recital heading until you hit the next recital. Output following this example format:
+                </instruction>
+                <example> Please only follow this exact format - Chunk 1: 1 Chunk 2: 2 Chunk 3: 4 Chunk 4: 5,6 ...
+                No matter what, follow only this exact format. Check the last line ID number before you begin and ensure you include all line id's into the chunks. All sections in each Recital should be grouped in one chunk. </example>
+            ''',
         messages=messages
     )
 
@@ -431,13 +493,13 @@ def classify_document_with_title(text):
         1: "Legislation",
         2: "Legal Guidelines",
         3: "Court Case",
-        4: "Contracts"
+        4: "GDPR Recitals"
     }
 
     messages = [
         {
             "role": "user",
-            "content": f"<documents> {encoded_text} </documents> <instructions> Classify this document and extract or guess the full title. Classify as 1 (Legislation), 2 (Guidelines), 3 (Court Cases), or 4 (Contracts). </instructions>"
+            "content": f"<documents> {encoded_text} </documents> <instructions> Classify this document and extract or guess the full title. Classify as 1 (Legislation), 2 (Guidelines), 3 (Court Cases), or 4 (GDPR Recitals). </instructions>"
         }
     ]
 
@@ -447,7 +509,7 @@ def classify_document_with_title(text):
         message = anthropic_client.messages.create(
             model="claude-3-haiku-20240307",
             messages=messages,
-            max_tokens=50,
+            max_tokens=100,
             temperature=0,
             system="<role> You are an expert legal document classifier. Read the document below carefully and classify it according to the given categories. Respond with a number that maps to the classification followed by a comma and the full document title. </role>"
         )
