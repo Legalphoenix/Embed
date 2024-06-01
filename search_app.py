@@ -1,7 +1,7 @@
 # search.py code
 from flask import Flask, request, jsonify, render_template, send_file
 import logging
-from embed_backend import get_embedding, search_embeddings
+from embed_backend import get_embedding, search_embeddings, rerank_results
 from werkzeug.utils import secure_filename, safe_join
 import os
 
@@ -28,10 +28,11 @@ def search():
         # Convert doc_type to list of integers
         doc_type_list = list(map(int, doc_type.split(',')))
 
-        results = search_embeddings(query_embedding, doc_type_list, top_n=400)
+        results = search_embeddings(query_embedding, doc_type_list, top_n=20)
         if not results:
             logging.info("No matching documents found")
             return jsonify(error="No matching documents found"), 404
+
 
         summaries = []
         for result in results:
@@ -44,7 +45,7 @@ def search():
                         break
 
                     original_filename = meta.get("original_file_name")
-                    preview_text = meta.get("full_preview_text","chunk_text") #"Preview not available" ""
+                    preview_text = meta.get("chunk_text","chunk_text") #"Preview not available" ""
                     document_type_name = meta.get("document_type_name")
                     match_score = 1 - similarity[index]
 
@@ -58,6 +59,7 @@ def search():
         if not summaries:
             logging.info("No matching documents found in summaries")
             return jsonify(error="No matching documents found"), 404
+        #ranked_summaries = rerank_results(summaries,query)
         return jsonify(results=summaries)
     except Exception as e:
         logging.error(f"Error during search: {e}")
@@ -72,4 +74,4 @@ def uploaded_file(filename):
     return jsonify(error="File not found"), 404
  """
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True)
+    app.run(debug=True, use_reloader=True, host='0.0.0.0', port=3005)

@@ -286,7 +286,7 @@ def generate_modified_query(query):
 def rerank_results(summaries, modified_query):
     documents = [f"{summary['preview_text']}" for summary in summaries]
     try:
-        reranking = vo.rerank(modified_query, documents, model="rerank-lite-1")
+        reranking = vo.rerank(modified_query, documents, model="rerank-1")
         ordered_summaries = [summaries[r.index] for r in sorted(reranking.results, key=lambda x: -x.relevance_score)]
         logging.info(f"Reranking successful. Reordered indices: {[r.index for r in reranking.results]}")
         return ordered_summaries
