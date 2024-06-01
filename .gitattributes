@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 chromadb filter=lfs diff=lfs merge=lfs -text
+chromadb/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
