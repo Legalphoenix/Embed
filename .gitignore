@@ -6,7 +6,6 @@ API.env
 Uploads/
 embeddings.csv
 tika/
-chromadb/
 Voyage.env
 Claude.env
 GDPR/
@@ -14,4 +13,3 @@ batch_input.jsonl
 gpt_api.env
 scripts/
 ~$put_document.docx
-chromadb/chroma.sqlite3
