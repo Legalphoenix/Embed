@@ -1,0 +1,179 @@
+of 12 Jan 2023, C-132/21 (
+Nemzeti Adatvédelmi és Információszabadság Hatóság
+)
+General data protection law 
+ > 
+Chapter VIII - Remedies, liability and penalties 
+ > 
+Right to lodge a complaint with a supervisory authority 
+General data protection law 
+ > 
+Chapter VIII - Remedies, liability and penalties 
+ > 
+Right to an effective remedy against a supervisory authority 
+General data protection law 
+ > 
+Chapter VIII - Remedies, liability and penalties 
+ > 
+Right to an effective judicial remedy against a controller or processor 
+Charter of fundamental rights of the EU 
+ > 
+Article 47 - Right to an effective remedy and to a fair trial 
+ 
+JUDGMENT OF THE COURT (First Chamber)
+12 January 2023 (*)
+(Reference for a preliminary ruling – Protection of natural persons with regard to the processing of personal data – Regulation (EU) 2016/679 – Articles 77 to 79 – Remedies – Parallel exercise – Relationship – Procedural autonomy – Effectiveness of the protection rules established by that regulation – Consistent and homogeneous application of those rules throughout the European Union – Article 47 of the Charter of Fundamental Rights of the European Union)
+In Case C-132/21,
+REQUEST for a preliminary ruling under Article 267 TFEU from the Fővárosi Törvényszék (Budapest High Court, Hungary), made by decision of 2 March 2021, received at the Court on 3 March 2021, in the proceedings
+BE
+v
+Nemzeti Adatvédelmi és Információszabadság Hatóság,
+interested party:
+Budapesti Elektromos Művek Zrt.,
+THE COURT (First Chamber),
+composed of A. Arabadjiev, President of the Chamber, L. Bay Larsen, Vice-President, acting as Judge of the First Chamber, P.G. Xuereb, A. Kumin and I. Ziemele (Rapporteur), Judges,
+Advocate General: J. Richard de la Tour,
+Registrar: I. Illéssy, Administrator,
+having regard to the written procedure and further to the hearing on 11 May 2022,
+after considering the observations submitted on behalf of:
+–        BE, by I. Kulcsár, ügyvéd,
+–        the Nemzeti Adatvédelmi és Információszabadság Hatóság, by G. Barabás, jogtanácsos, G.J. Dudás and Á. Hargita, ügyvédek,
+–        the Hungarian Government, by Zs. Biró-Tóth and M.Z. Fehér, acting as Agents,
+–        the Czech Government, by O. Serdula, M. Smolek and J. Vláčil, acting as Agents,
+–        the Italian Government, by G. Palmieri, acting as Agent, and by E. De Bonis and M.F. Severi, avvocati dello Stato,
+–        the Polish Government, by B. Majczyna and J. Sawicka, acting as Agents,
+–        the European Commission, by H. Kranenborg, Zs. Teleki and P.J.O. Van Nuffel, acting as Agents,
+after hearing the Opinion of the Advocate General at the sitting on 8 September 2022,
+gives the following
+Judgment
+1        This request for a preliminary ruling concerns the interpretation of Article 77(1), Article 78(1) and Article 79(1) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (OJ 2016 L 119, p. 1).
+2        The request has been made in proceedings between BE and the Nemzeti Adatvédelmi és Információszabadság Hatóság (National Authority for Data Protection and Freedom of Information, Hungary; ‘the supervisory authority’) concerning the refusal of BE’s request to be sent extracts from the sound recording of the general meeting of a company’s shareholders in which he had taken part.
+ 
+Legal context
+ 
+European Union law
+3        Under recitals 10, 11, 141 and 143 of Regulation 2016/679:
+‘(10)      In order to ensure a consistent and high level of protection of natural persons and to remove the obstacles to flows of personal data within the [European] Union, the level of protection of the rights and freedoms of natural persons with regard to the processing of such data should be equivalent in all Member States. Consistent and homogenous application of the rules for the protection of the fundamental rights and freedoms of natural persons with regard to the processing of personal data should be ensured throughout the Union. … 
+(11)      Effective protection of personal data throughout the Union requires the strengthening and setting out in detail of the rights of data subjects and the obligations of those who process and determine the processing of personal data … 
+…
+(141)      Every data subject should have the right to lodge a complaint with a single supervisory authority, in particular in the Member State of his or her habitual residence, and the right to an effective judicial remedy in accordance with Article 47 of the Charter [of Fundamental Rights of the European Union] if the data subject considers that his or her rights under this Regulation are infringed or where the supervisory authority does not act on a complaint, partially or wholly rejects or dismisses a complaint or does not act where such action is necessary to protect the rights of the data subject. … 
+…
+(143)      … each natural or legal person should have an effective judicial remedy before the competent national court against a decision of a supervisory authority which produces legal effects concerning that person. … Proceedings against a supervisory authority should be brought before the courts of the Member State where the supervisory authority is established and should be conducted in accordance with that Member State’s procedural law. Those courts should exercise full jurisdiction, which should include jurisdiction to examine all questions of fact and law relevant to the dispute before them.’
+4        Articles 60 to 63 of that regulation establish cooperation, mutual assistance and consistency mechanisms between the supervisory authorities of the Member States.
+5        Article 77(1) of that regulation provides:
+‘Without prejudice to any other administrative or judicial remedy, every data subject shall have the right to lodge a complaint with a supervisory authority, in particular in the Member State of his or her habitual residence, place of work or place of the alleged infringement if the data subject considers that the processing of personal data relating to him or her infringes this Regulation.’
+6        Article 78(1) of that regulation states:
+‘Without prejudice to any other administrative or non-judicial remedy, each natural or legal person shall have the right to an effective judicial remedy against a legally binding decision of a supervisory authority concerning them.’
+7        Article 79(1) of Regulation 2016/679 provides:
+‘Without prejudice to any available administrative or non-judicial remedy, including the right to lodge a complaint with a supervisory authority pursuant to Article 77, each data subject shall have the right to an effective judicial remedy where he or she considers that his or her rights under this Regulation have been infringed as a result of the processing of his or her personal data in non-compliance with this Regulation.’
+8        Article 81 of that regulation, entitled ‘Suspension of proceedings’, is worded as follows:
+‘1.      Where a competent court of a Member State has information on proceedings, concerning the same subject matter as regards processing by the same controller or processor, that are pending in a court in another Member State, it shall contact that court in the other Member State to confirm the existence of such proceedings.
+2.      Where proceedings concerning the same subject matter as regards processing of the same controller or processor are pending in a court in another Member State, any competent court other than the court first seised may suspend its proceedings.
+3.      Where those proceedings are pending at first instance, any court other than the court first seised may also, on the application of one of the parties, decline jurisdiction if the court first seised has jurisdiction over the actions in question and its law permits the consolidation thereof.’
+ 
+Hungarian law
+9        Paragraph 22 of the az információs önrendelkezési jogról és az információszabadságról szóló 2011. évi CXII. törvény (Law [No] CXII of 2011 on the right to self-determination as regards information and freedom of information), in the version applicable to the dispute in the main proceedings, provides:
+‘In the exercise of his or her rights, the data subject may, in accordance with the provisions of Chapter VI:
+(a)      ask [the supervisory authority] to launch an investigation into the lawfulness of a measure adopted by the controller, in the case where the controller has limited the exercise of the rights enjoyed by the data subject under Paragraph 14 or has refused a request by which the data subject has sought to exercise his or her rights, and 
+(b)      ask [the supervisory authority] to conduct an administrative data protection procedure, in the case where the data subject considers that, in processing his or her personal data, the controller or the processor acting either on the controller’s behalf or on the basis of the controller’s instructions has failed to meet requirements regarding the processing of personal data which are laid down in legislation or in a binding legal act of the European Union.’
+10      Paragraph 23 of Law [No] CXII of 2011, in the version applicable to the dispute in the main proceedings, states:
+‘1.      The data subject may bring legal proceedings against the controller, or against the processor in connection with processing operations coming within the processor’s sphere of activity, in the case where the data subject considers that, in processing his or her personal data, the controller or the processor acting either on the controller’s behalf or on the basis of the controller’s instructions, has done so in disregard of requirements regarding the processing of personal data which are laid down in legislation or in a binding legal act of the European Union.
+…
+4.      Judicial proceedings shall also be open to participation to persons who otherwise lack
+ locus standi
+. [The supervisory authority] may intervene in those proceedings in support of the claims of the data subject.
+5.      If the court upholds the action, it shall find that an infringement has been committed and order the controller or the processor to:
+(a)      cease the unlawful data processing operation;
+(b)      restore the lawfulness of data processing; and/or
+(c)      adopt precisely defined conduct in order to ensure that the data subject can exercise his or her rights,
+and, if necessary, at the same time give a ruling on any claims for damages for material and non-material harm.’
+ 
+The facts of the dispute in the main proceedings and the questions referred for a preliminary ruling
+11      On 26 April 2019, BE attended the general meeting of a public limited company of which he is a shareholder and, at that time, put questions to the members of the board of directors of that company and to other persons attending that general meeting. Subsequently, BE asked that company, as the personal data controller, to send him the sound recording made at the general meeting.
+12      The company in question made available to BE only the excerpts from that recording which reproduced his contributions, excluding those of the other persons attending the general meeting in question.
+13      BE then asked the supervisory authority (i) to declare that, by failing to provide him with the recording including the answers given to his questions, the company had acted unlawfully and in breach of Regulation 2016/679 and (ii) to order that company to send him the recording in question. The supervisory authority refused that request by decision of 29 November 2019.
+14      BE brought proceedings before the referring court against that decision of the supervisory authority on the basis of Article 78(1) of that regulation, seeking, principally, that the decision be varied, and, in the alternative, that it be annulled.
+15      At the same time as approaching the supervisory authority, BE initiated another set of proceedings, this time on the basis of Article 79(1) of that regulation, before a civil court, namely the Fővárosi Ítélőtábla (Budapest Regional Court of Appeal, Hungary), against the decision of the controller.
+16      Although one set of proceedings are still pending before the referring court, the Fővárosi Ítélőtábla (Budapest Regional Court of Appeal, Hungary) upheld the action in the other set of proceedings, by a judgment which has become final, on the ground that the controller had infringed BE’s right of access to his personal data.
+17      The referring court states that it has to examine the same facts and the same allegation of infringement of Regulation 2016/679 as those on which the Fővárosi Ítélőtábla (Budapest Regional Court of Appeal, Hungary) has already given a final ruling. It questions how it should view the relationship between, on the one hand, a civil court’s assessment of the lawfulness of a decision adopted by the personal data controller and, on the other, the administrative procedure which led to the adoption of the supervisory authority’s decision, referred to in paragraph 13 of the present judgment, which forms the subject matter of the action pending before the referring court and, in particular, whether one remedy might take priority over the other.
+18      According to that court, the parallel exercise of the remedies provided for in Articles 77 to 79 of Regulation 2016/679 could give rise to contradictory decisions concerning identical facts.
+19      In its view, such a situation would risk undermining legal certainty as regards both private persons and supervisory authorities.
+20      The referring court states that, having regard to the independence of the supervisory authorities and to the fact that their powers, as defined by Regulation 2016/679, are dominant in the personal data protection system, the tasks and powers of those authorities would be undermined if they were bound, in their assessments, by those of a civil court that was seised at an earlier stage of the same facts on the basis of Article 79(1) of that regulation.
+21      Since the provisions of that regulation do not lay down any rule of priority in respect of the remedies provided for in Articles 77 to 79 thereof, the referring court considers that it is for the Court of Justice to provide clarification on the relationship between those remedies.
+22      In those circumstances, the Fővárosi Törvényszék (Budapest High Court, Hungary) decided to stay the proceedings and to refer the following questions to the Court of Justice for a preliminary ruling:
+‘(1)      Must Articles 77(1) and 79(1) of [Regulation 2016/679] be interpreted as meaning that the administrative appeal provided for in Article 77 [of that regulation] constitutes an instrument for the exercise of public rights, whereas the legal action provided for in Article 79 [thereof] constitutes an instrument for the exercise of private rights? If so, does this support the inference that the supervisory authority, which is responsible for hearing and determining administrative appeals, has priority competence to determine the existence of an infringement?
+(2)      In the event that the data subject – in whose opinion the processing of personal data relating to him has infringed Regulation 2016/679 – simultaneously exercises his right to lodge a complaint under Article 77(1) of that regulation and his right to bring a legal action under Article 79(1) of the same regulation, may an interpretation in accordance with Article 47 of the Charter of Fundamental Rights be regarded as meaning:
+(a)      that the supervisory authority and the court have an obligation to examine the existence of an infringement independently and may therefore even arrive at different outcomes; or
+(b)      that the supervisory authority’s decision takes priority when it comes to the assessment as to whether an infringement has been committed, regard being had to the powers provided for in Article 51(1) of Regulation 2016/679 and those conferred by Article 58(2)(b) and (d) of that regulation?
+(3)      Must the independence of the supervisory authority, ensured by Articles 51(1) and 52(1) of Regulation 2016/679, be interpreted as meaning that that authority, when conducting and adjudicating upon complaint proceedings under Article 77 [of that regulation], is independent of whatever ruling may be given by final judgment by the court having jurisdiction under Article 79 [thereof], with the result that it may even adopt a different decision in respect of the same alleged infringement?’
+ 
+Consideration of the questions referred
+ 
+Admissibility
+23      The European Commission has doubts as to the admissibility of the questions referred. It submits that, as is apparent from the request for a preliminary ruling, on the date of that request, both the supervisory authority and the civil court had given their decisions, with the result that those questions are, as such, hypothetical. According to the Commission, in reality, the referring court is uncertain as to the relationship between the respective decisions of two national courts, namely the administrative court and the civil court. However, that question was not formulated in the order for reference.
+24      In that regard, it should be observed that questions on the interpretation of EU law referred by a national court in the factual and legislative context which that court is responsible for defining, the accuracy of which is not a matter for the Court to determine, enjoy a presumption of relevance. The Court may refuse to rule on a question referred by a national court only where it is quite obvious that the interpretation of EU law that is sought bears no relation to the actual facts of the main action or its object, where the problem is hypothetical, or where the Court does not have before it the factual or legal material necessary to give a useful answer to the questions submitted to it (judgment of 10 February 2022, 
+Bezirkshauptmannschaft Hartberg-Fürstenfeld (Limitation period)
+, C-219/20, EU:C:2022:89, paragraph 20 and the case-law cited).
+25      In addition, the request for a preliminary ruling must contain, in accordance with Article 94(c) of the Rules of Procedure of the Court of Justice, a statement of the reasons which prompted the referring court or tribunal to inquire about the interpretation of certain provisions of EU law, and the relationship between those provisions and the national legislation applicable to the main proceedings.
+26      In the present case, it is, admittedly, not disputed that the supervisory authority, which had been seised on the basis of Article 77(1) of Regulation 2016/679, gave its decision before the civil court which ruled on the action brought by BE on the basis of Article 79(1) of that regulation had been seised. It is apparent from the facts set out by the referring court that that action gave rise to a judgment which has become final. In addition, it is true that the referring court has mentioned only those two provisions in the questions which it has referred to the Court for a preliminary ruling.
+27      However, the fact that a question submitted by the referring court refers only to certain provisions of EU law does not mean that the Court may not provide the national court with all the guidance on points of interpretation that may be of assistance in adjudicating on the case pending before it, whether or not that court has referred to those points in its questions. It is, in this regard, for the Court to extract from all the information provided by the referring court, in particular from the grounds of the decision to make the reference, the points of EU law which require interpretation in view of the subject matter of the dispute (judgment of 10 February 2022, 
+Bezirkshauptmannschaft Hartberg-Fürstenfeld (Limitation period)
+, C-219/20, EU:C:2022:89, paragraph 34 and the case-law cited).
+28      First, the referring court states that, pursuant to national procedural law, it is not bound by the final judgment delivered by the civil court which ruled on the action brought by BE on the basis of Article 79(1) of Regulation 2016/679. Second, since BE has not withdrawn his action before the referring court, brought on the basis of Article 78(1) of that regulation, seeking the variation or annulment of the decision of the supervisory authority referred to in paragraph 13 of the present judgment, it is for the referring court to rule on the lawfulness of that decision, which was given before the civil court’s judgment had been delivered.
+29      Thus, by its questions, the referring court, which is seised of an action, on the basis of Article 78(1) of Regulation 2016/679, against the supervisory authority’s decision given on the basis of Article 77(1) thereof, seeks to ascertain whether, under the provisions of that regulation, the final judgment delivered by a court seised on the basis of Article 79(1) thereof is binding as regards the finding that there has – or has not – been an infringement of the rights guaranteed by that same regulation.
+30      In those circumstances, in order to provide a useful answer to the referring court, it should be considered that, by its questions, which it is appropriate to examine together, that court asks, in essence, whether Article 77(1), Article 78(1) and Article 79(1) of Regulation 2016/679, read in the light of Article 47 of the Charter of Fundamental Rights (‘the Charter’), are to be interpreted as meaning that the remedies provided for in Article 77(1) and Article 78(1) of that regulation, on the one hand, and Article 79(1) thereof, on the other, are capable of being exercised concurrently with and independently of each other, or whether one of them has priority over the other.
+31      The questions referred, as thus reformulated, are therefore admissible.
+ 
+Substance
+32      As a preliminary point, it should be borne in mind that, in accordance with the Court’s settled case-law, in interpreting a provision of EU law it is necessary to consider not only its wording but also its context and the objectives pursued by the legislation of which it forms part (judgment of 2 December 2021, 
+Vodafone Kabel Deutschland
+, C-484/20, EU:C:2021:975, paragraph 19 and the case-law cited).
+33      As regards the wording of the provisions of Regulation 2016/679 referred to in paragraph 30 of the present judgment, it must be borne in mind, first of all, that Article 77(1) of that regulation states that it is ‘without prejudice to any other administrative or judicial remedy’ that every data subject is to have the right to lodge a complaint with a supervisory authority. Next, under Article 78(1) of that regulation, each natural or legal person is to have the right to an effective judicial remedy against a legally binding decision of a supervisory authority concerning them ‘without prejudice to any other administrative or non-judicial remedy’. Lastly, Article 79(1) of that regulation guarantees each data subject the right to an effective judicial remedy ‘without prejudice to any available administrative or non-judicial remedy, including the right to lodge a complaint with a supervisory authority pursuant to Article 77’.
+34      Thus, those provisions of Regulation 2016/679 offer different remedies to persons claiming that that regulation has been infringed, it being understood that each of those remedies must be capable of being exercised ‘without prejudice’ to the others.
+35      It follows, first of all, from the wording of those provisions that Regulation 2016/679 does not provide for any priority or exclusive competence or jurisdiction or for any rule of precedence in respect of the assessment carried out by the authority or by the courts referred to therein as to whether there is an infringement of the rights conferred by that regulation. The remedy provided for in Article 78(1) of that regulation, the purpose of which is to examine the lawfulness of the decision of a supervisory authority adopted on the basis of Article 77 thereof, and the remedy provided for in Article 79(1) of that regulation may therefore be exercised concurrently with and independently of each other.
+36      Next, that finding is borne out by the context of the provisions of Regulation 2016/679 at issue.
+37      Although the EU legislature has expressly regulated the relationship between the remedies provided for by Regulation 2016/679 in the event of the supervisory authorities or courts of several Member States being seised simultaneously in respect of an instance of processing of personal data carried out by the same controller, it must be observed that this is not the case as regards the remedies provided for in Articles 77 to 79 of that regulation.
+38      Articles 60 to 63 of Regulation 2016/679 provide for cooperation, mutual assistance and coordination mechanisms under which the supervisory authorities are to provide each other with mutual assistance, inform each other and conduct joint operations with a view to ensuring a consistent and effective application of the provisions of that regulation throughout the European Union.
+39      In addition, Article 81(2) and (3) of that regulation lays down rules concerning cases where several courts of different Member States have been seised.
+40      By contrast, Regulation 2016/679 does not lay down such rules in respect of cases where a complaint has been made to a supervisory authority and judicial proceedings have been brought within the same Member State concerning the same instance of processing of personal data.
+41      Furthermore, it follows from Article 78(1) of Regulation 2016/679, read in the light of recital 143 of that regulation, that courts seised of an action against a decision of a supervisory authority should exercise full jurisdiction, which should include jurisdiction to examine all questions of fact and law relevant to the dispute before them.
+42      Lastly, regarding the objectives pursued by that regulation, it is apparent, in particular, from recital 10 thereof that the aim of that regulation is to ensure a high level of protection of natural persons with regard to the processing of personal data within the European Union. Recital 11 of that regulation states, moreover, that effective protection of such data requires the strengthening of the rights of data subjects. As the Advocate General observed in point 55 of his Opinion, the EU legislature’s decision to leave to data subjects the option to exercise the remedies provided for in Article 77(1) and Article 78(1) of Regulation 2016/679, on the one hand, and Article 79(1) thereof, on the other, concurrently with and independently of each other is consistent with the objective of that regulation.
+43      Regulation 2016/679 requires, inter alia, the competent authorities of the Member States to ensure a high level of protection of the rights guaranteed in Article 16 TFEU and Article 8 of the Charter (see, to that effect, judgment of 15 June 2021, 
+Facebook Ireland and Others
+, C-645/19, EU:C:2021:483, paragraph 45).
+44      Making several remedies available also strengthens the objective set out in recital 141 of Regulation 2016/679 of guaranteeing for every data subject who considers that his or her rights under that regulation are infringed the right to an effective judicial remedy in accordance with Article 47 of the Charter.
+45      In the absence of EU rules governing the matter, it is for each Member State, in accordance with the principle of the procedural autonomy of the Member States, to lay down the detailed rules of administrative and judicial procedures intended to ensure a high level of protection of rights which individuals derive from EU law.
+46      Accordingly, it is for the referring court to determine, on the basis of the national procedural provisions, how the remedies provided for by Regulation 2016/679 must be implemented in a situation such as that at issue in the main proceedings.
+47      That said, the detailed rules for the implementation of those concurrent and independent remedies should not call into question the effectiveness and effective protection of the rights guaranteed by that regulation.
+48      Those detailed rules must not be less favourable than those governing similar domestic actions (principle of equivalence); nor must they render practically impossible or excessively difficult the exercise of rights conferred by EU law (principle of effectiveness) (see, to that effect, judgment of 14 July 2022, 
+EPIC Financial Consulting
+, C-274/21 and C-275/21, EU:C:2022:565, paragraph 73 and the case-law cited).
+49      Under the principle of sincere cooperation laid down in Article 4(3) TEU it is for the courts of the Member States to ensure judicial protection of a person’s rights under EU law. In addition, Article 19(1) TEU requires Member States to provide remedies sufficient to ensure effective judicial protection in the fields covered by EU law (judgment of 27 September 2017, 
+Puškár
+, C-73/16, EU:C:2017:725, paragraph 57).
+50      In particular, when the Member States set out detailed procedural rules for legal actions intended to ensure the protection of rights conferred by Regulation 2016/679, they must ensure compliance with the right to an effective remedy and to a fair trial, enshrined in Article 47 of the Charter, which constitutes a reaffirmation of the principle of effective judicial protection (see, by analogy, judgment of 27 September 2017, 
+Puškár
+, C-73/16, EU:C:2017:725, paragraph 59).
+51      Thus, the Member States must ensure that the practical arrangements for the exercise of the remedies provided for in Article 77(1), Article 78(1) and Article 79(1) of Regulation 2016/679 do not disproportionately affect the right to an effective remedy before a court or tribunal referred to in Article 47 of the Charter (see, to that effect, judgment of 27 September 2017, 
+Puškár
+, C-73/16, EU:C:2017:725, paragraph 76).
+52      In the present case, it is apparent from the order for reference that the system of remedies under Hungarian law is designed in such a way that the remedies provided for in Article 78(1) and Article 79(1) of Regulation 2016/679 are independent of each other. The referring court states that, pursuant to that law, it is not bound by the decision given by the court seised of an action brought on the basis of Article 79(1) of that regulation, even though the facts of which those courts are seised are the same.
+53      Therefore, it cannot be ruled out that the decisions given by those two courts might be contradictory, with one finding that the provisions of Regulation 2016/679 have been infringed and the other that there has been no such infringement.
+54      In that case, first, the existence of two contradictory decisions would call into question the objective, set out in recital 10 of that regulation, of ensuring a consistent and homogeneous application of the rules for the protection of the fundamental rights and freedoms of natural persons with regard to the processing of personal data throughout the European Union.
+55      The protection granted pursuant to a decision given to dispose of an action brought on the basis of Article 79(1) of that regulation, finding that that regulation’s provisions have been infringed, would not be consistent with a second judicial decision resulting from an action brought on the basis of Article 78(1) of that regulation that has the opposite outcome.
+56      Second, the result of this would be a weakening of the protection of natural persons with regard to the processing of their personal data, since such an inconsistency would create a situation of legal uncertainty.
+57      Having regard to all of the foregoing, the answer to the questions referred is that Article 77(1), Article 78(1) and Article 79(1) of Regulation 2016/679, read in the light of Article 47 of the Charter, must be interpreted as permitting the remedies provided for in Article 77(1) and Article 78(1) of that regulation, on the one hand, and Article 79(1) thereof, on the other, to be exercised concurrently with and independently of each other. It is for the Member States, in accordance with the principle of procedural autonomy, to lay down detailed rules as regards the relationship between those remedies in order to ensure the effective protection of the rights guaranteed by that regulation and the consistent and homogeneous application of its provisions, as well as the right to an effective remedy before a court or tribunal as referred to in Article 47 of the Charter.
+ 
+Costs
+58      Since these proceedings are, for the parties to the main proceedings, a step in the action pending before the national court, the decision on costs is a matter for that court. Costs incurred in submitting observations to the Court, other than the costs of those parties, are not recoverable.
+On those grounds, the Court (First Chamber) hereby rules:
+Article 77(1), Article 78(1) and Article 79(1) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation), read in the light of Article 47 of the Charter of Fundamental Rights of the European Union,
+must be interpreted as permitting the remedies provided for in Article 77(1) and Article 78(1) of that regulation, on the one hand, and Article 79(1) thereof, on the other, to be exercised concurrently with and independently of each other. It is for the Member States, in accordance with the principle of procedural autonomy, to lay down detailed rules as regards the relationship between those remedies in order to ensure the effective protection of the rights guaranteed by that regulation and the consistent and homogeneous application of its provisions, as well as the right to an effective remedy before a court or tribunal as referred to in Article 47 of the Charter of Fundamental Rights.
+Signatures
+*      Language of the case: Hungarian.
+ 
+
+
+
+
+Disclaimer

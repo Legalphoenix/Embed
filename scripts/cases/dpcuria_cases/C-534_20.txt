@@ -1,0 +1,127 @@
+of 22 Jun 2022, C-534/20 (
+Leistritz
+)
+General data protection law 
+ > 
+Chapter IV - Controller and processor 
+ > 
+Data protection officer 
+ 
+JUDGMENT OF THE COURT (First Chamber)
+22 June 2022 (*)
+(Reference for a preliminary ruling – Protection of natural persons with regard to the processing of personal data – Regulation (EU) 2016/679 – Second sentence of Article 38(3) – Data protection officer – Prohibition of the dismissal, by a controller or processor, of a data protection officer or of the imposition, by a controller or processor, of a penalty on him or her for performing his or her tasks – Legal basis – Article 16 TFEU – Requirement of functional independence – National legislation prohibiting the termination of a data protection officer’s employment contract without just cause)
+In Case C-534/20,
+REQUEST for a preliminary ruling under Article 267 TFEU from the Bundesarbeitsgericht (Federal Labour Court, Germany), made by decision of 30 July 2020, received at the Court on 21 October 2020, in the proceedings
+Leistritz AG
+v
+LH,
+THE COURT (First Chamber),
+composed of A. Arabadjiev, President of the Chamber, I. Ziemele (Rapporteur) and P.G. Xuereb, Judges,
+Advocate General: J. Richard de la Tour,
+Registrar: D. Dittert, Head of Unit,
+having regard to the written procedure and further to the hearing on 18 November 2021,
+after considering the observations submitted on behalf of:
+–        Leistritz AG, by O. Seeling and C. Wencker, Rechtsanwälte,
+–        LH, by S. Lohneis, Rechtsanwalt,
+–        the German Government, by J. Möller and S.K. Costanzo, acting as Agents,
+–        the Romanian Government, by E. Gane, acting as Agent,
+–        the European Parliament, by O. Hrstková Šolcová, P. López-Carceller and B. Schäfer, acting as Agents,
+–        the Council of the European Union, by T. Haas and K. Pleśniak, acting as Agents,
+–        the European Commission, by K. Herrmann, H. Kranenborg and D. Nardi, acting as Agents,
+after hearing the Opinion of the Advocate General at the sitting on 27 January 2022,
+gives the following
+Judgment
+1        This request for a preliminary ruling concerns the interpretation and validity of the second sentence of Article 38(3) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (OJ 2016 L 119, p. 1, and corrigendum OJ 2018 L 127, p. 2; ‘the GDPR’).
+2        The request has been made in proceedings between Leistritz AG and LH, who performed the duties of a data protection officer within that company, concerning the termination of her employment contract on account of a departmental reorganisation of that company.
+ 
+Legal context
+ 
+European Union law
+3        Recitals 10 and 97 of the GDPR state:
+‘(10)      In order to ensure a consistent and high level of protection of natural persons and to remove the obstacles to flows of personal data within the Union, the level of protection of the rights and freedoms of natural persons with regard to the processing of such data should be equivalent in all Member States. Consistent and homogenous application of the rules for the protection of the fundamental rights and freedoms of natural persons with regard to the processing of personal data should be ensured throughout the Union. …
+…
+(97)      … [The] data protection officers, whether or not they are an employee of the controller, should be in a position to perform their duties and tasks in an independent manner.’
+4        Article 37 of the GDPR, entitled ‘Designation of the data protection officer’, reads as follows:
+‘1.      The controller and the processor shall designate a data protection officer in any case where:
+(a)      the processing is carried out by a public authority or body, except for courts acting in their judicial capacity;
+(b)      the core activities of the controller or the processor consist of processing operations which, by virtue of their nature, their scope and/or their purposes, require regular and systematic monitoring of data subjects on a large scale; or
+(c)      the core activities of the controller or the processor consist of processing on a large scale of special categories of data pursuant to Article 9 or personal data relating to criminal convictions and offences referred to in Article 10.
+…
+6.      The data protection officer may be a staff member of the controller or processor, or fulfil the tasks on the basis of a service contract.
+…’
+5        Article 38 of the GDPR, entitled ‘Position of the data protection officer’, provides, in paragraphs 3 and 5:
+‘3.      The controller and processor shall ensure that the data protection officer does not receive any instructions regarding the exercise of those tasks. He or she shall not be dismissed or penalised by the controller or the processor for performing his [or her] tasks. The data protection officer shall directly report to the highest management level of the controller or the processor.
+…
+5.      The data protection officer shall be bound by secrecy or confidentiality concerning the performance of his or her tasks, in accordance with Union or Member State law.’
+6        Article 39 of the GDPR, entitled ‘Tasks of the data protection officer’, provides in paragraph 1(b):
+‘The data protection officer shall have at least the following tasks:
+…
+(b)      to monitor compliance with this Regulation, with other Union or Member State data protection provisions and with the policies of the controller or processor in relation to the protection of personal data, including the assignment of responsibilities, awareness-raising and training of staff involved in processing operations, and the related audits;
+…’
+ 
+German law
+7        Paragraph 6 of the Bundesdatenschutzgesetz (Federal Law on data protection) of 20 December 1990 (BGBl. 1990 I, p. 2954), in the version in force from 25 May 2018 until 25 November 2019 (BGBl. 2017 I, p. 2097) (‘the BDSG’), entitled ‘Position’, provides in subparagraph 4:
+‘The dismissal of the data protection officer shall be permitted only by applying Paragraph 626 of the Bürgerliches Gesetzbuch [(German Civil Code), in the version of 2 January 2002 (BGBl. 2002 I, p. 42, corrigenda BGBl. 2002 I, p. 2909, and BGBl. 2003 I, p. 738)] accordingly. The data protection officer’s employment shall not be terminated unless there are facts that give the public body just cause to terminate without notice. The data protection officer’s employment shall not be terminated for one year after the activity as the data protection officer has ended, unless the public body has just cause to terminate without notice.’
+8        Paragraph 38 of the BDSG, entitled ‘Data protection officers of private bodies’, provides:
+‘(1)      In addition to Article 37(1)(b) and (c) of the [GDPR], the controller and processor shall designate a data protection officer if they generally continuously employ at least ten persons dealing with the automated processing of personal data. …
+(2)      Paragraph 6(4), (5), second sentence, and (6) shall apply; however, Paragraph 6(4) shall apply only if the designation of a data protection officer is mandatory.’
+9        Paragraph 134 of the Civil Code, in the version published on 2 January 2002 (‘the Civil Code’), entitled ‘Statutory prohibition’, reads as follows:
+‘Any legal act contrary to a statutory prohibition shall be void except as otherwise provided by law.’
+10      Paragraph 626 of the Civil Code, entitled ‘Termination without notice with just cause’, provides:
+‘(1)      The employment relationship may be terminated by either party to the contract with just cause without giving notice where facts are present on the basis of which the terminating party cannot reasonably be expected to continue the employment relationship to the end of the notice period or to the agreed end of the employment relationship, taking all circumstances of the individual case into account and weighing the interests of both parties to the contract.
+(2)      Termination may take place only upon expiry of a period of two weeks. That period starts to run when the person entitled to terminate becomes aware of the facts serving as the basis for termination. …’
+ 
+The dispute in the main proceedings and the questions referred for a preliminary ruling
+11      Leistritz is a company governed by private law, which is required under German law to designate a data protection officer. LH performed the duties of ‘head of legal affairs’ within that company from 15 January 2018 and those of data protection officer from 1 February 2018.
+12      By letter of 13 July 2018, Leistritz terminated LH’s employment contract with notice, with effect from 15 August 2018, invoking a restructuring measure of that company, in the context of which the activity of internal legal adviser and the data protection service were to be outsourced.
+13      The courts adjudicating on the substance, before which LH challenged the validity of the termination of her contract, ruled that that termination was invalid, since, in accordance with the combined provisions of Paragraph 38(2) and the second sentence of Paragraph 6(4) of the BDSG, LH’s contract could be terminated extraordinarily only if there was just cause, owing to her status as data protection officer. The restructuring measure described by Leistritz did not, they found, constitute such a cause.
+14      The referring court, before which Leistritz has brought an appeal on a point of law (‘
+Revision
+’), observes that, under German law, the termination of LH’s contract is void pursuant to those provisions and Paragraph 134 of the Civil Code. Nonetheless, it points out that the applicability of Paragraph 38(2) and of the second sentence of Paragraph 6(4) of the BDSG depends on whether EU law, and in particular the second sentence of Article 38(3) of the GDPR, allows legislation of a Member State to make the termination of a data protection officer’s employment contract subject to stricter conditions than those provided for by EU law. If it does not, the referring court would have to uphold the appeal on a point of law.
+15      The referring court states that its doubts arise particularly from the existence of a divergence in the national legal literature. On the one hand, the majority view considers that the special protection against termination provided for by the combined provisions of Paragraph 38(2) and the second sentence of Paragraph 6(4) of the BDSG constitutes a substantive rule of employment law in respect of which the European Union does not have legislative competence, with the result that those provisions are not contrary to the second sentence of Article 38(3) of the GDPR. On the other hand, according to the proponents of the minority view, the links between that protection and the position of data protection officer conflict with EU law and give rise to economic pressure to retain a data protection officer on a long-term basis once he or she has been designated.
+16      In those circumstances, the Bundesarbeitsgericht (Federal Labour Court, Germany) decided to stay the proceedings and to refer the following questions to the Court of Justice for a preliminary ruling:
+‘(1)      Is the second sentence of Article 38(3) of [the GDPR] to be interpreted as precluding a provision in national law, such as Paragraph 38(1) and (2) in conjunction with the second sentence of Paragraph 6(4) of the [BDSG], which declares ordinary termination of the employment contract of the data protection officer by the data controller, who is his or her employer, to be impermissible, irrespective of whether his or her contract is terminated for performing his or her tasks?
+If the first question is answered in the affirmative:
+(2)      Does the second sentence of Article 38(3) of the GDPR also preclude such a provision in national law if the designation of the data protection officer is not mandatory in accordance with Article 37(1) of the GDPR, but is mandatory only in accordance with the law of the Member State?
+If the first question is answered in the affirmative:
+(3)      Is the second sentence of Article 38(3) of the GDPR based on a sufficient enabling clause, in particular in so far as this covers data protection officers that are party to an employment contract with the data controller?’
+ 
+Consideration of the questions referred
+ 
+The first question
+17      By its first question, the referring court asks, in essence, whether the second sentence of Article 38(3) of the GDPR must be interpreted as precluding national legislation which provides that a controller or a processor may terminate the employment contract of a data protection officer, who is a member of his or her staff, only with just cause, even if the contractual termination is not related to the performance of that officer’s tasks.
+18      As is clear from settled case-law, in interpreting a provision of EU law, it is necessary to consider not only its wording, by considering the latter’s usual meaning in everyday language, but also the context in which the provision occurs and the objectives pursued by the rules of which it is part (judgment of 22 February 2022
+, Stichting Rookpreventie Jeugd and Others
+, C-160/20, EU:C:2022:101, paragraph 29 and the case-law cited).
+19      In the first place, as regards the wording of the provision at issue, it should be noted that Article 38(3) of the GDPR provides, in its second sentence, that ‘he or she shall not be dismissed or penalised by the controller or the processor for performing his [or her] tasks’.
+20      At the outset, it should be noted that the GDPR does not define the terms ‘dismissed’, ‘penalised’ and ‘for performing his [or her] tasks’ featuring in the second sentence of Article 38(3).
+21      That being so, first, in accordance with the meaning which those words have in everyday language, the prohibition of the dismissal, by a controller or processor, of a data protection officer or of the imposition, by a controller or processor, of a penalty on him or her means, as the Advocate General essentially observed in points 24 and 26 of his Opinion, that that officer must be protected against any decision terminating his or her duties, by which he or she would be placed at a disadvantage or which would constitute a penalty.
+22      In that regard, a measure terminating a data protection officer’s employment contract taken by his or her employer and terminating the employment relationship existing between that officer and that employer and, therefore, also terminating the function of data protection officer in the undertaking concerned may constitute such a decision.
+23      Second, the second sentence of Article 38(3) of the GDPR clearly applies without distinction both to the data protection officer who is a member of the staff of the controller or processor and to the person who fulfils the tasks on the basis of a service contract concluded with the latter, in accordance with Article 37(6) of the GDPR.
+24      It follows that the second sentence of Article 38(3) of the GDPR is intended to apply to the relationship between a data protection officer and a controller or processor, irrespective of the nature of the employment relationship between that controller and the latter.
+25      Third, it should be noted that that provision imposes a limit which consists, as the Advocate General stated, in essence, in point 29 of his Opinion, in prohibiting the termination of a data protection officer’s employment contract on a ground relating to the performance of his or her tasks, which include, in particular, under Article 39(1)(b) of the GDPR, monitoring compliance with EU or Member State legal provisions and with the policies of the controller or processor in relation to the protection of personal data.
+26      In the second place, as regards the objective pursued by the second sentence of Article 38(3) of the GDPR, it must first be pointed out that recital 97 of that regulation states that data protection officers, whether or not they are employees of the controller, should be in a position to perform their duties and tasks in an independent manner. In that regard, such independence must necessarily enable them to carry out those tasks in accordance with the objective of the GDPR, which seeks, inter alia, as is apparent from recital 10 thereof, to ensure a high level of protection of natural persons within the European Union and, to that end, to ensure a consistent and homogeneous application of the rules for the protection of the fundamental rights and freedoms of such natural persons with regard to the processing of personal data throughout the European Union (judgment of 6 October 2020, 
+La Quadrature du Net and Others
+, C-511/18, C-512/18 and C-520/18, EU:C:2020:791, paragraph 207 and the case-law cited).
+27      Second, the objective of ensuring the functional independence of the data protection officer, as it follows from the second sentence of Article 38(3) of the GDPR, is also apparent from the first and third sentences of that provision, which require that that officer is not to receive any instructions regarding the exercise of those tasks and is to report directly to the highest level of management of the controller or processor, and from Article 38(5), which provides that, with regard to that exercise, that officer is to be bound by secrecy or confidentiality.
+28      Thus, the second sentence of Article 38(3) of the GDPR, by protecting the data protection officer against any decision which terminates his or her duties, places him or her at a disadvantage or constitutes a penalty, where such a decision relates to the performance of his or her tasks, must be regarded as essentially seeking to preserve the functional independence of the data protection officer and, therefore, to ensure that the provisions of the GDPR are effective. By contrast, that provision is not intended to govern the overall employment relationship between a controller or a processor and staff members who are likely to be affected only incidentally, to the extent strictly necessary for the achievement of those objectives.
+29      That interpretation is supported, in the third place, by the context of that provision and, in particular, by the legal basis on which the EU legislature adopted the GDPR.
+30      As is apparent from the preamble to the GDPR, that regulation was adopted on the basis of Article 16 TFEU, paragraph 2 of which provides, in particular, that the European Parliament and the Council of the European Union are, by means of regulations, acting in accordance with the ordinary legislative procedure, to lay down the rules relating, first, to the protection of natural persons with regard to the processing of personal data by the EU institutions, bodies, offices or agencies and by the Member States when carrying out activities which fall within the scope of EU law and, second, to the free movement of such data.
+31      By contrast, apart from the specific protection of the data protection officer provided for in the second sentence of Article 38(3) of the GDPR, the fixing of rules on protection against the termination of the employment contract of a data protection officer employed by a controller or by a processor does not fall within the scope of the protection of natural persons with regard to the processing of personal data or within the scope of the free movement of such data, but within the field of social policy.
+32      In that regard, it should be borne in mind, first, that, under Article 4(2)(b) TFEU, the European Union and the Member States have, in the field of social policy, for the aspects defined in that Treaty, a shared competence for the purposes of Article 2(2) thereof. Second, and as is specified in Article 153(1)(d) TFEU, the European Union is to support and complement the activities of the Member States in the field of the protection of workers in cases where their employment contract is terminated (see, by analogy judgment of 19 November 2019, 
+TSN and AKT
+, C-609/17 and C-610/17, EU:C:2019:981, paragraph 47).
+33      That being so, as is clear from Article 153(2)(b) TFEU, it is by means of directives that the Parliament and the Council may lay down minimum requirements in that regard, since such minimum requirements cannot, according to the Court’s case-law, in the light of Article 153(4) TFEU, prevent any Member State from maintaining or introducing more stringent protective measures that are compatible with the Treaties (see, to that effect judgment of 19 November 2019, 
+TSN and AKT
+, C-609/17 and C-610/17, EU:C:2019:981, paragraph 48).
+34      It follows, as the Advocate General stated, in essence, in point 44 of his Opinion, that each Member State is free, in the exercise of its retained competence, to lay down more protective specific provisions on the termination of a data protection officer’s employment contract, in so far as those provisions are compatible with EU law and, in particular, with the provisions of the GDPR, particularly the second sentence of Article 38(3) thereof.
+35      In particular, as the Advocate General observed in points 50 and 51 of his Opinion, such increased protection cannot undermine the achievement of the objectives of the GDPR. That would be the case if it prevented any termination of the employment contract, by a controller or by a processor, of a data protection officer who no longer possesses the professional qualities required to perform his or her tasks or who does not fulfil those tasks in accordance with the provisions of the GDPR.
+36      In the light of the foregoing considerations, the answer to the first question is that the second sentence of Article 38(3) of the GDPR must be interpreted as not precluding national legislation which provides that a controller or a processor may terminate the employment contract of a data protection officer, who is a member of his or her staff, only with just cause, even if the contractual termination is not related to the performance of that officer’s tasks, in so far as such legislation does not undermine the achievement of the objectives of the GDPR.
+ 
+The second and third questions
+37      In the light of the answer given to the first question, there is no need to answer the second and third questions.
+ 
+Costs
+38      Since these proceedings are, for the parties to the main proceedings, a step in the action pending before the national court, the decision on costs is a matter for that court. Costs incurred in submitting observations to the Court, other than the costs of those parties, are not recoverable.
+On those grounds, the Court (First Chamber) hereby rules:
+The second sentence of Article 38(3) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation), must be interpreted as not precluding national legislation which provides that a controller or a processor may terminate the employment contract of a data protection officer, who is a member of his or her staff, only with just cause, even if the contractual termination is not related to the performance of that officer’s tasks, in so far as such legislation does not undermine the achievement of the objectives of that regulation.

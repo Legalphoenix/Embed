@@ -1,0 +1,199 @@
+of 20 Oct 2022, C-306/21 (
+Koalitsia Demokratichna Bulgaria - Obedinenie
+)
+General data protection law 
+ > 
+Chapter I - General Provisions 
+ > 
+Material scope -  Activity outside the scope of Union law exemption 
+General data protection law 
+ > 
+Chapter II - Principles 
+ > 
+Lawfulness - Performance of a task of public interest or official authority 
+General data protection law 
+ > 
+Chapter VI - Independent supervisory authorities 
+ > 
+Powers 
+ 
+JUDGMENT OF THE COURT (Eighth Chamber)
+20 October 2022 (*)
+(Reference for a preliminary ruling – Protection of personal data – Regulation (EU) 2016/679 – Scope – Article 2(2)(a) – Concept of ‘activity which falls outside the scope of Union law’ – National and European elections – Article 6(1)(e) – Lawfulness of processing – Article 58 – Measure adopted by the supervisory authorities which limits or, where appropriate, prohibits the video recording of the vote count at polling stations)
+In Case C-306/21,
+REQUEST for a preliminary ruling under Article 267 TFEU from the Varhoven administrativen sad (Supreme Administrative Court, Bulgaria), made by decision of 23 April 2021, received at the Court on 12 May 2021, in the proceedings
+Komisia za zashtita na lichnite danni,
+Tsentralna izbiratelna komisia
+v
+Koalitsia ‘Demokratichna Bulgaria – Obedinenie’,
+THE COURT (Eighth Chamber),
+composed of N. Piçarra, acting as President of the Chamber, N. Jääskinen (Rapporteur) and M. Gavalec, Judges,
+Advocate General: M. Campos Sánchez-Bordona,
+Registrar: A. Calot Escobar,
+having regard to the written procedure,
+after considering the observations submitted on behalf of:
+–        the Komisia za zashtita na lichnite danni, by V. Karadzhov,
+–        the Romanian Government, by L.-E. Baţagoi, E. Gane and A. Wellman, acting as Agents,
+–        the European Commission, by A. Bouchagiar, C. Georgieva and H. Kranenborg, acting as Agents,
+having decided, after hearing the Advocate General, to proceed to judgment without an Opinion,
+gives the following
+Judgment
+1        This request for a preliminary ruling concerns the interpretation of Article 2(2)(a) and Article 6(1)(e) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (OJ 2016 L 119, p. 1; ‘the GDPR’).
+2        The request has been made in proceedings between, on the one hand, the Komisia za zashtita na lichnite danni (Commission for the Protection of Personal Data, Bulgaria) (‘the CPPD’) and the Tsentralna izbiratelna komisia (Central Election Commission, Bulgaria) (‘the CEC’) and, on the other hand, the Koalitsia ‘Demokratichna Bulgaria – Obedinenie’ (‘the Koalitsia’), a coalition of Bulgarian political parties, concerning guidelines on the processing and protection of personal data in the electoral process (‘the guidelines at issue’), adopted by the CPPD and the CEC.
+ 
+Legal framework
+ 
+E
+uropean 
+U
+nion
+ law
+3        Recitals 4, 16 and 129 of the GDPR are worded as follows:
+‘(4)      The processing of personal data should be designed to serve mankind. The right to the protection of personal data is not an absolute right; it must be considered in relation to its function in society and be balanced against other fundamental rights, in accordance with the principle of proportionality. This Regulation respects all fundamental rights and observes the freedoms and principles recognised in the [Charter of Fundamental Rights of the European Union] as enshrined in the Treaties, in particular the respect for private and family life, home and communications, the protection of personal data, freedom of thought, conscience and religion, freedom of expression and information, freedom to conduct a business, the right to an effective remedy and to a fair trial, and cultural, religious and linguistic diversity.
+…
+(16)      This Regulation does not apply to issues of protection of fundamental rights and freedoms or the free flow of personal data related to activities which fall outside the scope of Union law, such as activities concerning national security. This Regulation does not apply to the processing of personal data by the Member States when carrying out activities in relation to the common foreign and security policy of the [European] Union.
+…
+(129)      In order to ensure consistent monitoring and enforcement of this Regulation throughout the Union, the supervisory authorities should have in each Member State the same tasks and effective powers, including powers of investigation, corrective powers and sanctions, and authorisation and advisory powers … Such powers should also include the power to impose a temporary or definitive limitation, including a ban, on processing … In particular each measure should be appropriate, necessary and proportionate in view of ensuring compliance with this Regulation …’
+4        Article 2 of that regulation, entitled ‘Material scope’, provides:
+‘1.      This Regulation applies to the processing of personal data wholly or partly by automated means and to the processing other than by automated means of personal data which form part of a filing system or are intended to form part of a filing system.
+2.      This Regulation does not apply to the processing of personal data:
+(a)      in the course of an activity which falls outside the scope of Union law;
+(b)      by the Member States when carrying out activities which fall within the scope of Chapter 2 of Title V of the [EU Treaty];
+…’
+5        Article 3 of that regulation defines its territorial scope. According to paragraph 1 thereof, the GDPR ‘applies to the processing of personal data in the context of the activities of an establishment of a controller or a processor in the Union, regardless of whether the processing takes place in the Union or not’.
+6        According to Article 4 of the GDPR:
+‘For the purposes of this Regulation:
+…
+(2)      “processing” means any operation or set of operations which is performed on personal data or on sets of personal data, whether or not by automated means, such as collection, recording, organisation, structuring, storage, adaptation or alteration, retrieval, consultation, use, disclosure by transmission, dissemination or otherwise making available, alignment or combination, restriction, erasure or destruction;
+…’
+7        Article 5 of that regulation, entitled ‘Principles relating to processing of personal data’, provides:
+‘1.      Personal data shall be:
+…
+(c)      adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed (“data minimisation”);
+…’
+8        Article 6 of that regulation, entitled ‘Lawfulness of processing’, provides in paragraphs 1 to 3 thereof:
+‘1.      Processing shall be lawful only if and to the extent that at least one of the following applies:
+…
+(e)      processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller;
+…
+2.      Member States may maintain or introduce more specific provisions to adapt the application of the rules of this Regulation with regard to processing for compliance with points (c) and (e) of paragraph 1 by determining more precisely specific requirements for the processing and other measures to ensure lawful and fair processing including for other specific processing situations as provided for in Chapter IX.
+3.      The basis for the processing referred to in point (c) and (e) of paragraph 1 shall be laid down by:
+(a)      Union law; or
+(b)      Member State law to which the controller is subject.
+The purpose of the processing shall be determined in that legal basis or, as regards the processing referred to in point (e) of paragraph 1, shall be necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller. That legal basis may contain specific provisions to adapt the application of rules of this Regulation, inter alia: the general conditions governing the lawfulness of processing by the controller; the types of data which are subject to the processing; the data subjects concerned; the entities to, and the purposes for which, the personal data may be disclosed; the purpose limitation; storage periods; and processing operations and processing procedures, including measures to ensure lawful and fair processing such as those for other specific processing situations as provided for in Chapter IX. The Union or the Member State law shall meet an objective of public interest and be proportionate to the legitimate aim pursued.’
+9        Article 58 of that regulation, entitled ‘Powers’, provides in paragraphs 2 to 4 thereof:
+‘2.      Each supervisory authority shall have all of the following corrective powers:
+…
+(f)      to impose a temporary or definitive limitation including a ban on processing;
+…
+3.      Each supervisory authority shall have all of the following authorisation and advisory powers:
+…
+(b)      to issue, on its own initiative or on request, opinions to the national parliament, the Member State government or, in accordance with Member State law, to other institutions and bodies as well as to the public on any issue related to the protection of personal data;
+…
+4.      The exercise of the powers conferred on the supervisory authority pursuant to this Article shall be subject to appropriate safeguards, including effective judicial remedy and due process, set out in Union and Member State law in accordance with the [Charter of Fundamental Rights].’
+10      As set out in Article 85 of the GDPR, entitled ‘Processing and freedom of expression and information’:
+‘1.      Member States shall by law reconcile the right to the protection of personal data pursuant to this Regulation with the right to freedom of expression and information, including processing for journalistic purposes and the purposes of academic, artistic or literary expression.
+2.      For processing carried out for journalistic purposes or the purpose of academic artistic or literary expression, Member States shall provide for exemptions or derogations from Chapter II (principles), Chapter III (rights of the data subject), Chapter IV (controller and processor), Chapter V (transfer of personal data to third countries or international organisations), Chapter VI (independent supervisory authorities), Chapter VII (cooperation and consistency) and Chapter IX (specific data processing situations) if they are necessary to reconcile the right to the protection of personal data with the freedom of expression and information.
+3.      Each Member State shall notify to the [European] Commission the provisions of its law which it has adopted pursuant to paragraph 2 and, without delay, any subsequent amendment law or amendment affecting them.’
+ 
+Bulgarian law
+11      Article 272 of the Izboren kodeks (Electoral Code), in the version applicable to the dispute in the main proceedings, provides:
+‘When the ballot boxes are opened and the results of the voting are determined, candidates, supporters and representatives of parties, coalitions and action committees …, observers …, one registered researcher for each registered sociological research agency and representatives of the media may be present at polling stations and must be provided with a direct view of the vote count.’
+ 
+The dispute in the main proceedings and the questions referred for a preliminary ruling
+12      The guidelines at issue were adopted by decision of the CPPD on 28 January 2021 and by decision of the CEC on 8 February 2021.
+13      As regards the processing of personal data by means of video recording (recording or live broadcast) in the context of the electoral process, the guidelines at issue provide that the purpose of such processing is to ensure the transparency, objectivity and lawfulness of the electoral process, as well as the equal treatment of participants in that process, and to guarantee freedom of expression and the right to information.
+14      As regards the detailed arrangements for processing personal data by means of video recording during the electoral process, the guidelines at issue provide, on the one hand, that the media are to process personal data by means of video recording only when the election day starts and concludes, when the results of the voting are announced and when the serial numbers of the ballot papers are drawn.
+15      On the other hand, those guidelines state that no other participants in the electoral process may process personal data by means of video recording, since this would be incompatible with their role in the electoral process.
+16      By application of 10 February 2021, the Koalitsia contested the lawfulness of those guidelines before the Administrativen sad Sofia (Administrative Court, Sofia, Bulgaria) in so far as they apply to the processing of personal data by means of video recording.
+17      By judgment of 15 March 2021, that court annulled:
+–        paragraph 2 of Section I of the guidelines at issue, entitled ‘General considerations’, in so far as it concerns controllers, processors and persons who process personal data in the context of an electoral process in accordance with the controller’s instructions and which provides that ‘their rights and obligations with regard to the processing of personal data are limited in so far as their rights and obligations in the context of the electoral process are exhaustively and restrictively set out’, that ‘the cases in which those persons process personal data are expressly set out in the Electoral Code (right to a direct view when results of the voting are determined, right to obtain copies of the reports of the district electoral commission, etc.)’, and that ‘when processing personal data, those persons may not go beyond the rights and obligations provided for in the Electoral Code’; and
+–        paragraph 9 of Section II, entitled ‘Guidelines for data controllers’, in so far as that paragraph provides that ‘no other participants in the electoral process may process personal data by means of video recording and/or dissemination, because their role in the electoral process is incompatible with the objective of processing personal data in the electoral process by means of video recording’ and that ‘the tasks and roles of those participants in the electoral process are expressly and exhaustively defined in the Electoral Code’.
+18      According to the Administrativen sad Sofia (Administrative Court, Sofia), under Article 2(2)(a) of the GDPR, that regulation does not apply in the course of an activity which falls outside the scope of EU law, such as that at issue in the main proceedings, that is to say, the organisation of national parliamentary or local authority elections in a Member State. Consequently, the guidelines at issue, in so far as they are measures implementing the GDPR, have no legal basis.
+19      On 29 March 2021, the CPPD and the CEC appealed against that judgment to the Varhoven administrativen sad (Supreme Administrative Court, Bulgaria), the referring court.
+20      By application of 2 April 2021, the CPPD, supported by the CEC, requested that a preliminary ruling be sought from the Court of Justice concerning the applicability of EU law to the case in the main proceedings.
+21      The Koalitsia argues before the referring court that that judgment should be upheld and that there is no need to submit a request for a preliminary ruling to the Court of Justice.
+22      The referring court states that the guidelines at issue constitute an administrative measure which has recurring legal effects during elections. It points out that the guidelines at issue apply to all national, local and European elections held on the territory of the Republic of Bulgaria.
+23      That court is uncertain, in particular, as to the applicability of the GDPR in the context of the organisation of elections in a Member State and, in the event that it is applicable in that context, as to the impact of the provisions of the GDPR on the ability of the competent personal data protection authorities to limit or, where appropriate, to prohibit the processing of such data in the context of the electoral process.
+24      In those circumstances, the Varhoven administrativen sad (Supreme Administrative Court) decided to stay the proceedings and to refer the following questions to the Court of Justice for a preliminary ruling:
+‘(1)      Is Article 2(2)(a) of the [GDPR] to be interpreted as precluding the application of that regulation to an ostensibly purely internal situation, such as the holding of elections to the National Assembly, where the subject matter of the protection is the personal data of individuals – citizens of the European Union – and the data processing operations are not restricted to the collection of data in the context of the activity in question?
+(2)      If the first question is answered in the affirmative, does the conclusion of the holding of elections to the National Assembly, which do not appear to fall within the scope of EU law, release controllers, processors and persons who store personal data from their obligations under the regulation, as the sole means of protecting personal data of EU citizens at EU level? Does the applicability of the regulation depend solely on the activity for which the personal data were produced or collected, thereby also leading to the conclusion that its subsequent applicability is precluded?
+(3)      If the first question is answered in the negative, do Article 6[(1)](e) of the [GDPR] and the principle of proportionality enshrined in recitals 4 and 129 thereof preclude national rules implementing the regulation, such as those at issue, which preclude and restrict from the outset the possibility of carrying out any video recording during the determination of the election results at polling stations, do not allow for differentiation and regulation of individual elements of the recording process and preclude the possibility of achieving the objectives of the regulation – the protection of personal data of individuals – by other means?
+(4)      Alternatively, and in the context of the scope of application of EU law, do Article 6[(1)](e) of the [GDPR] and the principle of proportionality enshrined in recitals 4 and 129 thereof preclude – in the holding of municipal elections and elections to the European Parliament – national rules implementing that regulation, such as those at issue, which preclude and restrict from the outset the possibility of carrying out any video recording during the determination of the election results at polling stations, do not differentiate and regulate individual elements of the recording process or even allow for such differentiation and regulation, and preclude the possibility of achieving the objectives of the regulation – the protection of personal data of individuals – by other means?
+(5)      Does Article 6(1)(e) of the [GDPR] preclude the categorisation of the activities of ascertaining lawful conduct and determining the results of elections as a task carried out in the public interest which justifies a certain degree of interference, subject to the requirement of proportionality, with regard to the personal data of persons present at polling stations when they perform an official, public task which is regulated by law?
+(6)      If the previous question is answered in the affirmative, does the protection of personal data preclude the introduction of a national statutory prohibition on the collection and processing of personal data, which limits the possibility of carrying out ancillary activities consisting in the video recording of materials, objects or items which do not contain personal data, where the recording process potentially gives rise to the possibility of personal data also being collected during the video recording of persons present at polling stations who are carrying out an activity in the public interest at the relevant time?’
+ 
+The admissibility of the request for a preliminary ruling
+25      On 14 September 2021, the Court sent a request for information to the referring court, asking it to clarify whether the amendment of Article 272 of the Electoral Code, which occurred after the request for a preliminary ruling was lodged, had any impact on the relevance of the questions referred for the resolution of the dispute in the main proceedings.
+26      In its reply of 29 October 2021, the referring court stated that, under national procedural law, it must assess the legality of the guidelines at issue by reference not to the date on which that legislative amendment was made, but to the date on which the guidelines at issue were adopted. Consequently, the relevance of the reference for a preliminary ruling is not called into question by that legislative amendment, which took place after the adoption of the guidelines at issue.
+27      In that regard, it should be noted that, according to the settled case-law of the Court, questions referred for a preliminary ruling by a national court in the legislative and factual context which that court is responsible for defining, and the accuracy of which is not a matter for the Court of Justice to determine, enjoy a presumption of relevance. The Court may refuse to give a ruling on a question referred by a national court for a preliminary ruling, under Article 267 TFEU, only where, for instance, the requirements concerning the content of a request for a preliminary ruling, set out in Article 94 of the Rules of Procedure of the Court, are not satisfied or where it is quite obvious that the interpretation of a provision of EU law, or the assessment of its validity, which is sought by the national court, bears no relation to the actual facts of the main action or to its purpose, or where the problem is hypothetical (judgment of 25 March 2021, 
+Obala i lučice
+, C-307/19, EU:C:2021:236, paragraph 48 and the case-law cited).
+28      In the present case, it is clear from the explanations given by the referring court that it considers that the response to the questions raised is necessary for it to rule on the dispute before it.
+29      It follows that the request for a preliminary ruling is admissible.
+ 
+The questions referred for a preliminary ruling
+ 
+The first and second questions
+30      By its first and second questions, which it is appropriate to consider together, the referring court asks, in essence, whether Article 2(2)(a) of the GDPR must be interpreted as excluding from the scope of that regulation the processing of personal data in the context of the organisation of elections in a Member State.
+31      First, it should be noted that, pursuant to Article 2(1) of the GDPR, that regulation applies to the processing of personal data wholly or partly by automated means and to the processing other than by automated means of personal data which form part of a filing system or are intended to form part of a filing system. According to Article 4(2) of that regulation, the definition of ‘processing’ includes any operation which is performed on personal data or on sets of personal data, whether or not by automated means, such as, inter alia, collection, recording, use, disclosure by transmission, dissemination or otherwise making available.
+32      It follows that the video recording of natural persons amounts to a processing of personal data which falls, in principle, within the material scope of the GDPR (see, to that effect, judgment of 11 December 2014, 
+Ryneš
+, C-212/13, EU:C:2014:2428, paragraph 35).
+33      Secondly, it should be pointed out that the exceptions to the material scope of that regulation are exhaustively set out in Article 2(2) and (3) of that regulation.
+34      In the present case, the referring court is uncertain as to whether the processing of personal data by means of video recording during the organisation of both European and national elections falls within the exception provided for in Article 2(2)(a) of the GDPR, according to which that regulation does not apply to the processing of personal data ‘in the course of an activity which falls outside the scope of Union law’.
+35      It must be pointed out that that exception to the applicability of the GDPR must, like the other exceptions laid down in Article 2(2), be interpreted strictly (see, to that effect, judgment of 22 June 2021, 
+Latvijas Republikas Saeima (Penalty points)
+, C-439/19, EU:C:2021:504, paragraph 62 and the case-law cited).
+36      As the Court has held, Article 2(2)(a) of the GDPR is to be read in conjunction with Article 2(2)(b) thereof and recital 16, which states that that regulation does not apply to the processing of personal data in the context of ‘activities which fall outside the scope of Union law, such as activities concerning national security’ and ‘activities in relation to the common foreign and security policy of the Union’ (see, to that effect, judgment of 22 June 2021, 
+Latvijas Republikas Saeima (Penalty points)
+, C-439/19, EU:C:2021:504, paragraph 63).
+37      It follows that Article 2(2)(a) and (b) of the GDPR represents partly a continuation of the first indent of Article 3(2) of Directive 95/46/EC of the European Parliament and of the Council of 24 October 1995 on the protection of individuals with regard to the processing of personal data and on the free movement of such data (OJ 1995 L 281, p. 31). Therefore, Article 2(2)(a) and (b) of the GDPR cannot be interpreted in broader terms than the exception resulting from the first indent of Article 3(2) of Directive 95/46, a provision which already excluded from that directive’s scope inter alia the processing of personal data taking place in the course ‘of an activity which falls outside the scope of Community law, such as those provided for by Titles V and VI of the [EU Treaty, in the version in force prior to the Treaty of Lisbon,] and in any case … processing operations concerning public security, defence, State security …’ (judgment of 22 June 2021, 
+Latvijas Republikas Saeima (Penalty points)
+, C-439/19, EU:C:2021:504, paragraph 64).
+38      However, only the processing of personal data in the course of an activity of the State or of State authorities which was expressly listed in Article 3(2) of Directive 95/46 or in the course of an activity which could be classified in the same category was excluded from the scope of that directive (judgment of 22 June 2021, 
+Latvijas Republikas Saeima (Penalty points)
+, C-439/19, EU:C:2021:504, paragraph 65 and the case-law cited).
+39      Therefore, Article 2(2)(a) of the GDPR, read in the light of recital 16 thereof, is designed solely to exclude from the scope of that regulation the processing of personal data carried out by State authorities in the course of an activity which is intended to safeguard national security or of an activity which can be classified in the same category, with the result that the mere fact that an activity is an activity characteristic of the State or of a public authority is not sufficient ground for that exception to be automatically applicable to such an activity (judgment of 22 June 2021, 
+Latvijas Republikas Saeima (Penalty points)
+, C-439/19, EU:C:2021:504, paragraph 66 and the case-law cited).
+40      The activities having the aim of safeguarding national security that are envisaged in Article 2(2)(a) of the GDPR encompass, in particular, those that are intended to protect essential State functions and the fundamental interests of society (see, to that effect, judgment of 22 June 2021, 
+Latvijas Republikas Saeima (Penalty points)
+, C-439/19, EU:C:2021:504, paragraph 67).
+41      However, activities relating to the organisation of elections in a Member State do not pursue such an objective and consequently cannot be classified in the category of activities having the aim of safeguarding national security, which are envisaged in Article 2(2)(a) of the GDPR.
+42      In the light of the foregoing considerations, the answer to the first and second questions is that Article 2(2)(a) of the GDPR must be interpreted as not excluding from the scope of that regulation the processing of personal data in the context of the organisation of elections in a Member State.
+ 
+The third to sixth questions
+43      First of all, it should be observed that, according to settled case-law, in the procedure laid down in Article 267 TFEU providing for cooperation between national courts and the Court of Justice, it is for the latter to provide the national court with an answer which will be of use to it and enable it to determine the case before it. To that end, the Court may have to reformulate the questions referred to it (see, to that effect, judgment of 7 July 2022, 
+Pensionsversicherungsanstalt (Child-raising periods completed abroad)
+, C-576/20, EU:C:2022:525, paragraph 35 and the case-law cited).
+44      For those purposes, the Court may extract from all the information provided by the national court, in particular from the grounds of the order for reference, the points of EU law which require interpretation in view of the subject matter of the dispute in the main proceedings (see, to that effect, judgment of 2 June 2022, 
+HK/Danmark and HK/Privat
+, C-587/20, EU:C:2022:419, paragraph 18 and the case-law cited).
+45      In the present case, it is clear from the order for reference that the dispute in the main proceedings essentially concerns the question whether the competent personal data protection authorities may limit or prohibit the processing of such data as regards the possibility of filming the electoral process and, in particular, the vote count.
+46      Accordingly, it is to be understood that, by its third to sixth questions, which it is necessary to examine together, the referring court asks, in essence, whether Article 6(1)(e) and Article 58 of the GDPR must be interpreted as precluding the competent authorities of a Member State from adopting an administrative measure of general application which provides for the limitation or, where appropriate, the prohibition of video recording during the vote count at polling stations in elections in that Member State.
+47      In the first place, it should be pointed out that Article 6 of the GDPR sets out the conditions for the lawfulness of the processing of personal data.
+48      With regard more specifically to Article 6(1)(e) of the GDPR, which is specifically referred to in the request for a preliminary ruling, it follows from that provision that the processing of personal data is lawful if it is necessary for the performance of a task carried out in the public interest or a task carried out in the exercise of official authority vested in the controller.
+49      Article 6(1)(e) of the GDPR must be read in conjunction with Article 6(3) thereof, which states that the basis for the processing referred to in Article 6(1)(e) is to be laid down by EU law or by Member State law to which the controller is subject.
+50      The combined provisions of Article 6(1)(e) and Article 6(3) of the GDPR therefore allow Member States to adopt rules on the basis of which controllers may process personal data in the performance of a task carried out in the public interest or a task carried out in the exercise of official authority.
+51      In the present case, the referring court appears to consider, in the context of its fifth question, that some of the participants present at polling stations during the vote count could be performing a task carried out in the public interest within the meaning of Article 6(1)(e) of the GDPR.
+52      In that regard, it should be pointed out that the lawful processing of personal data by such participants on the basis of Article 6(1)(e) of the GDPR presupposes not only that they can be regarded as performing a task carried out in the public interest, but also that the processing of personal data for the purpose of performing such a task is founded on a legal basis referred to in Article 6(3) of that regulation.
+53      As the Commission rightly pointed out in its written observations, the guidelines at issue, adopted by the competent Bulgarian supervisory authorities, do not appear to constitute such a legal basis. On the contrary, they appear to constitute a measure aimed at protecting the personal data of the persons present at polling stations by limiting, in the case of media representatives, and prohibiting, in the case of other participants present at polling stations, the processing of such data by means of video recording during a specific phase of the electoral process, namely during the vote count.
+54      In the second place, it must be borne in mind that the powers of supervisory authorities are laid down in Article 58 of the GDPR.
+55      It follows from Article 58(2)(f) of the GDPR, read in the light of recital 129 of that regulation, that supervisory authorities are to have, inter alia, the power to impose a temporary or definitive limitation on the processing of personal data, including a ban, and that that power is to be exercised in accordance with the principle of proportionality. Similarly, in accordance with Article 58(3)(b) of the GDPR, each supervisory authority is to have the power to issue, on its own initiative or on request, opinions, in accordance with the law of the Member State concerned, to institutions and bodies other than the national parliament or the government of that Member State as well as to the public, on any issue related to the protection of personal data. Finally, in accordance with Article 58(4) of that regulation, the exercise of those powers is to be subject to appropriate safeguards, including effective judicial remedy.
+56      The description of Bulgarian law and of the guidelines at issue, as set out in the documents before the Court, does not make it possible to establish, subject to the matters to be verified by the referring court, that the competent Bulgarian authorities exceeded the powers available to them under Article 58(2)(f) and (3)(b) of the GDPR and, in particular, that the guidelines at issue do not comply with the principle of proportionality.
+57      In that regard, the referring court notes that the guidelines at issue limit, in the case of media representatives, and prohibit, in the case of other participants present at polling stations, the processing of personal data by means of video recording during a specific phase of the electoral process, namely during the opening of ballot boxes and the determination of the election results. By contrast, those guidelines do not appear to limit the ability of participants present at polling stations during the vote count to observe the opening of the ballot boxes and the determination of the election results, thus ensuring the transparency, objectivity and legitimacy of the electoral process, the equal treatment of the participants in the process and the freedom of expression and the right to information, in accordance with the objective of those guidelines.
+58      Accordingly, it must be held that the guidelines at issue are intended, in accordance with the principle of data minimisation referred to in Article 5(1)(c) of the GDPR, to minimise the interference with the right to the protection of personal data caused by video recording the electoral process.
+59      In the third and last place, it must be borne in mind, so far as is relevant, that Member States may provide for exemptions and derogations from certain provisions of the GDPR in order to reconcile the right to the protection of personal data with the freedom of expression and information.
+60      Under Article 85(1) of the GDPR, Member States are by law to reconcile the right to the protection of personal data pursuant to that regulation with the right to freedom of expression and information, including the processing of personal data for journalistic purposes. According to Article 85(2) of that regulation, Member States are to provide for exemptions or derogations from certain chapters of the GDPR, including Chapter II, which contains Article 6 of the GDPR. Those exemptions or derogations must be limited to what is necessary to reconcile the right to the protection of personal data with the freedom of expression and information.
+61      In the light of the foregoing considerations, the answer to the third to sixth questions is that Article 6(1)(e) and Article 58 of the GDPR must be interpreted as not precluding the competent authorities of a Member State from adopting an administrative measure of general application which provides for the limitation or, where appropriate, the prohibition of video recording during the vote count at polling stations in elections in that Member State.
+ 
+Costs
+62      Since these proceedings are, for the parties to the main proceedings, a step in the action pending before the national court, the decision on costs is a matter for that court. Costs incurred in submitting observations to the Court, other than the costs of those parties, are not recoverable.
+On those grounds, the Court (Eighth Chamber) hereby rules:
+1.      
+Article 2(2)(a) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation)
+must be interpreted as meaning that the processing of personal data in the context of the organisation of elections in a Member State is not excluded from the scope of that regulation.
+2.      
+Article 6(1)(e) and Article 58 of Regulation 2016/679
+must be interpreted as meaning that those provisions do not preclude the competent authorities of a Member State from adopting an administrative measure of general application which provides for the limitation or, where appropriate, the prohibition of video recording during the vote count at polling stations in elections in that Member State.

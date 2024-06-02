@@ -1,0 +1,245 @@
+of 25 Jan 2024, C-687/21 (
+Saturn Electro
+)
+ 
+JUDGMENT OF THE COURT (Third Chamber)
+25 January 2024 (*)
+(Reference for a preliminary ruling – Protection of natural persons with regard to the processing of personal data – Regulation (EU) 2016/679 – Interpretation of Articles 5, 24, 32 and 82 – Assessment of the validity of Article 82 – Inadmissibility of the request for an assessment of validity – Right to compensation for damage caused by data processing which infringes that regulation – Transmission of data to an unauthorised third party on account of an error made by the employees of the controller – Assessment of the appropriateness of the protective measures implemented by the controller – Compensatory function fulfilled by the right to compensation – Effect of the severity of the infringement – Whether necessary to establish the existence of damage caused by that infringement – Concept of ‘non-material damage’)
+In Case C-687/21,
+REQUEST for a preliminary ruling under Article 267 TFEU from the Amtsgericht Hagen (Local Court, Hagen, Germany), made by decision of 11 October 2021, received at the Court on 16 November 2021, in the proceedings
+BL
+v
+MediaMarktSaturn Hagen-Iserlohn GmbH, 
+formerly known as Saturn Electro-Handelsgesellschaft mbH Hagen,
+THE COURT (Third Chamber),
+composed of K. Jürimäe, President of the Chamber, N. Piçarra, M. Safjan, N. Jääskinen (Rapporteur) and M. Gavalec, Judges,
+Advocate General: M. Campos Sánchez-Bordona,
+Registrar: A. Calot Escobar,
+having regard to the written procedure,
+after considering the observations submitted on behalf of:
+–        BL, by D. Pudelko, Rechtsanwalt,
+–        MediaMarktSaturn Hagen-Iserlohn GmbH, formerly known as Saturn Electro-Handelsgesellschaft mbH Hagen, by B. Hackl, Rechtsanwalt,
+–        Ireland, by M. Browne, Chief State Solicitor, A. Joyce and M. Lane, acting as Agents, and by D. Fennelly, Barrister-at-Law,
+–        the European Parliament, by O. Hrstková Šolcová and J.-C. Puffer, acting as Agents,
+–        the European Commission, by A. Bouchagiar, M. Heller and H. Kranenborg, acting as Agents,
+having decided, after hearing the Advocate General, to proceed to judgment without an Opinion,
+gives the following
+Judgment
+1        This request for a preliminary ruling concerns the interpretation of Article 2(1), Article 4, point 7, Article 5(1)(f), Article 6(1), Article 24, Article 32(1)(b) and (2), as well as Article 82 of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (OJ 2016 L 119, p. 1; ‘the GDPR’), and the assessment of the validity of Article 82.
+2        The request has been made in proceedings between BL, a natural person, and MediaMarktSaturn Hagen-Iserlohn GmbH, formerly known as Saturn Electro-Handelsgesellschaft mbH Hagen (‘Saturn’), concerning compensation for the non-material damage which that person claims to have suffered on account of the transmission by a third party of some of his personal data due to an error made by employees of that company.
+ 
+Legal context
+3        Recitals 11, 74, 76, 83, 85 and 146 of the GDPR are worded as follows:
+‘(11)      Effective protection of personal data throughout the [European] Union requires the strengthening and setting out in detail of the rights of data subjects and the obligations of those who process and determine the processing of personal data, …
+…
+(74)      The responsibility and liability of the controller for any processing of personal data carried out by the controller or on the controller’s behalf should be established. In particular, the controller should be obliged to implement appropriate and effective measures and be able to demonstrate the compliance of processing activities with this Regulation, including the effectiveness of the measures. Those measures should take into account the nature, scope, context and purposes of the processing and the risk to the rights and freedoms of natural persons.
+…
+(76)      The likelihood and severity of the risk to the rights and freedoms of the data subject should be determined by reference to the nature, scope, context and purposes of the processing. Risk should be evaluated on the basis of an objective assessment, by which it is established whether data processing operations involve a risk or a high risk.
+…
+(83)      In order to maintain security and to prevent processing in infringement of this Regulation, the controller or processor should evaluate the risks inherent in the processing and implement measures to mitigate those risks, such as encryption. Those measures should ensure an appropriate level of security, including confidentiality, taking into account the state of the art and the costs of implementation in relation to the risks and the nature of the personal data to be protected. In assessing data security risk, consideration should be given to the risks that are presented by personal data processing, such as accidental or unlawful destruction, loss, alteration, unauthorised disclosure of, or access to, personal data transmitted, stored or otherwise processed which may in particular lead to physical, material or non-material damage.
+…
+(85)      A personal data breach may, if not addressed in an appropriate and timely manner, result in physical, material or non-material damage to natural persons such as loss of control over their personal data or limitation of their rights, discrimination, identity theft or fraud, financial loss, unauthorised reversal of pseudonymisation, damage to reputation, loss of confidentiality of personal data protected by professional secrecy or any other significant economic or social disadvantage to the natural person concerned. …
+…
+(146)      The controller or processor should compensate any damage which a person may suffer as a result of processing that infringes this Regulation. The controller or processor should be exempt from liability if it proves that it is not in any way responsible for the damage. The concept of damage should be broadly interpreted in the light of the case-law of the Court of Justice in a manner which fully reflects the objectives of this Regulation. This is without prejudice to any claims for damage deriving from the violation of other rules in Union or Member State law. Processing that infringes this Regulation also includes processing that infringes delegated and implementing acts adopted in accordance with this Regulation and Member State law specifying rules of this Regulation. Data subjects should receive full and effective compensation for the damage they have suffered. …’
+4        In Chapter I of that regulation, relating to ‘general provisions’, Article 2 thereof, itself entitled ‘Material scope’, provides, in paragraph 1:
+‘This Regulation applies to the processing of personal data wholly or partly by automated means and to the processing other than by automated means of personal data which form part of a filing system or are intended to form part of a filing system.’
+5        Article 4 of that regulation, entitled ‘Definitions’, provides:
+‘For the purposes of this Regulation:
+(1)      “personal data” means any information relating to an identified or identifiable natural person (“data subject”); …
+…
+(7)      “controller” means the natural or legal person, public authority, agency or other body which, alone or jointly with others, determines the purposes and means of the processing of personal data; …
+…
+(10)      “third party” means a natural or legal person, public authority, agency or body other than the data subject, controller, processor and persons who, under the direct authority of the controller or processor, are authorised to process personal data;
+…
+(12)      “personal data breach” means a breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorised disclosure of, or access to, personal data transmitted, stored or otherwise processed;
+…’
+6        Chapter II of the GDPR, entitled ‘Principles’, comprises Articles 5 to 11 of the regulation.
+7        Article 5 of that regulation, entitled ‘Principles relating to processing of personal data’, provides:
+‘1.      Personal data shall be:
+…
+(f)      processed in a manner that ensures appropriate security of the personal data, including protection against unauthorised or unlawful processing and against accidental loss, destruction or damage, using appropriate technical or organisational measures (“integrity and confidentiality”).
+2.      The controller shall be responsible for, and be able to demonstrate compliance with, paragraph 1 (“accountability”).’
+8        Article 6 of that regulation, entitled ‘Lawfulness of processing’, defines, in paragraph 1 thereof, the conditions that must be satisfied for processing to be lawful.
+9        Chapter IV of the GDPR, entitled ‘Controller and processor’, contains Articles 24 to 43 thereof.
+10      In Section 1 of Chapter IV entitled ‘General obligations’, that Article 24, itself entitled ‘Responsibility of the controller’, states, in paragraphs 1 and 2:
+‘1.      Taking into account the nature, scope, context and purposes of processing as well as the risks of varying likelihood and severity for the rights and freedoms of natural persons, the controller shall implement appropriate technical and organisational measures to ensure and to be able to demonstrate that processing is performed in accordance with this Regulation. Those measures shall be reviewed and updated where necessary.
+2.      Where proportionate in relation to processing activities, the measures referred to in paragraph 1 shall include the implementation of appropriate data protection policies by the controller.’
+11      In Section 2 of Chapter IV entitled ‘Security of personal data’, Article 32 of the GDPR, itself entitled ‘Security of processing’, provides in paragraphs 1(b) and 2 thereof:
+‘1.      Taking into account the state of the art, the costs of implementation and the nature, scope, context and purposes of processing as well as the risk of varying likelihood and severity for the rights and freedoms of natural persons, the controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk, including inter alia as appropriate:
+…
+(b)      the ability to ensure the ongoing confidentiality, integrity, availability and resilience of processing systems and services;
+…
+2.      In assessing the appropriate level of security account shall be taken in particular of the risks that are presented by processing, in particular from accidental or unlawful destruction, loss, alteration, unauthorised disclosure of, or access to personal data transmitted, stored or otherwise processed.’
+12      Chapter VIII of the GDPR, entitled ‘Remedies, liability and penalties’, contains Articles 77 to 84 of that regulation.
+13      Under Article 82 of that regulation, entitled ‘Right to compensation and liability’:
+‘1.      Any person who has suffered material or non-material damage as a result of an infringement of this Regulation shall have the right to receive compensation from the controller or processor for the damage suffered.
+2.      Any controller involved in processing shall be liable for the damage caused by processing which infringes this Regulation. …
+3.      A controller or processor shall be exempt from liability under paragraph 2 if it proves that it is not in any way responsible for the event giving rise to the damage.
+…’
+14      Article 83 of the GDPR, entitled ‘General conditions for imposing administrative fines’, provides:
+‘1.      Each supervisory authority shall ensure that the imposition of administrative fines pursuant to this Article in respect of infringements of this Regulation referred to in paragraphs 4, 5 and 6 shall in each individual case be effective, proportionate and dissuasive.’
+2.      … When deciding whether to impose an administrative fine and deciding on the amount of the administrative fine in each individual case due regard shall be given to the following:
+(a)      the nature, gravity and duration of the infringement taking into account the nature scope or purpose of the processing concerned as well as the number of data subjects affected and the level of damage suffered by them;
+(b)      the intentional or negligent character of the infringement;
+…
+(d)      the degree of responsibility of the controller or processor taking into account technical and organisational measures implemented by them pursuant to Articles 25 and 32;
+…
+(k)      any other aggravating or mitigating factor applicable to the circumstances of the case, such as financial benefits gained, or losses avoided, directly or indirectly, from the infringement.
+3.      If a controller or processor intentionally or negligently, for the same or linked processing operations, infringes several provisions of this Regulation, the total amount of the administrative fine shall not exceed the amount specified for the gravest infringement.
+…’
+15      Article 84 of that regulation, entitled ‘Penalties’, provides in paragraph 1 thereof:
+‘Member States shall lay down the rules on other penalties applicable to infringements of this Regulation in particular for infringements which are not subject to administrative fines pursuant to Article 83, and shall take all measures necessary to ensure that they are implemented. Such penalties shall be effective, proportionate and dissuasive.’
+ 
+The dispute in the main proceedings and the questions referred for a preliminary ruling
+16      The applicant in the main proceedings visited the commercial premises of Saturn, where he purchased an electrical household appliance. A sales contract and a credit agreement were drawn up, to that effect, by an employee of that company. At that same time, that employee entered in Saturn’s information system a number of items of personal data of that customer, namely his surname and first name, address, place of residence, name of his employer, income and bank details.
+17      The contractual documents containing that personal data were printed and signed by both parties. The applicant in the main proceedings then brought the documents to Saturn employees working at the collection counter. Another customer, who surreptitiously jumped the queue, accordingly received, by error, both the appliance ordered by the applicant in the main proceedings as well as the documents concerned and left with everything.
+18      As the error was quickly discovered, an employee of Saturn obtained the return of the appliance and the documents, then gave them to the applicant in the main proceedings, within half an hour after they had been given to the other customer. The undertaking wished to compensate the applicant in the main proceedings for that error by delivering the appliance concerned to the applicant’s home free of charge, but the applicant was of the view that that compensation was inadequate.
+19      The applicant in the main proceedings brought an action before the Amtsgericht Hagen (Local Court, Hagen, Germany), which is the referring court in the present case, seeking, in particular on the basis of the provisions of the GDPR, compensation for non-material damage that he claims to have suffered on account of the error made by the Saturn employees and the risk of a resulting loss of control over his personal data.
+20      In its defence, Saturn contends that there was not any infringement of the GDPR and that an infringement could only exist if it exceeded a certain threshold of severity, not reached in the present case. Furthermore, that company submits that the applicant in the main proceedings did not suffer any damage, since it was neither established nor put forward that the third party involved misused the personal data of the concerned party.
+21      The referring court questions, first, the validity of Article 82 of the GDPR, on account of that article appearing to it to lack detail as to its legal effects in the event of compensation for non-material damage.
+22      Secondly, if Article 82 is not declared invalid by the Court, the referring court asks whether exercising the right to compensation provided for in that article presupposes establishing the existence not only of an infringement of the GDPR but also damage, particularly non-material damage, suffered by the person seeking compensation.
+23      Thirdly, the referring court seeks to determine whether the mere fact that the printed documents containing personal data were transmitted without permission to a third party, on account of a mistake made by the employees of the controller, enables or does not enable a finding of infringement of the GDPR.
+24      Fourthly, while holding that ‘the [defendant] undertaking must bear the burden of proving its innocence’, that referring court seeks to know whether it suffices that such a negligent handover of documents took place, in order to hold that it amounts to an infringement of the GDPR, particularly regarding the obligation incumbent on the controller to implement appropriate measures to ensure the security of the processed data, under Articles 2, 5, 6 and 24 of that regulation.
+25      Fifthly, the referring court asks whether, even if it seems that the unauthorised third party was not aware of the personal data concerned before returning the documents containing those data, the existence of ‘non-material damage’, within the meaning of Article 82 of the GDPR, may be established from the mere fact that the person whose data were thus transmitted is fearful of the risk, which cannot be excluded according to that court, that those data are communicated to other individuals by that third party, and misused in the future.
+26      Sixthly, that referring court is seeking clarification as to the potential effect, in an action for non-material damage under Article 82, of the degree of severity of an infringement made in circumstances such as those in the main proceedings, given that more effective security measures could have been adopted, in its opinion, by the controller.
+27      Lastly, seventhly, the referring court seeks to ascertain the purpose of the compensation for non-material damage payable under the GDPR, by suggesting that that compensation could have the nature of a penalty equivalent to that of a contractual penalty.
+28      In those circumstances, the Amtsgericht Hagen (Local Court, Hagen) decided to stay the proceedings and to refer the following questions to the Court of Justice for a preliminary ruling:
+‘(1)      As no automatic legal effects are specified, is the compensation rule enacted in Article 82 of the [GDPR] invalid in the case of non-material damage?
+(2)      Is it necessary, for the purposes of the right to compensation, to establish the occurrence of non-material damage, to be demonstrated by the claimant, in addition to the unauthorised disclosure of the protected data to an unauthorised third party?
+(3)      Does the accidental disclosure of the personal data of the data subject (name, address, occupation, income, employer) to a third party in a paper document (printout), as the result of a mistake by employees of the [concerned] undertaking, suffice in order to establish infringement of the [GDPR]?
+(4)      Where the undertaking accidentally discloses, through its employees, data entered in an automated data processing system to an unauthorised third party in the form of a printout, does that accidental disclosure to a third party qualify as unlawful further processing (Article 2(1), Article 5(1)(f), Article 6(1) and Article 24 of the [GDPR])?
+(5)      Is non-material damage within the meaning of Article 82 of the [GDPR] incurred even where the third party who received the document containing the personal data did not read the data before returning the document containing the information, or does the discomfort of the person whose personal data were unlawfully disclosed suffice for the purpose of establishing non-material damage within the meaning of Article 82 of the [GDPR], given that every unauthorised disclosure of personal data entails the risk, which cannot be eliminated, that the data might nevertheless have been passed on to any number of people or even misused?
+(6)      Where accidental disclosure to third parties is preventable through better supervision of the undertaking’s helpers and/or better data security arrangements, for example by handling collections separately from contract documentation (especially financing documentation) under separate collection notes or by sending the documentation internally to the collection counter without giving the customer the printed documents and collection note, how serious should the infringement be considered to be (Article 32(1)(b) and (2) and Article 4, point 7, of the [GDPR])?
+(7)      Is compensation for non-material damage to be regarded as the award of a penalty similar to a contract penalty?’
+ 
+Consideration of the questions referred
+ 
+The first question
+29      By its first question, the referring court asks whether Article 82 of the GDPR is invalid in so far as it lacks detail as to the legal inferences which can be drawn by way of compensation for non-material damage.
+30      The European Parliament submits that that question is inadmissible, since the referring court did not meet the requirements of Article 94(c) of the Rules of Procedure of the Court of Justice, even if the referring court raises a particularly complex issue, namely the assessment of the validity of a provision of EU law.
+31      In accordance with Article 94(c) of the Rules of Procedure, the request for a preliminary ruling must, in particular, contain, in addition to the text of the questions referred to the Court for a preliminary ruling, a statement of the reasons which prompted the referring court or tribunal to inquire about the interpretation or validity of certain provisions of EU law.
+32      In that regard, the statement of the reasons for the reference for a preliminary ruling is necessary not only to enable the Court to give useful answers but also for the governments of the Member States and other interested parties to submit observations, in accordance with Article 23 of the Statute of the Court of Justice of the European Union. More specifically, it is in light of the grounds of invalidity set out in the referring decision that the Court must examine the validity of a provision of EU law, so that if there is no mention of the precise reasons which led the referring court to question the validity of that act or of those provisions, the questions relating to the invalidity thereof will be inadmissible (see, to that effect, judgments of 15 June 2017, 
+T.KUP
+, C-349/16, EU:C:2017:469, paragraphs 16 to 18, and of 22 June 2023, 
+Vitol
+, C-268/22, EU:C:2023:508, paragraphs 52 to 55).
+33      In the present case, however, the referring court does not put forward any specific information enabling the Court to examine the validity of Article 82 of the GDPR.
+34      Consequently, the first question must be declared inadmissible.
+ 
+The third and fourth questions
+35      By its third and fourth questions, which should be examined together and at the outset, the referring court asks, in essence, whether Articles 5, 24, 32 and 82 of the GDPR, read together, must be interpreted as meaning that, in an action for compensation under Article 82, the fact that the employees of the controller provided to an unauthorised third party in error a document containing personal data is sufficient, in itself, to consider that the technical and organisational measures implemented by the controller at issue were not ‘appropriate’, within the meaning of Articles 24 and 32.
+36      Article 24 of the GDPR lays down a general obligation, on the part of the controller of personal data, to implement appropriate technical and organisational measures to ensure that that processing is performed in accordance with that regulation and to be able to demonstrate this (judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraph 24).
+37      Article 32 of the GDPR sets out, for its part, the obligations of the controller and a possible processor as regards the security of that processing. Thus, paragraph 1 of that article provides that the controller and the processor must implement appropriate technical and organisational measures to ensure a level of security appropriate to the risks in relation to that processing, taking into account the state of the art, the costs of implementation and the nature, scope, context and purposes of the processing concerned. Similarly, paragraph 2 of that article states that, in assessing the appropriate level of security, account is to be taken in particular of the risks that are presented by processing, in particular from accidental or unlawful destruction, loss, alteration, unauthorised disclosure of, or access to, personal data (see, to that effect, judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraphs 26 and 27).
+38      It is apparent, accordingly, from the wording of Articles 24 and 32 of the GDPR that the appropriateness of the measures implemented by the controller must be assessed in a concrete manner, taking into account the various criteria referred to in those articles and the data protection needs specifically inherent in the processing concerned and the risks arising from the latter, and that all the more since that controller must be able to demonstrate that the measures it implemented comply with that regulation, a possibility which it would be deprived of if an irrebuttable presumption were accepted (see, to that effect, judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraphs 30 to 32).
+39      That literal interpretation is supported by reading Articles 24 and 32 together with Article 5(2) and Article 82 of that regulation, read in the light of recitals 74, 76 and 83 thereof, from which it follows, in particular, that the controller is obliged to mitigate the risks of personal data breaches and not prevent all breaches of those data (see, to that effect, judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraphs 33 to 38).
+40      Therefore, the Court interpreted Articles 24 and 32 of the GDPR as meaning that unauthorised disclosure of personal data or unauthorised access to those data by a ‘third party’, within the meaning of Article 4, point 10, of that regulation, are not sufficient, in themselves, for it to be held that the technical and organisational measures implemented by the controller in question were not ‘appropriate’, within the meaning of Articles 24 and 32 (judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraph 39).
+41      In the present case, the fact that the employees of the controller provided to an unauthorised third party in error a document containing personal data is capable of indicating that the technical and organisational measures implemented by the controller at issue were not ‘appropriate’, within the meaning of those Articles 24 and 32. In particular, such a circumstance may result from negligence or a failure in the controller’s organisation, which does not take into account in a concrete manner the risks in relation to the processing of the data at issue.
+42      In that regard, it must be pointed out that it follows from a reading of Articles 5, 24 and 32 of the GDPR together, read in the light of recital 74 thereof, that, in an action for compensation under Article 82 of that regulation, the controller concerned bears the burden of proving that the personal data are processed in such a way as to ensure appropriate security of those data, within the meaning of Article 5(1)(f) and of Article 32 of that regulation. Such an allocation of the burden of proof is capable not only of encouraging the controllers of those data of adopting the security measures required by the GDPR, but also in retaining the effectiveness of the right to compensation provided for in Article 82 of that regulation and upholding the intentions of the EU legislature referred to in recital 11 thereof (see, to that effect, judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraphs 49 to 56).
+43      Therefore, the Court interpreted the principle of accountability of the controller, set out in Article 5(2) of the GDPR and given expression in Article 24 thereof, as meaning that, in an action for compensation under Article 82 of that regulation, the controller in question bears the burden of proving that the security measures implemented by it are appropriate pursuant to Article 32 of that regulation (judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraph 57).
+44      Accordingly, a court hearing such an action for compensation under Article 82 of the GDPR cannot take into account only the fact that the employees of the controller provided to an unauthorised third party in error a document containing personal data, in order to determine whether there is an infringement of an obligation laid down in that regulation. That court must also take into account all of the evidence that the controller provided to demonstrate that the technical and organisational measures adopted by him or her are appropriate with a view to complying with his or her obligations under Articles 24 and 32 of that regulation.
+45      In light of the foregoing reasons, the answer to the third and fourth questions is that Articles 5, 24, 32 and 82 of the GDPR, read together, must be interpreted as meaning that, in an action for compensation based on Article 82, the fact that the employees of the controller provided to an unauthorised third party in error a document containing personal data is not sufficient, in itself, to consider that the technical and organisational measures implemented by the controller at issue were not ‘appropriate’, within the meaning of Articles 24 and 32.
+ 
+The seventh question
+46      By its seventh question, the referring court asks, in essence, whether Article 82 of the GDPR must be interpreted as meaning that the right to compensation provided for in that provision, in particular in the case of non-material damage, fulfils a punitive function.
+47      In that regard, the Court held that Article 82 of the GDPR fulfils a function that is compensatory and not punitive, contrary to other provisions of that regulation also contained in Chapter VIII thereof, namely Articles 83 and 84, which have, for their part, essentially a punitive purpose, since they permit the imposition of administrative fines and other penalties, respectively. The relationship between the rules set out in Article 82 and those set out in Articles 83 and 84 shows that there is a difference between those two categories of provisions, but also complementarity, in terms of encouraging compliance with the GDPR, it being observed that the right of any person to seek compensation for damage reinforces the operational nature of the protection rules laid down by that regulation and is likely to discourage the reoccurrence of unlawful conduct (see, to that effect, judgments of 4 May 2023, 
+Österreichische Post (Non-material damage in connection with the processing of personal data)
+, C-300/21, EU:C:2023:370, paragraphs 38 and 40, and of 21 December 2023, 
+Krankenversicherung Nordrhein
+, C-667/21, EU:C:2023:1022, paragraph 85).
+48      The Court stated that, since the right to damages provided for in Article 82(1) of the GDPR does not fulfil a deterrent function, or even punitive, but fulfils a compensatory function, the severity of the infringement of that regulation that caused the damage concerned cannot influence the amount of the compensation granted under that provision, even where it concerns non-material damage and not material damage, in that that amount cannot exceed the full compensation for that damage (see, to that effect, judgment of 21 December 2023, 
+Krankenversicherung Nordrhein
+, C-667/21, EU:C:2023:1022, paragraphs 86 and 87).
+49      It follows from the foregoing that it is not necessary to rule on the alignment, contemplated by the referring court, between the purpose referred to by the right to compensation laid down in Article 82(1) and the punitive function of a contractual penalty.
+50      Therefore, the answer to the seventh question is that Article 82(1) of the GDPR must be interpreted as meaning that the right to compensation laid down in that provision, in particular in the case of non-material damage, fulfils a compensatory function, in that financial compensation based on that provision must allow the damage actually suffered as a result of the infringement of that regulation to be compensated in full, and not a punitive function.
+ 
+The sixth question
+51      By its sixth question, the referring court asks, in essence, whether Article 82 of the GDPR must be interpreted as meaning that that article requires that the degree of severity of the infringement of that regulation made by the controller is taken into consideration for the purposes of compensation under that provision.
+52      In that regard, it follows from Article 82 of the GDPR that, first, establishing the liability of the controller is, in particular, subject to fault on the part of the controller, which is presupposed unless it proves that it is not in any way responsible for the event giving rise to the damage, and secondly, Article 82 does not require that the severity of that fault is taken into consideration when setting the amount of the compensation allocated for non-material damage under that provision (judgment of 21 December 2023, 
+Krankenversicherung Nordrhein
+, C-667/21, EU:C:2023:1022, paragraph 103).
+53      As regards the assessment of the compensation payable under Article 82 of the GDPR, since that regulation does not contain a measure having such an aim, the national courts must, for the purpose of that assessment, apply the internal rules of each Member State relating to the extent of the pecuniary compensation, to the extent that the principles of equivalence and effectiveness of EU law can be observed (see, to that effect, judgment of 21 December 2023, 
+Krankenversicherung Nordrhein
+, C-667/21, EU:C:2023:1022, paragraphs 83 and 101 and the case-law cited).
+54      In addition, the Court stated that, having regard to the compensatory function of the right to compensation laid down in Article 82 of the GDPR, that provision does not require taking into consideration the severity of the infringement of that regulation, that the controller is presumed to have made, while setting the amount of the compensation allocated for non-material damage under that provision, but requires that that amount is set in a way that the damage actually suffered as a result of the infringement of that regulation is compensated in full (see, to that effect, judgment of 21 December 2023, 
+Krankenversicherung Nordrhein
+, C-667/21, EU:C:2023:1022, paragraphs 84 to 87 and 102 and the case-law cited).
+55      In light of the foregoing reasons, the answer to the sixth question that Article 82 of the GDPR must be interpreted as meaning that that article does not require that the severity of the infringement made by the controller be taken into consideration for the purposes of compensation under that provision.
+ 
+The second question
+56      By its second question, the referring court asks, in essence, whether Article 82(1) of the GDPR must be interpreted as meaning that the person seeking compensation under that provision is required to establish not only the infringement of provisions of that regulation, but also that that infringement led to his or her non-material or material damage.
+57      In that regard, it should be recalled that Article 82(1) of the GDPR provides that ‘any person who has suffered material or non-material damage as a result of an infringement of this Regulation shall have the right to receive compensation from the controller or processor for the damage suffered’.
+58      It is apparent from the wording of that provision that the mere infringement of the GDPR is not sufficient to confer a right to compensation. The existence of ‘damage’ or ‘harm’ which has been ‘suffered’ constitutes one of the conditions for the right to compensation laid down in Article 82(1), as does the existence of an infringement of that regulation and of a causal link between that damage and that infringement, those three conditions being cumulative (see, to that effect, judgments of 4 May 2023, 
+Österreichische Post (Non-material damage in connection with the processing of personal data)
+, C-300/21, EU:C:2023:370, paragraphs 32 and 42; of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraph 77; of 14 December 2023, 
+Gemeinde Ummendorf
+, C-456/22, EU:C:2023:988, paragraph 14; and of 21 December 2023, 
+Krankenversicherung Nordrhein
+, C-667/21, EU:C:2023:1022, paragraph 82).
+59      As regards, in particular, the non-material damage, the Court also held that Article 82(1) of the GDPR precludes a national rule or practice which makes compensation for non-material damage, within the meaning of that provision, subject to the condition that the damage suffered by the data subject, as defined in Article 4, point 1, of that regulation, has reached a certain degree of seriousness (see, to that effect, judgments of 4 May 2023, 
+Österreichische Post (Non-material damage in connection with the processing of personal data)
+, C-300/21, EU:C:2023:370, paragraph 51; of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraph 78; and of 14 December 2023, 
+Gemeinde Ummendorf
+, C-456/78, EU:C:2023:988, paragraph 16).
+60      The Court stated that a person concerned by an infringement of the GDPR which had negative consequences for him or her is, however, required to demonstrate that those consequences constitute non-material damage, within the meaning of Article 82 of that regulation, since the mere infringement of the provisions thereof are not sufficient to confer a right to compensation (see, to that effect, judgments of 4 May 2023, 
+Österreichische Post (Non-material damage in connection with the processing of personal data)
+, C-300/21, EU:C:2023:370, paragraphs 42 and 50; of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraph 84; and of 14 December 2023, 
+Gemeinde Ummendorf
+, C-456/78, EU:C:2023:988, paragraphs 21 and 23).
+61      In light of the foregoing reasons, the answer to the second question is that Article 82(1) of the GDPR must be interpreted as meaning that the person seeking compensation by way of that provision is required to establish not only the infringement of provisions of that regulation, but also that that infringement caused him or her material or non-material damage.
+ 
+The fifth question
+62      By its fifth question, the referring court asks, in essence, whether Article 82(1) of the GDPR must be interpreted as meaning that, if a document containing personal data was provided to an unauthorised person, and it was established that that person did not become aware of those personal data, ‘non-material damage’, within the meaning of that provision, is likely to consist of the mere fact that the person concerned fears that, following that communication which made it possible to make a copy of that document before returning it, a dissemination, even abuse, of those data may occur in the future.
+63      It is important to specify that the referring court states that, in the present case, the document containing the data concerned was returned to the applicant in the main proceedings within half an hour following it having been provided to an unauthorised third party and that that unauthorised third party did not become aware of those data before the document’s return. That applicant submits, however, that that document’s provision gave that third party the possibility to take copies of the document before returning it and that it therefore created a fear for the applicant linked to the risk occurring in the future of those data being abused.
+64      Having regard to the absence of any reference in Article 82(1) of the GDPR to the domestic law of the Member States, the concept of ‘non-material damage’, within the meaning of that provision, must be given an autonomous and uniform definition specific to EU law (see, to that effect, judgments of 4 May 2023, 
+Österreichische Post (Non-material damage in connection with the processing of personal data)
+, C-300/21, EU:C:2023:370, paragraphs 30 and 44, and of 14 December 2023, 
+Gemeinde Ummendorf
+, C-456/22, EU:C:2023:988, paragraph 15).
+65      The Court held that it is apparent not only from the wording of Article 82(1) of the GDPR, read in the light of recitals 85 and 146 of that regulation, which encourage the acceptance of a broad interpretation of the concept of ‘non-material damage’ within the meaning of that first provision, but also the objective of ensuring a high level of protection of natural persons with regard to the processing of their personal data, which is referred to by the regulation, that the fear experienced by a data subject with regard to a possible misuse of his or her personal data by third parties as a result of an infringement of that regulation is capable, in itself, of constituting ‘non-material damage’, within the meaning of Article 82(1) (see, to that effect, judgment of 14 December 2023, 
+Natsionalna agentsia za prihodite
+, C-340/21, EU:C:2023:986, paragraphs 79 to 86).
+66      Furthermore, on the basis of considerations of a literal, systemic and teleological nature, the Court held that the loss of control of the personal data for a short period of time may cause the data subject ‘non-material damage’, within the meaning of Article 82(1) of the GDPR, giving rise to a right to compensation, subject to that person demonstrating having actually suffered such damage, however minimal, bearing in mind that the mere infringement of the provisions of that regulation is not sufficient to confer a right to compensation on that basis (see, to that effect, judgment of 14 December 2023, 
+Gemeinde Ummendorf
+, C-456/22, EU:C:2023:988, paragraphs 18 to 23).
+67      Similarly, in the present case, it should be noted that it is consistent both with the wording of Article 82(1) of the GDPR and the objective of protection referred to by that regulation that the concept of ‘non-material damage’ encompasses a situation in which the data subject experiences the well-founded fear, which is for the national court to determine, that some of his or her personal data be subject to dissemination or misuse by third parties in the future, on account of the fact that a document containing those data was provided to an unauthorised third party who was afforded the opportunity to take copies before returning it.
+68      However, the fact remains that it is for the applicant in an action for compensation under Article 82 of the GDPR to demonstrate the existence of such damage. In particular, a purely hypothetical risk of misuse by an unauthorised third party cannot give rise to compensation. This is so where no third party became aware of the personal data at issue.
+69      Therefore, the answer to the fifth question is that Article 82(1) of the GDPR must be interpreted as meaning that, if a document containing personal data was provided to an unauthorised third party and it was established that that person did not become aware of those personal data, ‘non-material damage’, within the meaning of that provision, does not exist due to the mere fact that the data subject fears that, following that communication having made possible the making of a copy of that document before its recovery, a dissemination, even abuse, of those data may occur in the future.
+ 
+Costs
+70      Since these proceedings are, for the parties to the main proceedings, a step in the action pending before the referring court, the decision on costs is a matter for that court. Costs incurred in submitting observations to the Court, other than the costs of those parties, are not recoverable.
+On those grounds, the Court (Third Chamber) hereby rules:
+1.      
+Articles 5, 24, 32 and 82 of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation), read together
+must be interpreted as meaning that in an action for compensation based on Article 82, the fact that the employees of the controller provided to an unauthorised third party in error a document containing personal data is not sufficient, in itself, to consider that the technical and organisational measures implemented by the controller at issue were not ‘appropriate’, within the meaning of Articles 24 and 32.
+2.      
+Article 82(1) of Regulation 2016/679
+must be interpreted as meaning that the right to compensation laid down in that provision, in particular in the case of non-material damage, fulfils a compensatory function, in that financial compensation based on that provision must allow the damage actually suffered as a result of the infringement of that regulation to be compensated in full, and not a punitive function.
+3.      
+Article 82 of Regulation 2016/679
+must be interpreted as meaning that that article does not require that the severity of the infringement made by the controller be taken into consideration for the purposes of compensation under that provision.
+4.      
+Article 82(1) of Regulation 2016/679
+must be interpreted as meaning that the person seeking compensation by way of that provision is required to establish not only the infringement of provisions of that regulation, but also that that infringement caused him or her material or non-material damage.
+5.      
+Article 82(1) of Regulation 2016/679
+must be interpreted as meaning that if a document containing personal data was provided to an unauthorised third party and it was established that that person did not become aware of those personal data, ‘non-material damage’, within the meaning of that provision, does not exist due to the mere fact that the data subject fears that, following that communication having made possible the making of a copy of that document before its recovery, a dissemination, even abuse, of those data may occur in the future.

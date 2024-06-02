@@ -1,0 +1,211 @@
+of 11 Nov 2020, C-61/19 (
+Orange Romania
+)
+General data protection law 
+ > 
+Chapter II - Principles 
+ > 
+Lawfulness - Consent 
+General data protection law 
+ > 
+Chapter III - Rights of the data subject 
+ > 
+Information to be provided in case of direct collection 
+General data protection law 
+ > 
+Chapter II - Principles 
+ > 
+Lawfulness, fairness and transparency 
+General data protection law 
+ > 
+Chapter II - Principles 
+ > 
+Accountability 
+ 
+JUDGMENT OF THE COURT (Second Chamber)
+11 November 2020 (*)
+(Reference for a preliminary ruling – Directive 95/46/EC – Article 2(h) and Article 7(a) – Regulation (EU) 2016/679 – Article 4(11) and Article 6(1)(a) – Processing of personal data and protection of private life Collection and storage of the copies of identity documents by a provider of mobile telecommunications services Concept of the data subject’s ‘consent’ – Freely given, specific and informed indication of wishes – Declaration of consent by means of a tick box Signing of the contract by the data subject – Burden of proof)
+In Case C-61/19,
+REQUEST for a preliminary ruling under Article 267 TFEU from the Tribunalul Bucureşti (Regional Court of Bucharest, Romania), made by decision of 14 November 2018, received at the Court on 29 January 2019, in the proceedings
+Orange România SA
+v
+Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP),
+THE COURT (Second Chamber),
+composed of A. Arabadjiev, President of the Chamber, T. von Danwitz (Rapporteur) and P.G. Xuereb, Judges,
+Advocate General: M. Szpunar,
+Registrar: D. Dittert, Head of Unit,
+having regard to the written procedure and further to the hearing on 11 December 2019,
+after considering the observations submitted on behalf of:
+–        Orange România SA, by D.-D. Dascălu, A.-M. Iordache, and I. Buga , avocaţi,
+–        the Autoritatea Naţională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP), by A.G. Opre and I. Ilie, acting as Agents,
+–        the Romanian Government, initially by E. Gane, O.-C. Ichim, L. Liţu and C.-R. Canţăr, and subsequently by E. Gane, O.-C. Ichim and L. Liţu, acting as Agents,
+–        the Italian Government, by G. Palmieri, acting as Agent, and by M. Russo, avvocato dello Stato,
+–        the Austrian Government, initially by J. Schmoll and G. Hesse, and subsequently by J. Schmoll, acting as Agents,
+–        the Portuguese Government, by L. Inez Fernandes, P. Barros da Costa, L. Medeiros and I. Oliveira, acting as Agents,
+–        the European Commission, by H. Kranenborg, D. Nardi and L. Nicolae, acting as Agents,
+after hearing the Opinion of the Advocate General at the sitting on 4 March 2020,
+gives the following
+Judgment
+1        This request for a preliminary ruling concerns the interpretation of Article 2(h) of Directive 95/46/EC of the European Parliament and of the Council of 24 October 1995 on the protection of individuals with regard to the processing of personal data and on the free movement of such data (OJ 1995 L 281, p. 31) and of Article 4(11) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (OJ 2016 L 119, p. 1).
+2        The request has been made in proceedings between Orange România SA and the Autoritatea Naţională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP) (the National Authority for the Supervision of Personal Data Processing, Romania), concerning an action for annulment of a decision by which the ANSPDCP imposed a fine on Orange România for collecting and storing copies of customers’ identity documents without their valid consent and ordered it to destroy those copies.
+ 
+Legal context
+ 
+EU law
+ 
+Directive 95/46
+3        Recital 38 of Directive 95/46 provides that, ‘if the processing of data is to be fair, the data subject must be in a position to learn of the existence of a processing operation and, where data are collected from him, must be given accurate and full information, bearing in mind the circumstances of the collection’.
+4        Article 2(h) of that directive provides that, for the purposes of the directive: 
+‘“the data subject’s consent” shall mean any freely given specific and informed indication of his wishes by which the data subject signifies his agreement to personal data relating to him being processed.’
+5        Article 6 of that directive states:
+‘1.      Member States shall provide that personal data must be:
+(a)      processed fairly and lawfully; 
+…
+2.      It shall be for the controller to ensure that paragraph 1 is complied with.’
+6        As set out in Article 7(a) of Directive 95/46:
+‘Member States shall provide that personal data may be processed only if:
+(a)      the data subject has unambiguously given his consent …’
+7        Article 10 of that directive reads as follows:
+‘Member States shall provide that the controller or his representative must provide a data subject from whom data relating to himself are collected with at least the following information, except where he already has it:
+(a)      the identity of the controller and of his representative, if any;
+(b)      the purposes of the processing for which the data are intended;
+(c)      any further information such as
+–        the recipients or categories of recipients of the data,
+–        whether replies to the questions are obligatory or voluntary, as well as the possible consequences of failure to reply,
+–        the existence of the right of access to and the right to rectify the data concerning him 
+in so far as such further information is necessary, having regard to the specific circumstances in which the data are collected, to guarantee fair processing in respect of the data subject.’
+ 
+Regulation 2016/679
+8        Recitals 32 and 42 of Regulation 2016/679 state: 
+‘(32) Consent should be given by a clear affirmative act establishing a freely given, specific, informed and unambiguous indication of the data subject’s agreement to the processing of personal data relating to him or her, such as by a written statement, including by electronic means, or an oral statement. This could include ticking a box when visiting an internet website, choosing technical settings for information society services or another statement or conduct which clearly indicates in this context the data subject’s acceptance of the proposed processing of his or her personal data. Silence, pre-ticked boxes or inactivity should not therefore constitute consent. Consent should cover all processing activities carried out for the same purpose or purposes. When the processing has multiple purposes, consent should be given for all of them. If the data subject's consent is to be given following a request by electronic means, the request must be clear, concise and not unnecessarily disruptive to the use of the service for which it is provided.
+…
+(42) Where processing is based on the data subject’s consent, the controller should be able to demonstrate that the data subject has given consent to the processing operation. In particular in the context of a written declaration on another matter, safeguards should ensure that the data subject is aware of the fact that and the extent to which consent is given. In accordance with Council Directive 93/13/EEC [of 5 April 1993 on unfair terms in consumer contracts, (OJ 1993 L 95, p. 29)], a declaration of consent pre-formulated by the controller should be provided in an intelligible and easily accessible form, using clear and plain language and it should not contain unfair terms. For consent to be informed, the data subject should be aware at least of the identity of the controller and the purposes of the processing for which the personal data are intended. Consent should not be regarded as freely given if the data subject has no genuine or free choice or is unable to refuse or withdraw consent without detriment.’
+9        Article 4(11) of that regulation provides:
+‘“consent” of the data subject means any freely given, specific, informed and unambiguous indication of the data subject’s wishes by which he or she, by a statement or by a clear affirmative action, signifies agreement to the processing of personal data relating to him or her.’
+10      Article 5 of that regulation provides: 
+‘1.      Personal data shall be: 
+(a)      processed lawfully, fairly and in a transparent manner in relation to the data subject (“lawfulness, fairness and transparency”); 
+…
+2.      The controller shall be responsible for, and be able to demonstrate compliance with, paragraph 1 (“accountability”).’
+11      In accordance with Article 6(1)(a) of Regulation 2016/679:
+‘1. Processing shall be lawful only if and to the extent that at least one of the following applies: 
+(a)      the data subject has given consent to the processing of his or her personal data for one or more specific purposes; 
+…’
+12      Article 7(1),(2) and (4) of Regulation 2016/679 is worded as follows:
+‘1.      Where processing is based on consent, the controller shall be able to demonstrate that the data subject has consented to processing of his or her personal data.
+2.      If the data subject’s consent is given in the context of a written declaration which also concerns other matters, the request for consent shall be presented in a manner which is clearly distinguishable from the other matters, in an intelligible and easily accessible form, using clear and plain language. Any part of such a declaration which constitutes an infringement of this Regulation shall not be binding.
+…
+4.      When assessing whether consent is freely given, utmost account shall be taken of whether, inter alia, the performance of a contract, including the provision of a service, is conditional on consent to the processing of personal data that is not necessary for the performance of that contract.’
+13      Article 13(1) and (2) states:
+‘1.      Where personal data relating to a data subject are collected from the data subject, the controller shall, at the time when personal data are obtained, provide the data subject with all of the following information: 
+(a)      the identity and the contact details of the controller and, where applicable, of the controller’s representative;
+…
+(c)      the purposes of the processing for which the personal data are intended as well as the legal basis for the processing; 
+…
+2.      In addition to the information referred to in paragraph 1, the controller shall, at the time when personal data are obtained, provide the data subject with the following further information necessary to ensure fair and transparent processing:
+(a)      the period for which the personal data will be stored, or if that is not possible, the criteria used to determine that period;
+(b)      the existence of the right to request from the controller access to and rectification or erasure of personal data or restriction of processing concerning the data subject or to object to processing as well as the right to data portability;
+(c)      where the processing is based on point (a) of Article 6(1) or point (a) of Article 9(2), the existence of the right to withdraw consent at any time, without affecting the lawfulness of processing based on consent before its withdrawal’.
+14      Article 94(1) of Regulation 2016/679 provides:
+‘Directive 95/46/EC is repealed with effect from 25 May 2018.’
+15      Article 99(2) of Regulation 2016/679 provides that that regulation is to apply from 25 May 2018.
+ 
+Romanian law
+16      The legea nr. 677/2001 pentru protecția persoanelor cu privire la prelucrarea datelor cu caracter personal și libera circulație a acestor date (Law No 677/2001 on the protection of persons with regard to the processing of personal data and on the free movement of such data) (
+Monitorul Oficial al României,
+ Part I, No 790 of 12 December 2001) is intended to transpose the provisions of Directive 95/46 into national law.
+17      Article 5(1) of that law provides:
+‘(1)      Any processing of personal data, except for the processing which refers to the categories mentioned in Article 7(1) and Articles 8 and 10, may be carried out only if the data subject has given his or her express and unambiguous consent for that processing.
+…’
+18      In accordance with Article 8 of that law: 
+‘(1)      The processing of an individual’s personal identification number or of other personal data having a generally applicable identification purpose may be carried out only if:
+(a)      the data subject has expressly given his or her consent, or
+(b)      the processing is expressly provided for by a provision of law.
+(2)      The supervisory authority may also establish other cases in which the processing of the data referred to in paragraph 1 may be carried out, provided that adequate safeguards are in place to protect the rights of data subjects.’
+19      Article 32 of Law 677/2001 is worded as follows:
+‘The processing of personal data by a controller, or by a person mandated by him or her, in breach of Articles 4 to 10 or without due regard to the rights provided for in Articles 12 to 15 or in Article 17, shall constitute an administrative offence, unless it is carried out in such circumstances as to constitute a criminal offence, and shall be penalised by a fine of between RON [1 000] and RON [25 000].’
+ 
+The dispute in the main proceedings and the questions referred for a preliminary ruling
+20      Orange România is a provider of mobile telecommunications services on the Romanian market.
+21      By decision of 28 March 2018, the ANSPDCP imposed a fine on Orange România for storing copies of customers’ identity documents without demonstrating that those customers had given their valid consent, and also required it to destroy those copies.
+22      In that decision, the ANSPDCP stated that between 1 and 26 March 2018, Orange România had concluded contracts in writing for the provision of mobile telecommunications services with individuals and that copies of those persons’ identity documents were annexed to those contracts. According to the ANSPDCP, Orange România has not proven that the customers whose identity documents had been copied and annexed to their contracts had given their valid consent to the collection and storage of copies of their identity documents.
+23      The relevant clauses of the contracts in question read as follows:
+‘–      The customer states that:
+(i)      he or she has been informed, prior to concluding the contract, of the chosen tariff plan, the applicable tariffs, the minimum duration of the contract, the conditions for its termination, the conditions for accessing and using the services, including service coverage areas, …;
+(ii)      Orange România has provided the customer with all the necessary information to enable him or her to give his or her unvitiated, express, free and specific consent to the conclusion and express acceptance of the contract, including all the contractual documentation, the General Terms and Conditions for using Orange’s services and the Brochure of Tariffs and Services;
+(iii)      he or she has been informed of, and has consented to, the following:
+–        the processing of personal data for the purposes referred to in Article 1.15 of the General Terms and Conditions for using Orange’s services;
+–        the storage of copies of documents containing personal data for identification purposes;
+–        the agreement for the processing of personal data (contact number and email address) for direct marketing purposes;
+–        the agreement for the processing of personal data (contact number and email address) for market research purposes;
+–        I have read and expressly agree to the storage of copies of documents containing personal data relating to state of health;
+–        the data referred to in Article 1.15(10) of the General Terms and Conditions for Orange’s services are not included in subscriber information and subscriber directory services.’
+24      Orange România brought an action against the decision of 28 March 2018 before the Tribunalul Bucureşti (Regional Court, Bucharest, Romania).
+25      According to the findings of the referring court, there are both contracts in which a cross has been placed in the box for the clause relating to the storage of copies of documents with personal data for identification purposes and also contracts in which there is no such cross. That court explains that, notwithstanding the stipulations of its General Terms and Conditions, Orange România did not refuse to conclude subscription contracts with customers who refused to consent to the storage of a copy of one of their identity documents. That court also notes that Orange România’s ‘internal procedures’ relating to sales stated that that refusal had to be set out in a specific form, to be signed by those customers before concluding the contract.
+26      The referring court raises the question whether, in those circumstances, the customers concerned may be regarded as having validly consented to the collection of their identity document and to copies of that document being annexed to the contracts. Furthermore, that court is uncertain whether the signing of a contract with a clause on the storage of copies of documents containing personal data for identification purposes can prove the existence of such consent.
+27      In those circumstances the Tribunalul București (Regional Court, Bucharest) decided to stay the proceedings and to refer the following questions to the Court of Justice for a preliminary ruling:
+‘(1)      For the purposes of Article [2](h) of Directive 95/46, what conditions must be fulfilled in order for an indication of wishes to be regarded as specific and informed?
+(2)      For the purposes of Article 2(h) of Directive 95/46, what conditions must be fulfilled in order for an indication of wishes to be regarded as freely given?’
+ 
+Consideration of the questions referred
+28      As a preliminary matter, it is appropriate to determine the applicability of Directive 95/46 and Regulation 2016/679 to the facts at issue in the main proceedings.
+29      Directive 95/46 was repealed with effect from 25 May 2018 and replaced by Regulation 2016/679, in accordance with Article 94(1) and Article 99(2) of that regulation.
+30      Accordingly, as the decision of the ANSPDCP at issue in the main proceedings was adopted on 28 March 2018 and, therefore, before 25 May 2018, the referring court is fully entitled to find that Directive 95/46 applies 
+ratione temporis
+ to the main proceedings.
+31      That being so, it is also apparent from the file before the Court that, by its decision, the ANSPDCP not only imposed a fine on Orange România, but also ordered it to destroy the copies of the identity documents at issue, and that the main proceedings also concern that latter order. As nothing in that file shows that that order was complied with before 25 May 2018, it is not inconceivable that, in the present case, Regulation 2016/679 is applicable 
+ratione temporis
+ to that order (see, to that effect, judgment of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraph 41).
+32      In those circumstances, in order to enable the Court to provide useful answers to the questions submitted by the referring court, those questions must be answered on the basis of both Directive 95/46 and Regulation 2016/679 (see, by analogy, judgment of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraph 43).
+33      By its two questions referred for a preliminary ruling, which should be examined together, the referring court asks, in essence, whether Article 2(h) and Article 7(a) of Directive 95/46 and Article 4(11) and Article 6(1)(a) of Regulation 2016/679 must be interpreted as meaning that a contract for the provision of telecommunications services which contains a clause stating that the data subject has been informed of, and has consented to, the collection and storage of a copy of his or her identity document for identification purposes is capable of demonstrating that that person’s consent has been validly given, as provided for in those provisions, to that collection and storage.
+34      In that regard, it should be borne in mind that Article 7 of Directive 95/46 and Article 6 of Regulation 2016/679 set out an exhaustive list of the cases in which the processing of personal data can be regarded as being lawful (see, regarding Article 7 of Directive 95/46, judgments of 19 October 2016, 
+Breyer
+, C-582/14, EU:C:2016:779, paragraph 57 and the case-law cited, and of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraph 53). In particular, Article 7(a) of that directive and Article 6(1)(a) of that regulation provide that the data subject’s consent may make such processing lawful.
+35      As regards the requirements to which such consent is subject, Article 7(a) of Directive 95/46 provides that the data subject must have ‘unambiguously given his consent’, while Article 2(h) of that directive defines the term ‘consent’ as meaning ‘any freely given specific and informed indication of his wishes by which the data subject signifies his agreement to personal data relating to him being processed’. To the extent that those provisions set out that the data subject is to give an ‘indication of his wishes’ in order to give ‘unambiguously’ his consent, only active behaviour by that person with a view to giving his or her consent may be relevant (see, to that effect, judgment of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraphs 52 and 54).
+36      That same requirement also operates in the context of Regulation 2016/679. Indeed, the wording of Article 4(11) of that regulation, which defines the ‘consent of the data subject’ for the purposes, inter alia, of Article 6(1)(a) of that regulation, appears even more stringent than Article 2(h) of Directive 95/46, in that it requires a ‘freely given, specific, informed and unambiguous’ indication of the data subject’s wishes in the form of a statement or by ‘a clear affirmative action’ signifying agreement to the processing of personal data relating to him or her. Accordingly, active consent is now expressly laid down in Regulation 2016/679 (see, to that effect, judgment of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraphs 61 to 63).
+37      In that regard, while recital 32 of that regulation states that consent could be given, inter alia, by ticking a box when visiting an internet website, on the contrary, it expressly excludes the possibility that ‘silence, pre-ticked boxes or inactivity’ constitute consent. As the Court has held, in such a situation, it would appear impossible in practice to ascertain objectively whether a website user had actually given his or her consent to the processing of his or her personal data by not deselecting a checkbox pre-ticked beforehand nor, in any event, whether that consent had been informed. It is not inconceivable that a user would not have read the information accompanying the preselected checkbox, or even would not have noticed that checkbox, before continuing with his or her activity on the website visited (see, to that effect, judgment of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraphs 55 and 57).
+38      Furthermore, Article 2(h) of Directive 95/46 and Article 4(11) of Regulation 2016/679 require a ‘specific’ indication of the data subject’s wishes in the sense that it must relate specifically to the processing of the data in question and cannot be inferred from an indication of the data subject’s wishes for other purposes (see, regarding Article 2(h) of Directive 95/46, judgment of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraph 58).
+39      In that regard, the first sentence of Article 7(2) of that regulation states that if the data subject’s consent is given in the context of a written declaration which also concerns other matters, the request for consent is to be presented in a manner which is clearly distinguishable from the other matters. In particular, it is apparent from that provision, read in conjunction with recital 42 of that regulation, that such a declaration must be presented in an intelligible and easily accessible form, using clear and plain language, in particular where it concerns a declaration of consent which is to be pre-formulated by the controller of personal data.
+40      As regards the requirement arising from Article 2(h) of Directive 95/46 and Article 4(11) of Regulation 2016/679 that consent must be ‘informed’, that requirement implies, in accordance with Article 10 of that directive, read in the light of recital 38 thereof, and with Article 13 of that regulation, read in the light of recital 42 thereof, that the controller is to provide the data subject with information relating to all the circumstances surrounding the data processing, in an intelligible and easily accessible form, using clear and plain language, allowing the data subject to be aware of, inter alia, the type of data to be processed, the identity of the controller, the period and procedures for that processing and the purposes of the processing. Such information must enable the data subject to be able to determine easily the consequences of any consent he or she might give and ensure that the consent given is well informed (see, by analogy, judgment of 1 October 2019, 
+Planet49
+, C-673/17, EU:C:2019:801, paragraph 74).
+41      Furthermore, as the Commission noted in its observations submitted to the Court, it is clear from the second indent of Article 10(c) of Directive 95/46 and from Article 13(2)(b) and (c) of Regulation 2016/679, read in the light of recital 42 of that regulation, that, in order to ensure that the data subject enjoys genuine freedom of choice, the contractual terms must not mislead him or her as to the possibility of concluding the contract even if he or she refuses to consent to the processing of his or her data. Without information of that kind, the data subject’s consent to the processing of his or her personal data cannot be regarded as having been given freely or, moreover, as having been given in an informed manner.
+42      It is appropriate to add that under Article 6(1)(a) and (2) of Directive 95/46 and Article 5(1)(a) of Regulation 2016/679, the controller of personal data is required to ensure, inter alia, the lawfulness of the processing of those data and, as stated in Article 5(2) of that regulation, must be able to demonstrate that lawfulness. As regards, more specifically, the data subject’s possible consent, Article 7(a) of that directive provides that the data subject must have ‘unambiguously’ given his or her consent, which implies, as the Advocate General stated in point 56 of his Opinion, that the controller bears the burden of proof relating to the existence of valid consent. Article 7(1) of that regulation now provides that where processing is based on consent, that controller must be able to demonstrate that the data subject has consented to the processing of his or her personal data.
+43      In the present case, Orange România stated, in its observations to the Court, that, during the procedure for concluding the contracts at issue in the main proceedings, its sales agents informed the customers concerned, before concluding the contracts, inter alia, of the purposes of collecting and storing copies of the identity documents and of their choice as to that collection and storage, before obtaining their oral consent to that collection and storage. According to Orange România, the box relating to the storage of copies of identity documents was therefore ticked solely on the basis of the individuals’ freely expressed agreement to that effect when the contract was concluded.
+44      In those circumstances, the request for a preliminary ruling essentially seeks to clarify whether the consent thus invoked as regards such processing of personal data may be established on the basis of the contractual clauses in those contracts.
+45      In that regard, it is apparent from the information set out in that request that, although those contracts contain a clause stating that the customers concerned have been informed of, and have given their consent to, the storage of a copy of their identity document for identification purposes, the box relating to that clause had already been ticked by Orange România’s sales agents before those customers signed in acceptance of all the clauses, that is to say, both of that clause and of clauses not linked to data protection. The request further states that although not specified in the contracts at issue in the main proceedings, Orange România agreed to conclude those contracts with customers who refused to consent to a copy of their identity document being stored, and at the same time required in that case that those customers sign a specific form setting out their refusal.
+46      Since, according to the information in the request for a preliminary ruling, the customers concerned do not appear to have themselves ticked the box relating to that clause, the mere fact that that box was ticked is not such as to establish a positive indication of those customers’ consent to a copy of their identity card being collected and stored. As the Advocate General observed in point 45 of his Opinion, the fact that those customers signed the contracts containing the ticked box does not, on its own, prove such consent, in the absence of any indications confirming that that clause was actually read and digested. It is for the referring court to carry out the necessary investigations to that end.
+47      Furthermore, to the extent that the ticked clause relating to the processing of those data does not appear to have been presented in a form which clearly distinguishes it from the other contractual clauses, it is for that court to assess, in the light of the considerations in paragraph 34 above, whether the signature to those contracts relating to a number of contractual clauses may be regarded as indicating specific consent to the collection and storage of personal data, within the meaning of Article 2(h) of Directive 95/46 and Article 4(11) of Regulation 2016/679.
+48      Moreover, since the contractual clause at issue in the main proceedings merely states, without giving any further details, that storage of the copies of the identity cards is for identification purposes, it is for the referring court to ascertain whether the information provided to the data subjects satisfies the requirements of Article 10 of Directive 95/46 and Article 13 of Regulation 2016/679, which set out the information which the controller must provide to a data subject when collecting data which concern that person in order to ensure fair processing of data with regard to him or her.
+49      It is also for the referring court to assess, in particular, whether the contractual terms at issue in the main proceedings were capable of misleading the data subject as to the possibility of concluding the contract notwithstanding a refusal to consent to the processing of his or her data, in the absence of specific details on that point, thereby calling into question the informed nature of the consent expressed by the signature.
+50      Furthermore, as the Advocate General observed in point 60 of his Opinion, the free nature of that consent appears to be called into question by the fact that, if that consent is refused, Orange România, departing from the normal procedure for concluding the contract, required the customer concerned to declare in writing that he or she did not consent to a copy of his or her identity document being collected or stored. As the Commission observed at the hearing, such an additional requirement is liable to affect unduly the freedom to choose to object to that collection and storage, which it is also for the referring court to determine.
+51      In any event, as is apparent from the considerations set out in paragraphs 35, 36 and 42 above, it is for Orange România, as the data controller, to establish that its customers have, by active behaviour, given their consent to the processing of their personal data, with the result that that company cannot require them actively to express their refusal.
+52      In the light of the foregoing considerations, the answer to the questions referred is that Article 2(h) and Article 7(a) of Directive 95/46 and Article 4(11) and Article 6(1)(a) of Regulation 2016/679 must be interpreted as meaning that it is for the data controller to demonstrate that the data subject has, by active behaviour, given his or her consent to the processing of his or her personal data and that he or she has obtained, beforehand, information relating to all the circumstances surrounding that processing, in an intelligible and easily accessible form, using clear and plain language, allowing that person easily to understand the consequences of that consent, so that it is given with full knowledge of the facts. A contract for the provision of telecommunications services which contains a clause stating that the data subject has been informed of, and has consented to, the collection and storage of a copy of his or her identity document for identification purposes is not such as to demonstrate that that person has validly given his or her consent, as provided for in those provisions, to that collection and storage, where 
+–        the box referring to that clause has been ticked by the data controller before the contract was signed, or where
+–        the terms of that contract are capable of misleading the data subject as to the possibility of concluding the contract in question even if he or she refuses to consent to the processing of his or her data, or where 
+–        the freedom to choose to object to that collection and storage is unduly affected by that controller in requiring that the data subject, in order to refuse consent, must complete an additional form setting out that refusal.
+ 
+Costs
+53      Since these proceedings are, for the parties to the main proceedings, a step in the action pending before the national court, the decision on costs is a matter for that court. Costs incurred in submitting observations to the Court, other than the costs of those parties, are not recoverable.
+On those grounds, the Court (Second Chamber) hereby rules:
+Article 2(h) and Article 7(a) of Directive 95/46/EC of the European Parliament and of the Council of 24 October 1995 on the protection of individuals with regard to the processing of personal data and on the free movement of such data and Article 4(11) and Article 6(1)(a) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation), must be interpreted as meaning that it is for the data controller to demonstrate that the data subject has, by active behaviour, given his or her consent to the processing of his or her personal data and that he or she has obtained, beforehand, information relating to all the circumstances surrounding that processing, in an intelligible and easily accessible form, using clear and plain language, allowing that person easily to understand the consequences of that consent, so that it is given with full knowledge of the facts. A contract for the provision of telecommunications services which contains a clause stating that the data subject has been informed of, and has consented to, the collection and storage of a copy of his or her identity document for identification purposes is not such as to demonstrate that that person has validly given his or her consent, as provided for in those provisions, to that collection and storage, where
+–        
+the box referring to that clause has been ticked by the data controller before the contract was signed, or where
+–        
+the terms of that contract are capable of misleading the data subject as to the possibility of concluding the contract in question even if he or she refuses to consent to the processing of his or her data, or where 
+–        
+the freedom to choose to object to that collection and storage is unduly affected by that controller, in requiring that the data subject, in order to refuse consent, must complete an additional form setting out that refusal.

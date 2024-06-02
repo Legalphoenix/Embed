@@ -1,0 +1,201 @@
+of 2 Mar 2023, C-268/21 (
+Norra Stockholm Bygg
+)
+General data protection law 
+ > 
+Chapter II - Principles 
+ > 
+Storage limitation 
+General data protection law 
+ > 
+Chapter II - Principles 
+ > 
+Lawfulness - Legal obligation 
+General data protection law 
+ > 
+Chapter II - Principles 
+ > 
+Data minimisation 
+ 
+JUDGMENT OF THE COURT (Third Chamber)
+2 March 2023 (*)
+(Reference for a preliminary ruling – Protection of personal data – Regulation (EU) 2016/679 – Article 6(3) and (4) – Lawfulness of processing – Production of a document containing personal data in civil court proceedings – Article 23(1)(f) and (j) – Protection of judicial independence and judicial proceedings – Enforcement of civil law claims – Requirements to be complied with – Having regard to the interests of the data subjects – Balancing of the opposing interests involved – Article 5 – Minimisation of personal data – Charter of Fundamental Rights of the European Union – Article 7 – Right to respect for private life – Article 8 – Right to protection of personal data – Article 47 – Right to effective judicial protection – Principle of proportionality)
+In Case C-268/21,
+REQUEST for a preliminary ruling under Article 267 TFEU from the Högsta domstolen (Supreme Court, Sweden), made by decision of 15 April 2021, received at the Court on 23 April 2021, in the proceedings
+Norra Stockholm Bygg AB
+v
+Per Nycander AB,
+other party:
+Entral AB,
+THE COURT (Third Chamber),
+composed of K. Jürimäe, President of the Chamber, M.L. Arasteyx² Sahún, N. Piçarra, N. Jääskinen (Rapporteur) and M. Gavalec, Judges,
+Advocate General: T. Ćapeta,
+Registrar: C. Strömholm, Administrator,
+having regard to the written procedure and further to the hearing on 27 June 2022,
+after considering the observations submitted on behalf of:
+–        Norra Stockholm Bygg AB, by H. Täng Nilsson and E. Wassén, advokater,
+–        Per Nycander AB, by P. Degerfeldt and V. Hermansson, advokater,
+–        the Swedish Government, by C. Meyer-Seitz and H. Shev, and by O. Simonsson, acting as Agents,
+–        the Czech Government, by O. Serdula, M. Smolek and J. Vláčil, acting as Agents,
+–        the Polish Government, by B. Majczyna and J. Sawicka, acting as Agents,
+–        the European Commission, by A. Bouchagiar, M. Gustafsson and H. Kranenborg, acting as Agents,
+after hearing the Opinion of the Advocate General at the sitting on 6 October 2022,
+gives the following
+Judgment
+1        This request for a preliminary ruling concerns the interpretation of Article 6(3) and (4) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (OJ 2016 L 119, p. 1; ‘the GDPR’).
+2        The request has been made in proceedings between Norra Stockholm Bygg AB (‘Fastec’) and Per Nycander AB (‘Nycander’) concerning a request for disclosure of the electronic register of Fastec’s staff who had carried out work for Nycander, with a view to determining the amount of work to be paid by the latter.
+ 
+Legal context
+ 
+European Union law
+3        Recitals 1, 2, 4, 20, 26, 45 and 50 of the GDPR are worded as follows:
+‘(1)      The protection of natural persons in relation to the processing of personal data is a fundamental right. Article 8(1) of the Charter of Fundamental Rights of the European Union (the “Charter”) and Article 16(1) [TFEU] provide that everyone has the right to the protection of personal data concerning him or her.
+(2)      The principles of, and rules on the protection of natural persons with regard to the processing of their personal data should, whatever their nationality or residence, respect their fundamental rights and freedoms, in particular their right to the protection of personal data. This Regulation is intended to contribute to the accomplishment of an area of freedom, security and justice and of an economic union, to economic and social progress, to the strengthening and the convergence of the economies within the internal market, and to the well-being of natural persons.
+…
+(4)      The processing of personal data should be designed to serve mankind. The right to the protection of personal data is not an absolute right; it must be considered in relation to its function in society and be balanced against other fundamental rights, in accordance with the principle of proportionality. …
+…
+(20)      While this Regulation applies, inter alia, to the activities of courts and other judicial authorities, Union or Member State law could specify the processing operations and processing procedures in relation to the processing of personal data by courts and other judicial authorities. …
+…
+(26)      The principles of data protection should apply to any information concerning an identified or identifiable natural person. Personal data which have undergone pseudonymisation, which could be attributed to a natural person by the use of additional information, should be considered to be information on an identifiable natural person. … The principles of data protection should therefore not apply to anonymous information, namely information which does not relate to an identified or identifiable natural person or to personal data rendered anonymous in such a manner that the data subject is not or no longer identifiable. …
+…
+(45)      Where processing is carried out in accordance with a legal obligation to which the controller is subject or where processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority, the processing should have a basis in Union or Member State law. … A law as a basis for several processing operations based on a legal obligation to which the controller is subject or where processing is necessary for the performance of a task carried out in the public interest or in the exercise of an official authority may be sufficient. It should also be for Union or Member State law to determine the purpose of processing. …
+…
+(50)      The processing of personal data for purposes other than those for which the personal data were initially collected should be allowed only where the processing is compatible with the purposes for which the personal data were initially collected. In such a case, no legal basis separate from that which allowed the collection of the personal data is required. If the processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller, Union or Member State law may determine and specify the tasks and purposes for which the further processing should be regarded as compatible and lawful. … The legal basis provided by Union or Member State law for the processing of personal data may also provide a legal basis for further processing. …
+Where the data subject has given consent or the processing is based on Union or Member State law which constitutes a necessary and proportionate measure in a democratic society to safeguard, in particular, important objectives of general public interest, the controller should be allowed to further process the personal data irrespective of the compatibility of the purposes. In any case, the application of the principles set out in this Regulation and in particular the information of the data subject on those other purposes and on his or her rights including the right to object, should be ensured. …’
+4        Article 2 of that regulation, entitled ‘Material scope’, provides:
+‘1.      This Regulation applies to the processing of personal data wholly or partly by automated means and to the processing other than by automated means of personal data which form part of a filing system or are intended to form part of a filing system.
+2.      This Regulation does not apply to the processing of personal data:
+(a)      in the course of an activity which falls outside the scope of Union law;
+(b)      by the Member States when carrying out activities which fall within the scope of Chapter 2 of Title V of the TEU;
+(c)      by a natural person in the course of a purely personal or household activity;
+(d)      by competent authorities for the purposes of the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including the safeguarding against and the prevention of threats to public security. 
+3.      For the processing of personal data by the Union institutions, bodies, offices and agencies, Regulation (EC) No 45/2001 [of the European Parliament and of the Council of 18 December 2000 on the protection of individuals with regard to the processing of personal data by the Community institutions and bodies and on the free movement of such data (OJ 2001 L 8, p. 1)] applies. Regulation [No 45/2001] and other Union legal acts applicable to such processing of personal data shall be adapted to the principles and rules of this Regulation in accordance with Article 98.’
+5        Under Article 4 of the said regulation:
+‘For the purposes of this Regulation:
+…
+(2)      “processing” means any operation or set of operations which is performed on personal data or on sets of personal data, whether or not by automated means, such as collecting, recording, organisation, structuring, storage, adaptation or alteration, retrieval, consultation, use, disclosure by transmission, dissemination or otherwise making available, alignment or combination, restriction, erasure or destruction;
+…
+(5)      “pseudonymisation” means the processing of personal data in such a way that the personal data can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately and is subject to technical and organisational measures to ensure that the personal data are not attributed to an identified or identifiable natural person;
+…’
+6        Article 5 of the same regulation, entitled ‘Principles relating to the processing of personal data’, states, in paragraph 1 thereof:
+‘Personal data shall be:
+(a)      processed lawfully, fairly and in a transparent manner in relation to the data subject (“lawfulness, fairness and transparency”);
+(b)      collected for specified, explicit and legitimate purposes and not further processed in a manner that is incompatible with those purposes … (“purpose limitation”); 
+(c)      adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed (“data minimisation”);
+(d)      accurate and, where necessary, kept up to date; every reasonable step must be taken to ensure that personal data that are inaccurate, having regard to the purposes for which they are processed, are erased or rectified without delay (“accuracy”);
+…’
+7        Article 6 of the GDPR, entitled ‘Lawfulness of processing’, provides:
+‘1.      Processing shall be lawful only if and to the extent that at least one of the following applies:
+(a)      the data subject has given consent to the processing of his or her personal data for one or more specific purposes;
+…
+(c)      processing is necessary for compliance with a legal obligation to which the controller is subject;
+…
+(e)      processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller;
+…
+3.      The basis for the processing referred to in point (c) and (e) of paragraph 1 shall be laid down by:
+(a)      Union law; or
+(b)      Member State law to which the controller is subject.
+The purpose of the processing shall be determined in that legal basis or, as regards the processing referred to in point (e) of paragraph 1, shall be necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller. … The Union or the Member State law shall meet an objective of public interest and be proportionate to the legitimate aim pursued.
+4.      Where the processing for a purpose other than that for which the personal data have been collected is not based on the data subject’s consent or on a Union or Member State law which constitutes a necessary and proportionate measure in a democratic society to safeguard the objectives referred to in Article 23(1), the controller shall, in order to ascertain whether processing for another purpose is compatible with the purpose for which the personal data are initially collected, take into account, inter alia:
+(a)      any link between the purposes for which the personal data have been collected and the purposes of the intended further processing;
+…’
+8        Article 23 of that regulation, entitled ‘Restrictions’, provides:
+‘1.      Union or Member State law to which the data controller or processor is subject may restrict by way of a legislative measure the scope of the obligations and rights provided for in Articles 12 to 22 and Article 34, as well as Article 5 in so far as its provisions correspond to the rights and obligations provided for in Articles 12 to 22, when such a restriction respects the essence of the fundamental rights and freedoms and is a necessary and proportionate measure in a democratic society to safeguard:
+…
+(f)      the protection of judicial independence and judicial proceedings;
+…
+(j)      the enforcement of civil law claims.
+…’
+ 
+Swedish law
+ 
+The RB
+9        Documentary evidence is governed by the provisions of Chapter 38 of the rättegångsbalken (Code of Judicial Procedure; ‘the RB’).
+10      Under the first subparagraph of Paragraph 2 of Chapter 38 of the RB, any person in possession of a written document which may be deemed to have probative value is required to produce that document.
+11      Exceptions to that production obligation are provided for, inter alia, in the second subparagraph of that paragraph. The performance of certain functions dispenses with that obligation if it can be presumed that the person in possession of that document may not be heard as a witness on its content. That exception applies to lawyers, doctors, psychologists, priests and any other person to whom information has been disclosed in confidence in the performance of his or her functions or in similar circumstances. The scope of the said obligation thus corresponds to the obligation to stand as a witness in legal proceedings.
+12      If a person is required to produce a document as evidence, the court may, in accordance with Paragraph 4 of Chapter 38 of the RB, order him or her to do so.
+ 
+The Law on tax procedures
+13      Under Paragraphs 11a to 11c of Chapter 39 of the skatteförfarandelagen (2011:1244) [Law (2011:1244) on tax procedures], any person who carries on a construction activity is obliged, in certain cases, to maintain an electronic staff register. That staff register is to document the necessary identification data relating to the persons involved in that economic activity. That obligation is incumbent on the developer, which may, however, delegate it to an independent operator. By virtue of Paragraph 12 of Chapter 39 of that law, the staff register must be made available to the Swedish tax authority.
+14      The data which must be recorded in the staff register are set out in Paragraph 5 of Chapter 9 of the skatteförfarandeförordningen (2011:1261) [Regulation (2011:1261) on tax procedures]. These include the identity and national identification number of any person involved in the economic activity as well as the start and end times of work.
+ 
+The dispute in the main proceedings and the questions referred for a preliminary ruling
+15      Fastec constructed an office building for Nycander. The persons working on the building site concerned recorded their presence by means of an electronic staff register. That staff register was provided by the company Entral AB, acting on behalf of Fastec.
+16      Fastec brought an action before the tingsrätt (District Court, Sweden) seeking payment for the works carried out. In that action, Fastec requested Nycander to pay a sum which, according to Fastec, corresponds to the outstanding balance owed by Nycander. The latter company objected to Fastec’s request, claiming, inter alia, that the number of hours worked by Fastec’s staff was lower than that indicated in that request.
+17      Before that court, Nycander requested that Entral be ordered to produce Fastec’s staff register for the period from 1 August 2016 to 30 November 2017, primarily without redaction, or, in the alternative, with the personal identity numbers of the persons concerned redacted. In support of that request, Nycander claimed that Entral had that staff register in its possession and that it could constitute important evidence for the purposes of ruling on Fastec’s action in so far as the data recorded enabled the hours worked by Fastec’s staff to be proved.
+18      Fastec objected to that request, claiming, primarily, that it was contrary to Article 5(1)(b) of the GDPR. It stated that its staff register contains personal data collected in order for checks to be carried out on its activities by the Swedish tax authority, and disclosing those data to the court was not consistent with that objective.
+19      The tingsrätt (District Court) ordered Entral to produce in an unredacted state Fastec’s staff register for the staff concerned by the building site at issue in the main proceedings during the relevant period. The Svea hovrätten (Svea Court of Appeal, Stockholm, Sweden) upheld the decision of the tingsrätten (District Court).
+20      Fastec brought an appeal against the decision of the Svea hovrätt (Svea Court of Appeal, Stockholm) before the referring court, the Högsta domstolen (Supreme Court, Sweden), and asked that Nycander’s request referred to in paragraph 17 above be rejected. 
+21      The referring court asks whether – and, if so, how – the provisions of the GDPR should be applied in the case in the main proceedings. 
+22      So far as concerns the obligation to produce documents, that court observes that it is apparent from its own case-law on the interpretation of the relevant provisions of the RB that it is necessary to weigh up the relevance of the evidence at issue against the opposing party’s interest in not releasing that information. It states that, in the context of that weighing exercise, no account is taken, in principle, of whether the information contained in the document is private in nature or whether other persons have an interest in having access to the content of that document, aside from what may follow from the exceptions specifically provided for by the legislation.
+23      The referring court states that the purpose of the obligation to produce a document laid down by the RB is, inter alia, to give anyone who needs a written document as evidence access to it. In its view, it is ultimately a question of ensuring that individuals are able to exercise their rights where they have a ‘justified probative interest’.
+24      In those circumstances, the Högsta domstolen (Supreme Court) decided to stay the proceedings and to refer the following questions to the Court of Justice for a preliminary ruling:
+‘1.      Does Article 6(3) and (4) of the GDPR also impose a requirement on national procedural legislation relating to [the obligation to produce documents]?
+2.      If Question 1 is answered in the affirmative, does the GDPR mean that regard must also be had to the interests of the data subjects when a decision on [production] must be made which involves the processing of personal data? In such circumstances, does EU law establish any requirements concerning how, in detail, that decision should be made?’
+ 
+Consideration of the questions referred
+ 
+The first question
+25      By its first question, the referring court asks, in essence, whether Article 6(3) and (4) of the GDPR must be interpreted as meaning that that provision applies, in the context of civil court proceedings, to the production as evidence of a staff register containing personal data of third parties collected principally for the purposes of tax inspection.
+26      In order to answer that question, it should be noted, in the first place, that Article 2(1) of the GDPR provides that that regulation applies to any ‘processing of personal data wholly or partly by automated means and to the processing other than by automated means of personal data which form part of a filing system or are intended to form part of a filing system’, without any distinction being made according to the identity of the person who carried out the processing concerned. It follows that, subject to the cases mentioned in Article 2(2) and (3) thereof, the GDPR applies to processing operations carried out both by private persons and by public authorities, including, as recital 20 thereof indicates, judicial authorities, such as courts (judgment of 24 March 2022, 
+Autoriteit Persoonsgegevens
+, C-245/20, EU:C:2022:216, paragraph 25). 
+27      In the second place, according to Article 4(2) of that regulation, the definition of ‘processing’ of personal data includes any operation which is performed on personal data, whether or not by automated means, such as collection, recording, use, disclosure by transmission, dissemination or otherwise making available.
+28      It follows that a processing operation which falls within the material scope of the GDPR includes not only the creation and maintenance of the electronic staff register (see, by analogy, judgment of 30 May 2013, 
+Worten
+, C-342/12, EU:C:2013:355, paragraph 19), but also the production as evidence of a document, whether digital or physical, containing personal data, ordered by a court in the context of judicial proceedings (see, to that effect, judgment of 8 December 2022, 
+Inspektor v Inspektorata kam Visshia sadeben savet (Purposes of processing personal data) – Criminal investigation)
+, C-180/21, EU:C:2022:967, paragraph 72).
+29      In the third place, it must be pointed out that any processing of personal data, including processing carried out by public authorities such as courts, must satisfy the conditions of lawfulness set by Article 6 of the GDPR.
+30      In that regard, it should be noted, first, that, according to Article 6(1)(e) of the GDPR, the processing of personal data is lawful if it is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller.
+31      In accordance with Article 6(3) of the GDPR, read in combination with recital 45 thereof, the basis for the processing referred to in Article 6(1)(e) of that regulation is to be defined by EU law or by Member State law to which the controller is subject. Moreover, the EU or Member State law must meet an objective of public interest and be proportionate to the legitimate aim pursued.
+32      The combined provisions of Article 6(1)(e) of the GDPR and Article 6(3) thereof therefore require there to be a legal basis – national in particular – which serves as a basis for the processing of personal data by the relevant controllers acting in the performance of a task carried out in the public interest or in the exercise of official authority, such as those performed by courts acting in their judicial capacity.
+33      Second, where the processing of personal data is carried out for a purpose other than that for which those data have been collected, it follows from Article 6(4) of the GDPR, read in the light of recital 50 thereof, that such processing is allowed provided that it is based, inter alia, on Member State law and that it constitutes a necessary and proportionate measure in a democratic society to safeguard one of the objectives referred to in Article 23(1) of the GDPR. As that recital indicates, in order to safeguard those important objectives of general public interest, the controller is thus allowed to further process the personal data irrespective of the compatibility of that processing with the purposes for which the personal data were initially collected.
+34      In the case at hand, the relevant provisions of Chapter 38 of the RB, which lay down the obligation to produce a document as evidence and provide for the possibility for national courts to order the production of that document, constitute the legal basis serving as a basis for the processing of personal data. While those provisions constitute, in principle, a sufficient legal basis for allowing the processing of personal data, it is apparent from the order for reference that that legal basis is different from that constituted by the Law on tax procedures, on the basis of which the staff register at issue in the main proceedings was drawn up for the purposes of tax inspection. Moreover, the purpose of the obligation to produce documents laid down by those provisions of the RB is, according to the referring court, to give anyone who needs a written document as evidence access to it. In its view, it is a question of ensuring that individuals are able to exercise their rights where they have a ‘justified probative interest’.
+35      According to that court, it is apparent from the 
+travaux préparatoires
+ that led to the Law on tax procedures that the personal data recorded in the staff register are intended to enable officials of the competent Swedish tax authority to carry out verifications during its on-site inspections. The essential objective is to reduce the occurrence of concealed work and to improve the conditions for competition. The processing of personal data is justified by the need to satisfy the legal obligation on the controller, namely to keep a staff register.
+36      Accordingly, it must be held that the processing of those data in the context of judicial proceedings such as the main proceedings constitutes processing carried out for a purpose other than that for which the data have been collected, namely for the purposes of tax inspection, and which is not based on the consent of the data subjects, within the meaning of Article 6(1)(a) of the GDPR.
+37      In those circumstances, the processing of personal data for a purpose other than that for which those data have been collected must not only be based on national law, such as the provisions of Chapter 38 of the RB, but also constitute a necessary and proportionate measure in a democratic society, within the meaning of Article 6(4) of the GDPR, and safeguard one of the objectives referred to in Article 23(1) of the GDPR. 
+38      Those objectives include, in accordance with Article 23(1)(f) of that regulation, ‘the protection of judicial independence and judicial proceedings’, which, as the European Commission noted in its written observations, must be understood as referring to the protection of the administration of justice from internal or external interference, but also to the proper administration of justice. Furthermore, according to Article 23(1)(j) thereof, the enforcement of civil law claims also constitutes an objective which may justify the processing of personal data for a purpose other than that for which they have been collected. It cannot therefore be ruled out that the processing of personal data of third parties in civil court proceedings may be based on such objectives.
+39      However, it is for the referring court to ascertain whether the relevant provisions of Chapter 38 of the RB, first, meet one and/or other of those objectives and, second, are necessary and proportionate to the said objectives, so that they are capable of falling within the scope of cases of personal data processing regarded as lawful under the provisions of Article 6(3) and (4) of the GDPR, read in combination with Article 23(1)(f) and (j) thereof. 
+40      In that regard, it is irrelevant that the processing of personal data is based on a provision of substantive or procedural national law, since the provisions of Article 6(3)(b) and (4) of that regulation make no distinction between those two types of provision.
+41      In the light of all the foregoing considerations, the answer to the first question is that Article 6 (3) and (4) of the GDPR must be interpreted as meaning that that provision applies, in the context of civil court proceedings, to the production as evidence of a staff register containing personal data of third parties collected principally for the purposes of tax inspection.
+ 
+The second question
+42      By its second question, the referring court asks, in essence, whether Articles 5 and 6 of the GDPR must be interpreted as meaning that, when assessing whether the production of a document containing personal data must be ordered in civil court proceedings, the national court is required to have regard to the interests of the data subjects concerned. If so, that court also asks whether EU law, and the GDPR in particular, lays down any specific requirements as to how that assessment is to be made.
+43      First of all, it must be pointed out that any processing of personal data must, subject to the derogations permitted in Article 23 thereof, observe the principles governing the processing of personal data and the rights of the person concerned set out, respectively, in Chapters II and III of that regulation. In particular, any processing of personal data must, first, comply with the principles set out in Article 5 of that regulation and, second, satisfy the lawfulness conditions listed in Article 6 of the same regulation (see, to that effect, judgment of 6 October 2020, 
+La Quadrature du Net and Others
+, C-511/18, C-512/18 and C-520/18, EU:C:2020:791, paragraph 208 and the case-law cited).
+44      In the case at hand, the referring court notes that the relevant provisions of Chapter 38 of the RB do not expressly require, during the assessment of whether the production of a document containing personal data must be ordered, regard to be had to the interests of the persons whose personal data are at issue. According to national case-law, those provisions merely require a weighing up of the relevance of the evidence against the opposing party’s interest in not releasing the information at issue.
+45      As has been found in paragraph 39 above, since those national law provisions involve the production of a document as evidence, they are capable of falling within the scope of cases of personal data processing regarded as lawful under the provisions of Article 6(3) and (4) of the GDPR, read in combination with Article 23(1)(f) and (j) thereof. This is so because the said provisions, first, are intended to secure the proper conduct of court proceedings by ensuring that individuals are able to exercise their rights where they have a ‘justified probative interest’ and, second, are necessary and proportionate to that objective.
+46      It follows from Article 6(4) of the GDPR that such processing of personal data is lawful provided that it constitutes a necessary and proportionate measure in a democratic society and safeguards the objectives referred to in Article 23 of the GDPR which it pursues. Accordingly, in order to verify those requirements, a national court is required to have regard to the opposing interests involved when assessing whether to order the production of a document containing personal data of third parties.
+47      In that respect, it is important to stress that the result of the balancing that the national court must carry out may vary according to both the circumstances of each case and the type of proceedings at issue.
+48      So far as concerns the interests involved in civil court proceedings, the national court must, as is apparent in particular from recitals 1 and 2 of the GDPR, guarantee the protection of natural persons with regard to the processing of personal data, which is a fundamental right enshrined in Article 8(1) of the Charter and in Article 16 TFEU. That court must also guarantee the right to respect for private life, enshrined in Article 7 of the Charter, which is closely linked to the right to the protection of personal data.
+49      However, as recital 4 of the GDPR states, the right to the protection of personal data is not an absolute right, but must be considered in relation to its function in society and be balanced, in accordance with the principle of proportionality, against other fundamental rights, such as the right to effective judicial protection, guaranteed in Article 47 of the Charter.
+50      The production of a document containing the personal data of third parties in civil court proceedings contributes, as the Advocate General noted, in essence, in point 61 of her Opinion, to compliance with that right to effective judicial protection.
+51      In that regard, the second paragraph of Article 47 of the Charter, corresponding to Article 6(1) of the Convention for the Protection of Human Rights and Fundamental Freedoms, signed in Rome on 4 November 1950, its meaning and scope are, in accordance with Article 52(3) of the Charter, the same as those conferred by that convention on that Article 6(1).
+52      According to the settled case-law of the European Court of Human Rights, in view of the prominent place held in a democratic society by the right to a fair trial, it is essential that an individual have the right to present his or her case effectively before the court and enjoy equality of arms with the opposing side (see, to that effect, ECtHR, 24 June 2022, 
+Zayidov v. Azerbaijan (No 2)
+, CE:ECHR:2022:0324JUD000538610, § 87 and the case-law cited). It follows, inter alia, that an individual must have the benefit of adversarial proceedings and be able to submit, at various stages of those proceedings, the arguments he or she considers relevant to his or her case (ECtHR, 21 January 1999, 
+García Ruiz v. Spain
+, CE:ECHR:1999:0121JUD003054496, § 29).
+53      Therefore, in order to ensure that individuals can enjoy a right to effective judicial protection and, in particular, a right to a fair trial, within the meaning of the second paragraph of Article 47 of the Charter, the parties to civil court proceedings must be in a position to access the evidence necessary to establish to the requisite standard the merits of their complaints, which may possibly include personal data of the parties or of third parties. 
+54      That being so, as has been indicated in paragraph 46 above, having regard to the interests involved forms part of the examination of the necessity and proportionality of the measure, which are provided for in Article 6(3) and (4) of the GDPR and which condition the lawfulness of the personal data processing. In that regard, account should therefore also be taken of Article 5(1) thereof, and in particular of the principle of ‘data minimisation’ set out in Article 5(1)(c), which gives expression to the principle of proportionality. According to that data minimisation principle, personal data must be adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed (see, to that effect, judgment of 22 June 2021, 
+Latvijas Republikas Saeima (Penalty points)
+, C-439/19, EU:C:2021:504, paragraph 98 and the case-law cited).
+55      The national court is therefore required to determine whether the disclosure of personal data is adequate and relevant for the purpose of attaining the objective pursued by the applicable provisions of national law and whether that objective cannot be achieved by recourse to less intrusive means of proof in respect of the protection of the personal data of a large number of third parties such as, for example, the hearing of selected witnesses. 
+56      In the event that the production of a document containing personal data proves to be justified, it also follows from that principle that, where only part of those data appears necessary for evidential purposes, the national court must consider taking additional data protection measures, such as the pseudonymisation, defined in Article 4(5) of the GDPR, of the names of the data subjects or any other measure intended to minimise the interference with the right to the protection of personal data resulting from the production of such a document. Such measures may include limiting public access to the file or an order addressed to the parties to whom the documents containing personal data have been disclosed not to use those data for a purpose other than the taking of evidence during the court proceedings at issue.
+57      In that regard, it should be noted that it follows from Article 4(5) of the GDPR, read in combination with recital 26 thereof, that pseudonymised personal data which could be attributed to a natural person with the use of additional information should be considered to be information on an identifiable natural person, to which the principles of data protection apply. By contrast, it follows from that recital that those principles do not apply ‘to anonymous information, namely information which does not relate to an identified or identifiable natural person or to personal data rendered anonymous in such a manner that the data subject is not or no longer identifiable’.
+58      It follows that a national court may take the view that the personal data of the parties or of third parties must be communicated to it in order to be able to balance, in full knowledge of the facts and in compliance with the principle of proportionality, the interests involved. That assessment may, depending on the case, lead it to authorise the full or partial disclosure to the opposing party of the personal data thus communicated to it, if it finds that such disclosure does not go beyond what is necessary for the purpose of guaranteeing the effective enjoyment of the rights which individuals derive from Article 47 of the Charter.
+59      In the light of all the foregoing considerations, the answer to the second question is that Articles 5 and 6 of the GDPR must be interpreted as meaning that, when assessing whether the production of a document containing personal data must be ordered, the national court is required to have regard to the interests of the data subjects concerned and to balance them according to the circumstances of each case, the type of proceeding at issue and duly taking into account the requirements arising from the principle of proportionality as well as, in particular, those resulting from the principle of data minimisation referred to in Article 5(1)(c) of that regulation.
+ 
+Costs
+60      Since these proceedings are, for the parties to the main proceedings, a step in the action pending before the national court, the decision on costs is a matter for that court. Costs incurred in submitting observations to the Court, other than the costs of those parties, are not recoverable.
+On those grounds, the Court (Third Chamber) hereby rules:
+1.      
+Article 6(3) and (4) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation), 
+must be interpreted as meaning that that provision applies, in the context of civil court proceedings, to the production as evidence of a staff register containing personal data of third parties collected principally for the purposes of tax inspection.
+2.      
+Articles 5 and 6 of Regulation 2016/679
+must be interpreted as meaning that when assessing whether the production of a document containing personal data must be ordered, the national court is required to have regard to the interests of the data subjects concerned and to balance them according to the circumstances of each case, the type of proceeding at issue and duly taking into account the requirements arising from the principle of proportionality as well as, in particular, those resulting from the principle of data minimisation referred to in Article 5(1)(c) of that regulation.

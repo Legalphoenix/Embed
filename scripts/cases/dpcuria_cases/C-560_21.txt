@@ -1,0 +1,25 @@
+of 9 Feb 2023, C-560/21 (
+KISA
+)
+ 
+Judgment of the Court (Sixth Chamber) of 9 February 2023 (request for a preliminary ruling from the Bundesarbeitsgericht – Germany) – ZS v Zweckverband „Kommunale Informationsverarbeitung Sachsen“ KISA, Körperschaft des öffentlichen Rechts
+(Case C-560/21, KISA) 1
+(Reference for a preliminary ruling – Protection of natural persons with regard to the processing of personal data – Regulation (EU) 2016/679 – Article 38(3) – Data protection officer – Prohibition on dismissing data protection officer for performing his or her tasks – Requirement for functional independence – National legislation prohibiting the dismissal of a data protection officer without just cause)
+Language of the case: German
+Referring court
+Bundesarbeitsgericht
+Parties to the main proceedings
+Applicant:
+ ZS
+Defendant:
+ Zweckverband „Kommunale Informationsverarbeitung Sachsen“ KISA, Körperschaft des öffentlichen Rechts
+Operative part of the judgment
+The second sentence of Article 38(3) of Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation), must be interpreted as not precluding national legislation which provides that a controller or a processor may dismiss a data protection officer who is a member of staff of that controller or processor solely where there is just cause, even if the dismissal is not related to the performance of that officer’s tasks, in so far as such legislation does not undermine the achievement of the objectives of that regulation.
+____________
+1 OJ C 37, 24.1.2022.
+ 
+
+
+
+
+Disclaimer
