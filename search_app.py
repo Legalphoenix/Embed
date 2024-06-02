@@ -45,7 +45,7 @@ def search():
                         break
 
                     original_filename = meta.get("original_file_name")
-                    preview_text = meta.get("chunk_text","chunk_text") #"Preview not available" ""
+                    preview_text = meta.get("full_preview_text","chunk_text") #"Preview not available" ""
                     document_type_name = meta.get("document_type_name")
                     match_score = 1 - similarity[index]
 
