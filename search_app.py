@@ -45,9 +45,12 @@ def search():
                         break
 
                     original_filename = meta.get("original_file_name")
-                    preview_text = meta.get("full_preview_text","chunk_text") #"Preview not available" ""
+                    preview_text = meta.get("full_preview_text","No preview found") #"Preview not available" ""
                     document_type_name = meta.get("document_type_name")
                     match_score = 1 - similarity[index]
+
+                    logging.info(f"File: {original_filename}, Full Preview Text: {preview_text}")
+
 
                     summaries.append({
                         'file_name': original_filename,
@@ -59,8 +62,8 @@ def search():
         if not summaries:
             logging.info("No matching documents found in summaries")
             return jsonify(error="No matching documents found"), 404
-        #ranked_summaries = rerank_results(summaries,query)
         summaries = sorted(summaries, key=lambda x: x['match_score'], reverse=True)
+        #ranked_summaries = rerank_results(summaries,query)
         return jsonify(results=summaries)
     except Exception as e:
         logging.error(f"Error during search: {e}")
