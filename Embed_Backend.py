@@ -192,7 +192,7 @@ def save_embedding(original_file_name, document_title, document_parties, embeddi
         parent_collection_recitals.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
 '''SEARCH EMBEDDINGS'''
-def search_embeddings(query_embedding, doc_types, top_n=100):
+def search_embeddings(query_embedding, doc_types, top_n=10):
     collections = []
     if 0 in doc_types:  # All categories
         collections = [
@@ -227,7 +227,7 @@ def search_embeddings(query_embedding, doc_types, top_n=100):
             })
 
     results = sorted(results, key=lambda x: x["distance"])[:top_n]
-    logging.info(f"results: {results}")
+    #logging.info(f"results: {results}")
     return results
 
 

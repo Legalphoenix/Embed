@@ -28,7 +28,7 @@ def search():
         # Convert doc_type to list of integers
         doc_type_list = list(map(int, doc_type.split(',')))
 
-        results = search_embeddings(query_embedding, doc_type_list, top_n=20)
+        results = search_embeddings(query_embedding, doc_type_list, top_n=10)
         if not results:
             logging.info("No matching documents found")
             return jsonify(error="No matching documents found"), 404
@@ -60,6 +60,7 @@ def search():
             logging.info("No matching documents found in summaries")
             return jsonify(error="No matching documents found"), 404
         #ranked_summaries = rerank_results(summaries,query)
+        summaries = sorted(summaries, key=lambda x: x['match_score'], reverse=True)
         return jsonify(results=summaries)
     except Exception as e:
         logging.error(f"Error during search: {e}")
