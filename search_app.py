@@ -34,7 +34,7 @@ def search():
             logging.info("No matching documents found")
             return jsonify(error="No matching documents found"), 404
 
-
+        logging.info(f"all results{results}")
         summaries = []
         for result in results:
             metadata_list = result["metadata"]
