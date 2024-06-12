@@ -24,6 +24,7 @@ def search():
         if query_embedding is None:
             logging.error("Error generating query embedding")
             return jsonify(error="Error generating query embedding"), 400
+        logging.info(f"embedding {query_embedding}")
 
         # Convert doc_type to list of integers
         doc_type_list = list(map(int, doc_type.split(',')))

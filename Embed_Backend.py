@@ -158,7 +158,7 @@ def embed_with_backoff(documents, model="voyage-law-2", input_type="document"):
 '''SAVE PARENT DOCUMENT'''
 def get_embedding(text, input_type=None):
     text = text.strip()
-    logging.info(f"stripped text: {text}")
+    logging.info(f"query stripped text: {text}")
     documents_embeddings = vo.embed(text, model="voyage-law-2", input_type=input_type).embeddings
     if documents_embeddings and isinstance(documents_embeddings[0], list):
         return [item for sublist in documents_embeddings for item in sublist]
