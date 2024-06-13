@@ -29,13 +29,14 @@ anthropic_client = anthropic.Anthropic(api_key=api_key)
 
 # Initialize persistent ChromaDB client
 #java -jar tika/tika-server-standard-2.9.2.jar -p 9998
+#from chromadb.config import Settings --might need
 #chroma run --path ./chromadb
 chroma_client = HttpClient(
     host="localhost",
     port="8000",
     ssl=False,
     headers={},
-    settings=Settings()
+    settings=Settings(anonymized_telemetry=False)
 )
 
 # Create collections with inner product similarity (dot product)

@@ -12,3 +12,4 @@ GDPR/
 batch_input.jsonl
 gpt_api.env
 ~$put_document.docx
+chromadb/
