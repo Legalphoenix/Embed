@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename, safe_join
 import os
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 logging.basicConfig(level=logging.INFO, filename='search_log.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s')
 
 @app.route('/')
