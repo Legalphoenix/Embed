@@ -12,7 +12,6 @@
         gtag('config', 'G-R908ETLWME');
     </script>
 
-
     <meta charset="UTF-8">
     <title>LexiSearch</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -179,11 +178,41 @@
             font-size: 14px;
             margin-top: 10px;
         }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: static;
+                margin-left: 0;
+                display: none;
+            }
+
+            .sidebar.show {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .toggle-button {
+                display: block;
+                cursor: pointer;
+                font-size: 1.5em;
+                margin: 10px;
+            }
+        }
+
+        .toggle-button {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <button class="toggle-button" onclick="toggleSidebar()">☰ Categories</button>
         <div class="sidebar">
             <h5>Search Categories</h5>
             <div class="form-check hidden">
@@ -430,6 +459,11 @@
                 fullText.style.display = 'block';
                 toggleLink.textContent = 'Show less';
             }
+        }
+
+        function toggleSidebar() {
+            let sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('show');
         }
     </script>
 </body>
