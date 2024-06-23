@@ -34,7 +34,11 @@
             padding: 20px;
             height: 100vh;
             position: fixed;
-            margin-left: -250px;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 1000;
         }
 
         .sidebar h5 {
@@ -47,7 +51,7 @@
         }
 
         .main-content {
-            margin-left: 200px;
+            margin-left: 250px;
             padding: 20px;
             flex-grow: 1;
             max-width: 1200px;
@@ -168,7 +172,6 @@
             /* Adjust to vertically align */
         }
 
-
         .hidden {
             display: none;
         }
@@ -183,13 +186,21 @@
         @media screen and (max-width: 768px) {
             .sidebar {
                 width: 100%;
+                height: auto;
                 position: static;
-                margin-left: 0;
                 display: none;
             }
 
             .sidebar.show {
                 display: block;
+                position: fixed;
+                width: 250px;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background-color: #fff;
+                z-index: 1000;
+                overflow-y: auto;
             }
 
             .main-content {
