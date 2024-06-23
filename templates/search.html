@@ -27,7 +27,6 @@
         .container {
             display: flex;
             flex-wrap: wrap;
-            /* Allow flex items to wrap */
         }
 
         .sidebar {
@@ -161,17 +160,13 @@
             line-height: 1.5;
             border-radius: 30px;
             padding: 12px 15px;
-            /* Adjust padding to center text */
             font-size: 14px;
         }
 
-        /* Adjust the placeholder text */
         #searchQuery::placeholder {
             line-height: 1.5;
-            /* Match the line-height of the textarea */
             padding-top: 2.3px;
             font-size: 12px;
-            /* Adjust to vertically align */
         }
 
         .hidden {
@@ -383,8 +378,7 @@
                                         content += `<a href="javascript:void(0);" onclick="toggleText(${index})" id="toggle-${index}" class="toggle-link">Show more</a>`;
                                     }
 
-                                    content += "</div>" /* <a href="/files/${encodeURIComponent(result.file_name)}" target="_blank">Download ${result.file_name}</a>
-                                </div>`*/;
+                                    content += "</div>";
                                 }
                             });
                             resultsDiv.innerHTML = content;
@@ -478,6 +472,7 @@
         function toggleSidebar() {
             let sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('show');
+            console.log('Sidebar toggled:', sidebar.classList.contains('show'));
         }
     </script>
 </body>
