@@ -65,7 +65,7 @@ parent_collection_legislation = chroma_client.get_or_create_collection(
 )
 
 parent_collection_guidelines = chroma_client.get_or_create_collection(
-    name="parent_guidelines",
+    name="parent_collection_guidelines",
     metadata={"hnsw:space": "ip"}
 )
 
