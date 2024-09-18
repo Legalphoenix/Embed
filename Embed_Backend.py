@@ -38,47 +38,50 @@ chroma_client = HttpClient(
     headers={},
     settings=Settings(anonymized_telemetry=False)
 )
+# Define all collections with Item Count > 0
+collections_info = [
+    {"name": "collection_NSWFTT", "doc_type_id": 128, "doc_type_name": "NSWFTT"},
+    {"name": "collection_NSWIRCOMM", "doc_type_id": 136, "doc_type_name": "NSWIRCOMM"},
+    {"name": "collection_NSWCA", "doc_type_id": 107, "doc_type_name": "NSWCA"},
+    {"name": "collection_NSWCATGD", "doc_type_id": 123, "doc_type_name": "NSWCATGD"},
+    {"name": "collection_NSWMT", "doc_type_id": 130, "doc_type_name": "NSWMT"},
+    {"name": "collection_NSWDC", "doc_type_id": 109, "doc_type_name": "NSWDC"},
+    {"name": "legislation", "doc_type_id": 1, "doc_type_name": "Legislation"},
+    {"name": "parent_legislation", "doc_type_id": 101, "doc_type_name": "Legislation"},
+    {"name": "collection_ADT", "doc_type_id": 132, "doc_type_name": "ADT"},
+    {"name": "collection_NSWCATEN", "doc_type_id": 125, "doc_type_name": "NSWCATEN"},
+    {"name": "collection_NSWDRGC", "doc_type_id": 110, "doc_type_name": "NSWDRGC"},
+    {"name": "parent_collection_court_cases", "doc_type_id": 103, "doc_type_name": "parent_collection_court_cases"},
+    {"name": "collection_NSWCATOD", "doc_type_id": 124, "doc_type_name": "NSWCATOD"},
+    {"name": "parent_recitals", "doc_type_id": 104, "doc_type_name": "GDPR Recitals"},
+    {"name": "collection_NSWDDT", "doc_type_id": 126, "doc_type_name": "NSWDDT"},
+    {"name": "collection_NSWCC", "doc_type_id": 106, "doc_type_name": "NSWCC"},
+    {"name": "collection_NSWIC", "doc_type_id": 115, "doc_type_name": "NSWIC"},
+    {"name": "collection_NSWCATAP", "doc_type_id": 120, "doc_type_name": "NSWCATAP"},
+    {"name": "collection_NSWLEC", "doc_type_id": 112, "doc_type_name": "NSWLEC"},
+    {"name": "collection_NSWADTAP", "doc_type_id": 118, "doc_type_name": "NSWADTAP"},
+    {"name": "collection_NSWCHC", "doc_type_id": 135, "doc_type_name": "NSWCHC"},
+    {"name": "collection_NSWSC", "doc_type_id": 114, "doc_type_name": "NSWSC"},
+    {"name": "collection_NSWCCA", "doc_type_id": 108, "doc_type_name": "NSWCCA"},
+    {"name": "collection_NSWEOT", "doc_type_id": 127, "doc_type_name": "NSWEOT"},
+    {"name": "collection_NSWCATCD", "doc_type_id": 122, "doc_type_name": "NSWCATCD"},
+    {"name": "collection_NSWLC", "doc_type_id": 113, "doc_type_name": "NSWLC"},
+    {"name": "collection_NSWTAB", "doc_type_id": 131, "doc_type_name": "NSWTAB"},
+    {"name": "collection_NSWEOD", "doc_type_id": 116, "doc_type_name": "NSWEOD"},
+    {"name": "collection_NSWCATAD", "doc_type_id": 121, "doc_type_name": "NSWCATAD"},
+    {"name": "recitals", "doc_type_id": 4, "doc_type_name": "GDPR Recitals"},
+    {"name": "collection_NSWLST", "doc_type_id": 129, "doc_type_name": "NSWLST"},
+]
 
-# Create collections with inner product similarity (dot product)
-collection_legislation = chroma_client.get_or_create_collection(
-    name="legislation",
-    metadata={"hnsw:space": "ip"}
-)
+# Create collections and map Document Type IDs to collections
+doc_type_id_to_collection = {}
 
-collection_guidelines = chroma_client.get_or_create_collection(
-    name="guidelines",
-    metadata={"hnsw:space": "ip"}
-)
-
-collection_court_cases = chroma_client.get_or_create_collection(
-    name="court_cases",
-    metadata={"hnsw:space": "ip"}
-)
-
-collection_recitals = chroma_client.get_or_create_collection(
-    name="recitals",
-    metadata={"hnsw:space": "ip"}
-)
-parent_collection_legislation = chroma_client.get_or_create_collection(
-    name="parent_legislation",
-    metadata={"hnsw:space": "ip"}
-)
-
-parent_collection_guidelines = chroma_client.get_or_create_collection(
-    name="parent_collection_guidelines",
-    metadata={"hnsw:space": "ip"}
-)
-
-parent_collection_court_cases = chroma_client.get_or_create_collection(
-    name="parent_court_cases",
-    metadata={"hnsw:space": "ip"}
-)
-
-parent_collection_recitals = chroma_client.get_or_create_collection(
-    name="parent_recitals",
-    metadata={"hnsw:space": "ip"}
-)
-
+for collection in collections_info:
+    col = chroma_client.get_or_create_collection(
+        name=collection["name"],
+        metadata={"hnsw:space": "ip"}
+    )
+    doc_type_id_to_collection[collection["doc_type_id"]] = col
 
 # Load environment variables
 load_dotenv()
@@ -192,44 +195,64 @@ def save_embedding(original_file_name, document_title, document_parties, embeddi
     elif document_type_id == 104:
         parent_collection_recitals.add(documents=[chunk_text], embeddings=[embedding], metadatas=[chunk_metadata], ids=[unique_id])
 
-'''SEARCH EMBEDDINGS'''
+# embed_backend.py
+
 def search_embeddings(query_embedding, doc_types, top_n=10):
+    """
+    Search embeddings across the collections specified by the doc_types list.
+
+    Parameters:
+    - query_embedding: The embedding vector of the search query.
+    - doc_types: A list of Document Type IDs to search across.
+    - top_n: The number of top results to return.
+
+    Returns:
+    - A sorted list of search results with metadata and distances.
+    """
     collections = []
-    if 0 in doc_types:  # All categories
-        collections = [
-            collection_legislation, collection_guidelines, collection_court_cases, collection_recitals,
-            parent_collection_legislation, parent_collection_guidelines, parent_collection_court_cases, parent_collection_recitals
-        ]
+
+    # If "All Categories" (doc_type == 0) is selected, include all collections
+    if 0 in doc_types:
+        collections = list(doc_type_id_to_collection.values())
     else:
-        if 1 in doc_types:
-            collections.append(collection_legislation)
-        if 101 in doc_types:
-            collections.append(parent_collection_legislation)
-        if 2 in doc_types:
-            collections.append(collection_guidelines)
-        if 102 in doc_types:
-            collections.append(parent_collection_guidelines)
-        if 3 in doc_types:
-            collections.append(collection_court_cases)
-        if 103 in doc_types:
-            collections.append(parent_collection_court_cases)
-        if 4 in doc_types:
-            collections.append(collection_recitals)
-        if 104 in doc_types:
-            collections.append(parent_collection_recitals)
+        # Otherwise, add collections corresponding to the selected doc_type IDs
+        for doc_type_id in doc_types:
+            collection = doc_type_id_to_collection.get(doc_type_id)
+            if collection:
+                collections.append(collection)
+            else:
+                logging.warning(f"Unsupported Document Type ID: {doc_type_id}")
 
+    if not collections:
+        logging.error("No valid collections found for the provided Document Type IDs.")
+        return []
+
+    # Search results will be stored in this list
     results = []
-    for collection in collections:
-        query_results = collection.query(query_embeddings=[query_embedding], n_results=top_n, include=["metadatas", "distances"])
-        for i in range(len(query_results["ids"])):
-            results.append({
-                "metadata": query_results["metadatas"][i],
-                "distance": query_results["distances"][i]
-            })
 
+    # Iterate through all selected collections and query each one
+    for collection in collections:
+        try:
+            # Perform the query on the current collection
+            query_results = collection.query(
+                query_embeddings=[query_embedding],
+                n_results=top_n,
+                include=["metadatas", "distances"]
+            )
+
+            # Append results with metadata and distances
+            for i in range(len(query_results["ids"])):
+                results.append({
+                    "metadata": query_results["metadatas"][i],
+                    "distance": query_results["distances"][i]
+                })
+        except Exception as e:
+            logging.error(f"Error querying collection {collection.name}: {e}")
+
+    # Sort results by distance (assuming lower distance means a better match)
     results = sorted(results, key=lambda x: x["distance"])[:top_n]
-    #logging.info(f"results: {results}")
     return results
+
 
 
 

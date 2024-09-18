@@ -80,7 +80,7 @@ def uploaded_file(filename):
     return jsonify(error="File not found"), 404
  """
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=3005)
 
 '''if __name__ == '__main__':
     app.run(debug=True, use_reloader=True, host='0.0.0.0', port=3005)'''

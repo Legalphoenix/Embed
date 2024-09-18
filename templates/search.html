@@ -184,6 +184,20 @@
             margin-top: 10px;
         }
 
+        .sidebar h5 {
+            margin-bottom: 10px;
+            /* Existing bottom margin */
+            margin-top: 10px;
+            /* Add more room above the headings */
+            font-size: 14px;
+        }
+
+        .sidebar h5:first-child {
+            margin-top: 0;
+            /* Ensure the first heading (if any) does not have extra space above it */
+        }
+
+
         /* Responsive styles */
         @media screen and (max-width: 768px) {
             .sidebar {
@@ -239,58 +253,164 @@
         <button class="toggle-button" onclick="toggleSidebar()">☰ Categories</button>
         <div class="sidebar">
             <h5>Search Categories</h5>
-            <div class="form-check hidden">
+
+            <!-- All Categories Checkbox -->
+            <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="0" id="allCategories">
                 <label class="form-check-label" for="allCategories"> All Categories </label>
             </div>
+
+            <!-- NSW Collections Section -->
+            <h5>NSW Collections</h5>
+
+            <!-- NSW Collections, sorted alphabetically by Document Type Name -->
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="132" id="ADT">
+                <label class="form-check-label" for="ADT">ADT</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="118" id="NSWADTAP">
+                <label class="form-check-label" for="NSWADTAP">NSWADTAP</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="122" id="NSWCATCD">
+                <label class="form-check-label" for="NSWCATCD">NSWCATCD</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="121" id="NSWCATAD">
+                <label class="form-check-label" for="NSWCATAD">NSWCATAD</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="125" id="NSWCATEN">
+                <label class="form-check-label" for="NSWCATEN">NSWCATEN</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="123" id="NSWCATGD">
+                <label class="form-check-label" for="NSWCATGD">NSWCATGD</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="124" id="NSWCATOD">
+                <label class="form-check-label" for="NSWCATOD">NSWCATOD</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="107" id="NSWCA">
+                <label class="form-check-label" for="NSWCA">NSWCA</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="106" id="NSWCC">
+                <label class="form-check-label" for="NSWCC">NSWCC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="135" id="NSWCHC">
+                <label class="form-check-label" for="NSWCHC">NSWCHC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="108" id="NSWCCA">
+                <label class="form-check-label" for="NSWCCA">NSWCCA</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="109" id="NSWDC">
+                <label class="form-check-label" for="NSWDC">NSWDC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="126" id="NSWDDT">
+                <label class="form-check-label" for="NSWDDT">NSWDDT</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="110" id="NSWDRGC">
+                <label class="form-check-label" for="NSWDRGC">NSWDRGC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="128" id="NSWFTT">
+                <label class="form-check-label" for="NSWFTT">NSWFTT</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="115" id="NSWIC">
+                <label class="form-check-label" for="NSWIC">NSWIC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="136" id="NSWIRCOMM">
+                <label class="form-check-label" for="NSWIRCOMM">NSWIRCOMM</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="112" id="NSWLEC">
+                <label class="form-check-label" for="NSWLEC">NSWLEC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="541" id="NSWLC">
+                <label class="form-check-label" for="NSWLC">NSWLC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="143" id="NSWLST">
+                <label class="form-check-label" for="NSWLST">NSWLST</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="130" id="NSWMT">
+                <label class="form-check-label" for="NSWMT">NSWMT</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="116" id="NSWEOD">
+                <label class="form-check-label" for="NSWEOD">NSWEOD</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="127" id="NSWEOT">
+                <label class="form-check-label" for="NSWEOT">NSWEOT</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="131" id="NSWTAB">
+                <label class="form-check-label" for="NSWTAB">NSWTAB</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="114" id="NSWSC">
+                <label class="form-check-label" for="NSWSC">NSWSC</label>
+            </div>
+
+            <!-- Other Categories Section -->
+            <h5>Other Categories</h5>
+
+            <!-- Existing Non-NSW Categories -->
             <div class="form-check">
                 <input class="form-check-input category-checkbox" type="checkbox" value="1" id="legislation">
                 <label class="form-check-label" for="legislation"> GDPR </label>
-            </div>
-            <div class="form-check hidden">
-                <input class="form-check-input category-checkbox" type="checkbox" value="2" id="guidelines">
-                <label class="form-check-label" for="guidelines"> Guidelines </label>
-            </div>
-            <div class="form-check hidden">
-                <input class="form-check-input category-checkbox" type="checkbox" value="3" id="courtCases">
-                <label class="form-check-label" for="courtCases"> Court Cases </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input category-checkbox" type="checkbox" value="4" id="recitals">
                 <label class="form-check-label" for="recitals"> Recitals </label>
             </div>
-            <div class="form-check hidden">
+            <!--  <div class="form-check">
                 <input class="form-check-input category-checkbox" type="checkbox" value="101" id="parentLegislation">
                 <label class="form-check-label" for="parentLegislation"> Parent Legislation </label>
+            </div> -->
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="103" id="parentCourtCases">
+                <label class="form-check-label" for="parentCourtCases"> ECJU Privacy Court Cases </label>
             </div>
+            <!-- <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="104" id="parentRecitals">
+                <label class="form-check-label" for="parentRecitals"> Parent Recitals </label>
+            </div> -->
             <div class="form-check">
                 <input class="form-check-input category-checkbox" type="checkbox" value="102" id="parentGuidelines"
                     checked>
                 <label class="form-check-label" for="parentGuidelines"> Australian High Court Cases (9454 cases)
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input category-checkbox" type="checkbox" value="103" id="parentCourtCases">
-                <label class="form-check-label" for="parentCourtCases"> ECJU Privacy Court Cases </label>
-            </div>
-            <div class="form-check hidden">
-                <input class="form-check-input category-checkbox" type="checkbox" value="104" id="parentContracts">
-                <label class="form-check-label" for="parentRecitals"> Parent Recitals </label>
-            </div>
         </div>
-        <div class="main-content">
-            <h1 class="text-center">LexiSearch</h1>
-            <div class="search-container">
-                <textarea id="searchQuery" class="form-control"
-                    placeholder="Search legal concepts, case facts or ask a question" rows="1"></textarea>
-                <div class="buttons-container">
-                    <button onclick="submitSearch()" class="search-button">Search</button>
-                    <button onclick="clearQuery()" class="clear-button">Clear query</button>
-                </div>
-                <div id="error-message" class="error-message"></div>
+
+    </div>
+    <div class="main-content">
+        <h1 class="text-center">LexiSearch</h1>
+        <div class="search-container">
+            <textarea id="searchQuery" class="form-control"
+                placeholder="Search legal concepts, case facts or ask a question" rows="1"></textarea>
+            <div class="buttons-container">
+                <button onclick="submitSearch()" class="search-button">Search</button>
+                <button onclick="clearQuery()" class="clear-button">Clear query</button>
             </div>
-            <div id="results"></div>
+            <div id="error-message" class="error-message"></div>
         </div>
+        <div id="results"></div>
+    </div>
     </div>
     <div class="loading-spinner">
         <div class="spinner-border text-primary" role="status">
