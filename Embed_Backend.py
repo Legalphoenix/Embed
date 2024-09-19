@@ -51,7 +51,6 @@ collections_info = [
     {"name": "collection_ADT", "doc_type_id": 132, "doc_type_name": "ADT"},
     {"name": "collection_NSWCATEN", "doc_type_id": 125, "doc_type_name": "NSWCATEN"},
     {"name": "collection_NSWDRGC", "doc_type_id": 110, "doc_type_name": "NSWDRGC"},
-    {"name": "parent_collection_court_cases", "doc_type_id": 103, "doc_type_name": "parent_collection_court_cases"},
     {"name": "collection_NSWCATOD", "doc_type_id": 124, "doc_type_name": "NSWCATOD"},
     {"name": "parent_recitals", "doc_type_id": 104, "doc_type_name": "GDPR Recitals"},
     {"name": "collection_NSWDDT", "doc_type_id": 126, "doc_type_name": "NSWDDT"},
@@ -71,6 +70,9 @@ collections_info = [
     {"name": "collection_NSWCATAD", "doc_type_id": 121, "doc_type_name": "NSWCATAD"},
     {"name": "recitals", "doc_type_id": 4, "doc_type_name": "GDPR Recitals"},
     {"name": "collection_NSWLST", "doc_type_id": 129, "doc_type_name": "NSWLST"},
+    {"name": "parent_collection_guidelines", "doc_type_id": 102, "doc_type_name": "Australian High Court Cases"},
+    {"name": "parent_court_cases", "doc_type_id": 103, "doc_type_name": "ECJU Privacy Court Cases"},
+
 ]
 
 # Create collections and map Document Type IDs to collections
