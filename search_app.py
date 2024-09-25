@@ -105,9 +105,9 @@ def uploaded_file(filename):
  """
 if __name__ == '__main__':
     # Preload all collections before starting the Flask app
-    preload_thread = threading.Thread(target=preload_collections)
+    '''preload_thread = threading.Thread(target=preload_collections)
     preload_thread.start()
-    preload_thread.join()
+    preload_thread.join()'''
     app.run(host='0.0.0.0')
 
 '''if __name__ == '__main__':
